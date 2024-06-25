@@ -1,0 +1,149 @@
+.nav {
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    min-height: 10%;
+    width: 90%;
+    background: #F5F5F7;
+    z-index: 100;
+    padding: 0 5%;
+}
+
+.nav_title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 5%;
+}
+
+.nav_title p{
+    font-size: 22px;
+    color: #1D1D1F;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 90%;
+    margin : 0;
+    margin-left: 5%;
+}
+
+.nav_menu {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 2.5%;
+    margin-bottom: 1%;
+    margin-left: 2.5%;
+}
+
+.nav_menu p{
+    font-size: 15px;
+    color: rgba(29, 29, 31, 0.45);
+    font-weight: 600;
+    margin: 0;
+    margin-right: 10%;
+}
+
+.container {
+    min-height: 100vh;
+    width: 100%;
+    margin-top: 20%;
+    margin-bottom: 15%;
+    display: flex;
+    z-index: 1;
+    flex-direction: column;
+}
+
+.item_datas {
+    display: flex;
+    padding: 0 5%;
+    margin-top: 5%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item_infos p{
+    font-size: 36px;
+    color: #1D1D1F;
+    font-weight: 600;
+    margin : 0;
+}
+
+.item_infos a{
+    font-size: 12px;
+    margin: 0px;
+    color: #1D1D1F;
+    font-weight: 600;
+}
+
+
+.item_tags {
+    display: flex;
+    margin-top: 2%;
+}
+
+.tag {
+    background-color: rgba(29, 29, 31, 0.6);
+    margin-right: 3px;
+    border-radius: 5px;
+    display: flex;
+}
+
+.tag tag{
+    font-size: 10px;
+    color: #F4F4F4;
+    font-weight: 600;
+    margin: 2px 5px;
+}
+
+
+.item_data {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+.item_data div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item_data p {
+    font-size: 12px;
+    margin: 0px;
+    color: rgba(29, 29, 31, 0.55);
+}
+
+.item_data a {
+    font-size: 12px;
+    margin: 0px;
+    color: rgba(29, 29, 31, 0.55);
+    font-weight: 600;
+}
+
+.k_line {
+    min-height: 30rem;
+    margin-top: 5%;
+    user-select:none;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+#k_line_bar {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+}
+
+#k_line_bar p{
+    font-size: 12px;
+    color: rgba(29, 29, 31, 0.55);
+    font-weight: 600;
+    margin:0 12px;
+}
+
+#k_line_bar div{
+    height : 12px;
+    border-left: 2px solid rgba(29, 29, 31, 0.55);
+}

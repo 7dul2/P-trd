@@ -1,2 +1,0 @@
-# P-trd
-ptrd

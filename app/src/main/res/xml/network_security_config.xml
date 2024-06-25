@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">www.baidu.com</domain>
+        <domain includeSubdomains="true">p-trd.cn</domain>
+        <domain includeSubdomains="true">www.csgoob.com</domain>
+        <domain includeSubdomains="true">csgoob.onet4p.net</domain>
+    </domain-config>
+</network-security-config>

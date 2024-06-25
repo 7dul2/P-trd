@@ -1,0 +1,225 @@
+.container {
+    min-height: 100vh;
+    width: 100%;
+    margin-top: 20%;
+    margin-bottom: 15%;
+    display: flex;
+    z-index: 1;
+    flex-direction: column;
+}
+
+.hr {
+    height : 0px;
+    width : 100%;
+    border-top: 1px solid rgba(29, 29, 31, 0.12);
+    border-bottom: 1px solid rgba(29, 29, 31, 0.12);
+}
+
+.card {
+    width : 100%;
+    padding : 1rem 0;
+}
+
+.menu {
+    top : 0px;
+    left : 0px;
+    position: fixed;
+    height: 10%;
+    width : 80%;
+    background: #F5F5F7;
+    z-index : 100;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10%;
+    align-items: center;
+}
+
+.menu p{
+    font-size : 25px;
+    font-weight : 1000;
+}
+
+.menu svg {
+    height : 30%
+}
+
+.nav{
+    height: 8%;
+    width: 100%;
+    background: #F5F5F7;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    box-shadow: 0px 0px 10px rgba(29, 29, 31, 0.2);
+    border-radius: 11px 11px 0px 0px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    z-index : 100;
+}
+
+.nav p {
+   font-size : 18px;
+   color :  #1D1D1F;
+   font-weight : 1000;
+}
+
+.checked {
+    background-color: #1D1D1F;
+    border-radius: 0.8rem;
+    width: 20%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checked p{
+   color :  #F5F5F7;
+   font-weight : 1000;
+}
+
+.major_market_index {
+    display: flex;
+    flex-direction: column;
+}
+
+.mmi_infos {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0px 5%;
+}
+
+.mmi_text {
+    display: flex;
+    flex-direction: column;
+}
+
+.mmi_title {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.mmi_title p {
+    font-size : 18px;
+    margin : 0px;
+    color : #1D1D1F;
+    font-weight : 1000;
+}
+
+.mmi_title a {
+    font-size : 12px;
+    margin : 0px;
+    color : rgba(29, 29, 31, 0.45);
+}
+
+.mmi_index p {
+    font-size : 36px;
+    margin : 0px;
+    color : #1D1D1F;
+    font-weight : 1000;
+}
+
+.mmi_index a {
+    font-size : 15px;
+    margin : 0px;
+    color : #1D1D1F;
+    font-weight : 1000;
+}
+
+.mmi_dropdown {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.search_input {
+    margin: 0 10%;
+    width: 70%;
+    border-radius: 1rem;
+    border: 2px solid rgba(29, 29, 31, 0.8);
+    display: flex;
+    align-items: center;
+    padding: 1.5% 5%;
+}
+
+.search_input p {
+    font-size : 15px;
+    margin : 0px;
+    color : rgba(29, 29, 31, 0.6);
+    margin-left : 1rem;
+}
+
+.rk_nav {
+    margin : 1rem 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+.rk_nav p {
+    margin : 0;
+    font-weight : 1000;
+    font-size : 18px;
+    color : rgba(29, 29, 31, 0.6);
+}
+
+.item_data{
+    display: flex;
+    flex-direction: column;
+}
+
+.item_data p{
+    margin : 0px;
+    color : rgba(29, 29, 31);
+    font-size : 17px;
+    font-weight : 1000;
+}
+.item_data a{
+    margin : 0px;
+    color : rgba(29, 29, 31, 0.45);
+    font-size : 12px
+}
+
+.item_infos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.8%;
+}
+
+.item_name p{
+    margin : 0px;
+    color : rgba(29, 29, 31);
+    font-size : 17px;
+    font-weight : 1000;
+}
+
+.item_datas {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+}
+
+.data_float p{
+    margin : 5px;
+    color : #F5F5F7;
+    font-size : 14px;
+    font-weight : 1000;
+}
+
+.data_float {
+    background-color: #00A943;
+    border-radius: 5px;
+}
+
+.rank {
+    width: 90%;
+    margin: 0 5%;
+}
+
+.item {
+    margin-bottom : 5px;
+}
