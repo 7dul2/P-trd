@@ -1,2 +1,2 @@
 # P-trd
-ptrd
+P-trd.cn
