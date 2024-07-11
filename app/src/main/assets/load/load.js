@@ -34,5 +34,5 @@ setTimeout(function() {
 }, 1000);
 
 setTimeout(function() {
-    window.Android.jump("index");
+    Jump.jump("index","");
 }, 5000);

@@ -1,13 +1,3 @@
-var buffids = {};
-var xhr = new XMLHttpRequest();
-xhr.open("GET", "file:///android_asset/datas/buffids.json", true);
-xhr.onload = function () {
-    if (xhr.status >= 200 && xhr.status < 300) {
-        buffids = JSON.parse(xhr.responseText);
-    }
-};
-xhr.send();
-
 var all_resps = {};
 function receive(key,resp){
     all_resps[key] = resp;
@@ -105,7 +95,7 @@ function update_rank_items(){
     var e = document.getElementById("items");
     e.innerHTML = '';
 
-    for (var item of rank_list) {
+    for (let item of rank_list) {
         var change = item.minPriceChangePercent[1]*100;
         var color = "rgba(29, 29, 31, 0.6)";
         var add_txt = "+";
@@ -123,6 +113,7 @@ function update_rank_items(){
         _ie({
                 tag : "div",
                 className : "item",
+                id : "item_" + item.goodsName,
                 children : [
                     {
                         tag : "div",
@@ -186,7 +177,11 @@ function update_rank_items(){
                         ]
                     }
                 ]
-            },e);
+            },e); // 向rank列表插入元素
+
+        document.getElementById("item_" + item.goodsName).addEventListener('click', function() {
+            Jump.jump("item",item.goodsName);
+        }); // 当列表中的元素被点击时候,进行跳转
 
     };
 
@@ -221,7 +216,3 @@ function update_rank_items_infos(){
         })(i);
     }
 }
-
-
-customBridge("(function() {let result = JSON.stringify(charts_options);charts_options ='changed';return result;})()");
-console.log(custom_temp_result);

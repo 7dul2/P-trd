@@ -25,8 +25,6 @@ import okhttp3.OkHttpClient;
 public class index extends AppCompatActivity {
 
     private WebView webView;
-    private WebView webView2;
-    private CustomWebViewClient customWebViewClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +42,6 @@ public class index extends AppCompatActivity {
         webView = findViewById(R.id.webview);
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        webView2 = findViewById(R.id.webview2);
-
-
-
 
         // 设置 WebViewClient，用于处理页面加载过程中的各种事件
         webView.setWebViewClient(new WebViewClient());
@@ -55,22 +49,8 @@ public class index extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.addJavascriptInterface(new request(webView), "Request");
+        webView.addJavascriptInterface(new jump(this), "Jump");
 
-
-        CustomBridge customBridge = new CustomBridge(this, webView, webView2);
-        webView.setWebViewClient(customBridge);
-        customBridge.registerInterface(webView);
-
-
-        CustomWebViewClient webViewClient = new CustomWebViewClient(this);
-        webView2.setWebViewClient(webViewClient);
-
-//        webView.addJavascriptInterface(new network(customWebViewClient), "network");
-        webView2.getSettings().setJavaScriptEnabled(true);
-        webView2.getSettings().setDomStorageEnabled(true);
-        webView2.setWebContentsDebuggingEnabled(true);
-//        webView2.loadUrl("https://csgoob.com/goods?name=%E6%A0%BC%E6%B4%9B%E5%85%8B%2018%20%E5%9E%8B%20%7C%20%E4%BC%BD%E7%8E%9B%E5%A4%9A%E6%99%AE%E5%8B%92%20(%E5%B4%AD%E6%96%B0%E5%87%BA%E5%8E%82)");
-        webView2.loadUrl("https://www.csgoob.com/");
         // 加载本地 HTML 文件
         webView.loadUrl("file:///android_asset/index/index.html");
     }

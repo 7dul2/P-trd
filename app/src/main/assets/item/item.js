@@ -1,33 +1,12 @@
-function genData (timestamp = new Date().getTime(), length = 800) {
-  let basePrice = 5000
-  timestamp = Math.floor(timestamp / 1000 / 60) * 60 * 1000 - length * 60 * 1000
-  const dataList = []
-  for (let i = 0; i < length; i++) {
-    const prices = []
-    for (let j = 0; j < 4; j++) {
-      prices.push(basePrice + Math.random() * 60 - 30)
-    }
-    prices.sort()
-    const open = +(prices[Math.round(Math.random() * 3)].toFixed(2))
-    const high = +(prices[3].toFixed(2))
-    const low = +(prices[0].toFixed(2))
-    const close = +(prices[Math.round(Math.random() * 3)].toFixed(2))
-    const volume = Math.round(Math.random() * 100) + 10
-    const turnover = (open + high + low + close) / 4 * volume
-    dataList.push({ timestamp, open, high,low, close, volume, turnover })
+let urlParams = new URLSearchParams(window.location.search);
+var item_name = urlParams.get("name");
 
-    basePrice = close
-    timestamp += 60 * 1000
-  }
-  return dataList
-}
+document.getElementById("item-name").innerText = item_name;
 
 let isMADisplayed = false;
 let isVOLDisplayed = false;
-
 // 初始化图表
 var chart = klinecharts.init('k_line');
-chart.applyNewData(genData());
 chart.setStyles({
     candle: {
         bar: {
@@ -71,7 +50,6 @@ chart.setStyles({
     },
 
 });
-
 // 定义MA指标
 const maIndicator = {
   name: 'MA',
@@ -102,10 +80,8 @@ const maIndicator = {
     });
   }
 };
-
 // 定义VOL指标
 const volIndicator = {name: 'VOL',shortName: ''};
-
 // 切换MA指标
 function func_MA() {
   if (isMADisplayed) {
@@ -115,7 +91,6 @@ function func_MA() {
   }
   isMADisplayed = !isMADisplayed;
 }
-
 // 切换VOL指标
 function func_VOL() {
   if (isVOLDisplayed) {
@@ -126,4 +101,168 @@ function func_VOL() {
   isVOLDisplayed = !isVOLDisplayed;
 }
 func_MA(); // 显示MA
+// 图表相关
+function updateChartWithNewPrice(newPrice) {
+  // Get the current data list from the chart
+  const dataList = chart.getDataList();
+
+  // Extract the last data point from the list
+  const lastData = dataList[dataList.length - 1];
+
+  // Create a new data object based on the last data point
+  const newData = {
+    ...lastData,
+    close: newPrice, // Update close price with the new price
+    high: Math.max(lastData.high, newPrice), // Adjust high price if necessary
+    low: Math.min(lastData.low, newPrice), // Adjust low price if necessary
+    volume: lastData.volume + Math.round(Math.random() * 10), // Increment volume (example)
+  };
+
+  // Update the chart with the new data
+  chart.updateData(newData);
+}
+
+ci.fetch_datas("(function() {charts_type['1年价格']();return false})()");
+function charts_datas_check() {
+
+    ci.fetch_datas("(function() {let result = charts_options;return result;})()");
+    if (custom_temp_result !== "") {
+        deal_charts_datas(custom_temp_result);
+        clearInterval(checkInterval);
+    }
+}
+let checkInterval = setInterval(charts_datas_check, 5000);
+// 设置部分信息以及图表内容
+function deal_charts_datas(datas) {
+    var data = [];
+    var price = datas["series"][0]["data"];
+    var dayData = {};
+
+    for (var i = 0; i < price.length; i++) {
+        var timestamp = price[i][0];
+        var value = price[i][1];
+
+        var date = new Date(timestamp);
+        var dayKey = date.toDateString();
+
+        if (!dayData[dayKey]) {
+            dayData[dayKey] = {
+                timestamp: timestamp,
+                open: value,
+                high: value,
+                low: value,
+                close: value,
+                volume: 0
+            };
+        } else {
+            dayData[dayKey].high = Math.max(dayData[dayKey].high, value);
+            dayData[dayKey].low = Math.min(dayData[dayKey].low, value);
+            dayData[dayKey].close = value;
+        }
+    }
+
+    for (var day in dayData) {
+        data.push(dayData[day]);
+    }
+
+    chart.applyNewData(data);
+}
+
+var all_resps = {};
+function receive(key,resp){
+    all_resps[key] = resp;
+}
+function wait4value(key) {
+    return new Promise((resolve, reject) => {
+        const checkValue = () => {
+            if (typeof all_resps[key] !== 'undefined') {
+                resolve(all_resps[key]);
+            } else {
+                setTimeout(checkValue, 100);
+            }
+        };
+        checkValue();
+    });
+}
+function update_datas() {
+    var datas = JSON.parse(all_resps['buff_datas']);
+    // 获取最新请求到的数据
+    delete all_resps['buff_datas'];
+    // 删除该值避免影响下次请求处理
+
+    document.querySelector('.item_infos').children[0].innerText = datas["data"]["sell_min_price"];
+
+    document.querySelector('.item_data').innerHTML = "";
+    _ie({
+        tag : "div",
+        children : [
+            {
+                tag : "p",
+                innerText : "在售数量"
+            },
+            {
+                tag : "a",
+                innerText : datas["data"]["sell_num"]
+            }
+        ]
+    },document.querySelector('.item_data'));
+    _ie({
+        tag : "div",
+        children : [
+            {
+                tag : "p",
+                innerText : "求购价格"
+            },
+            {
+                tag : "a",
+                innerText : datas["data"]["buy_max_price"]
+            }
+        ]
+    },document.querySelector('.item_data'));
+    _ie({
+        tag : "div",
+        children : [
+            {
+                tag : "p",
+                innerText : "求购数量"
+            },
+            {
+                tag : "a",
+                innerText : datas["data"]["buy_num"]
+            }
+        ]
+    },document.querySelector('.item_data'));
+    _ie({
+        tag : "div",
+        children : [
+            {
+                tag : "p",
+                innerText : "Steam参考价"
+            },
+            {
+                tag : "a",
+                innerText : datas["data"]["goods_info"]["steam_price_cny"]
+            }
+        ]
+    },document.querySelector('.item_data'));
+
+    updateChartWithNewPrice(datas["data"]["sell_min_price"]);
+}
+function buff_fetch(){
+    if (item_name != ""){
+        var id = buffids[item_name];
+        if (typeof id !== "undefined"){
+            var url = "https://buff.163.com/api/market/goods/info?game=csgo&goods_id="+id;
+            Request.get(url,"buff_datas", "receive");
+            wait4value("buff_datas").then(value => {
+                update_datas();
+            }); // 发送请求并等待数据
+        }
+    }
+}
+buff_fetch()
+setInterval(buff_fetch, 10000);
+// 每10s更新一次数据
+
+
 

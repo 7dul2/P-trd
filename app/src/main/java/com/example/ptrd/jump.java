@@ -12,7 +12,7 @@ public class jump {
     }
 
     @JavascriptInterface
-    public void jump(String page) {
+    public void jump(String page, String data) {
         Intent intent;
         switch (page) {
             case "init_load":
@@ -23,11 +23,13 @@ public class jump {
                 break;
             case "item":
                 intent = new Intent(mContext, item.class);
+                intent.putExtra("item_name", data); // 将第二个参数传递给activity
                 break;
             default:
-                intent = new Intent(mContext, MainActivity.class);
+                intent = new Intent(mContext, index.class);
                 break;
         }
         mContext.startActivity(intent);
     }
 }
+
