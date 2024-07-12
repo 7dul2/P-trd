@@ -29,8 +29,11 @@ public class index extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Configuration configuration = getResources().getConfiguration();
-        configuration.fontScale = 1.0f; // 强制字体缩放比例为 1.0
+        configuration.fontScale = 1.0f; // 设置字体缩放比例为 1.0
+        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_index);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

@@ -22,6 +22,10 @@ public class item extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Configuration configuration = getResources().getConfiguration();
+        configuration.fontScale = 1.0f; // 设置字体缩放比例为 1.0
+        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_item);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -37,10 +41,6 @@ public class item extends AppCompatActivity {
 
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         // 禁用滚动引起的形变动画
-
-        Configuration configuration = getResources().getConfiguration();
-        configuration.fontScale = 1.0f;
-        // 强制字体缩放比例为 1.0
 
         webView.setWebViewClient(new WebViewClient());
         // 设置 WebViewClient，用于处理页面加载过程中的各种事件
