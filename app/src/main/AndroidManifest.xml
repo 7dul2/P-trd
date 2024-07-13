@@ -15,23 +15,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ptrd"
         tools:targetApi="31">
-
+        <activity
+            android:name=".rank"
+            android:exported="false" />
         <activity
             android:name=".item"
-            android:exported="false"
-            android:configChanges="fontScale|screenSize|smallestScreenSize|screenLayout|orientation"/>
-
+            android:configChanges="fontScale|screenSize|smallestScreenSize|screenLayout|orientation"
+            android:exported="false" />
         <activity
             android:name=".index"
-            android:exported="false"
-            android:configChanges="fontScale|screenSize|smallestScreenSize|screenLayout|orientation">
-
-        </activity>
-
+            android:configChanges="fontScale|screenSize|smallestScreenSize|screenLayout|orientation"
+            android:exported="false"></activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:configChanges="fontScale|screenSize|smallestScreenSize|screenLayout|orientation">
+            android:configChanges="fontScale|screenSize|smallestScreenSize|screenLayout|orientation"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

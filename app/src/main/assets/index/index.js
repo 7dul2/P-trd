@@ -85,111 +85,129 @@ function major_index_init(){
 wait4value("major_index").then(value => {
     major_index_init()
 });
+function rank_update(type){
+    var navs = document.getElementById("rk_nav").children;
+    for (var i = 0;i < navs.length;i++){
+        navs[i].style.color = "rgba(29, 29, 31, 0.6)";
+    }
 
-var url = "https://www.csgoob.com/rank?category=&type=VOL_COUNT&timeRange=TODAY&page=1&minPrice=0&minSellCount=0&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&leaseCountTimeRange=DAY&_data=routes%2Frank";
-Request.get(url,"rank_items", "receive");
-function update_rank_items(){
-    var resp = JSON.parse(all_resps["rank_items"]);
-    var rank_list = resp.rankList;
+    document.getElementById("items").innerHTML = "";
 
-    var e = document.getElementById("items");
-    e.innerHTML = '';
+    document.getElementById("rank_nav_" + type).style.color = "rgba(29, 29, 31)";
 
-    for (let item of rank_list) {
-        var change = item.minPriceChangePercent[1]*100;
-        var color = "rgba(29, 29, 31, 0.6)";
-        var add_txt = "+";
-        if (change < 0) {
-            color = "#DB2F63"
-            add_txt = "";
-        }
-        if (change > 0) {
-            color = "#00AA41"
-        }
-        if (change == 0) {
-            add_txt = "="
-        }
-
-        _ie({
-                tag : "div",
-                className : "item",
-                id : "item_" + item.goodsName,
-                children : [
-                    {
-                        tag : "div",
-                        className : "item_name",
-                        children : [{
-                            tag :  "p",
-                            innerText : item.goodsName
-                        }]
-                    },
-                    {
-                        tag : "div",
-                        className : "item_infos",
-                        children : [
-                            {
-                                tag : "div",
-                                className : "item_datas",
-                                children : [
-                                    {
-                                        tag : "div",
-                                        className : 'item_data',
-                                        children : [
-                                            {
-                                                tag : "p",
-                                                innerText : "-"
-                                            },
-                                            {
-                                                tag : "a",
-                                                innerText : "-"
-                                            },
-                                        ]
-                                    },
-                                    {
-                                        tag : "div",
-                                        className : 'item_data',
-                                        children : [
-                                            {
-                                                tag : "p",
-                                                innerText : item.price
-                                            },
-                                            {
-                                                tag : "a",
-                                                innerText : "-"
-                                            },
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                tag : "div",
-                                className : "data_float",
-                                children : [
-                                    {
-                                        tag : "p",
-                                        innerText : add_txt + change.toFixed(2) + "%",
-                                    }
-                                ],
-                                style : {
-                                    backgroundColor : color
-                                }
-                            },
-                        ]
-                    }
-                ]
-            },e); // 向rank列表插入元素
-
-        document.getElementById("item_" + item.goodsName).addEventListener('click', function() {
-            Jump.jump("item",item.goodsName);
-        }); // 当列表中的元素被点击时候,进行跳转
-
+    var urls = {
+        "hot" : "https://csgoob.onet4p.net/rank?category=&type=VOL_COUNT&timeRange=TODAY&page=1&minPrice=0&minSellCount=0&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&leaseCountTimeRange=DAY&_data=routes%2Frank",
+        "up" : "https://csgoob.onet4p.net/rank?category=&type=PRICE_UP_PERCENT&timeRange=DAY&page=1&minSellCount=50&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&leaseCountTimeRange=DAY&volCountTimeRange=WEEK&volLeaseCountTimeRange=WEEK&_data=routes%2Frank",
+        "down" : "https://csgoob.onet4p.net/rank?category=&type=PRICE_DOWN_PERCENT&timeRange=DAY&page=1&minPrice=100&minSellCount=50&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&leaseCountTimeRange=DAY&volCountTimeRange=WEEK&volLeaseCountTimeRange=WEEK&_data=routes%2Frank",
+        "lease" : "https://csgoob.onet4p.net/rank?category=&type=VOL_LEASE_COUNT&timeRange=DAY&page=1&minPrice=0&minSellCount=0&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&lease,CountTimeRange=DAY&volCountTimeRange=WEEK&volLeaseCountTimeRange=WEEK&_data=routes%2Frank"
     };
 
-    update_rank_items_infos();
+    var url = urls[type];
+
+    Request.get(url,"rank_items_"+type, "receive");
+
+    function update_rank_items(){
+        var resp = JSON.parse(all_resps["rank_items_"+type]);
+        var rank_list = resp.rankList;
+
+        var e = document.getElementById("items");
+
+        for (let item of rank_list) {
+            var change = item.minPriceChangePercent[1]*100;
+            var color = "rgba(29, 29, 31, 0.6)";
+            var add_txt = "+";
+            if (change < 0) {
+                color = "#DB2F63"
+                add_txt = "";
+            }
+            if (change > 0) {
+                color = "#00AA41"
+            }
+            if (change == 0) {
+                add_txt = "="
+            }
+
+            _ie({
+                    tag : "div",
+                    className : "item",
+                    id : "item_" + item.goodsName,
+                    children : [
+                        {
+                            tag : "div",
+                            className : "item_name",
+                            children : [{
+                                tag :  "p",
+                                innerText : item.goodsName
+                            }]
+                        },
+                        {
+                            tag : "div",
+                            className : "item_infos",
+                            children : [
+                                {
+                                    tag : "div",
+                                    className : "item_datas",
+                                    children : [
+                                        {
+                                            tag : "div",
+                                            className : 'item_data',
+                                            children : [
+                                                {
+                                                    tag : "p",
+                                                    innerText : "-"
+                                                },
+                                                {
+                                                    tag : "a",
+                                                    innerText : "-"
+                                                },
+                                            ]
+                                        },
+                                        {
+                                            tag : "div",
+                                            className : 'item_data',
+                                            children : [
+                                                {
+                                                    tag : "p",
+                                                    innerText : item.price
+                                                },
+                                                {
+                                                    tag : "a",
+                                                    innerText : "-"
+                                                },
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    tag : "div",
+                                    className : "data_float",
+                                    children : [
+                                        {
+                                            tag : "p",
+                                            innerText : add_txt + change.toFixed(2) + "%",
+                                        }
+                                    ],
+                                    style : {
+                                        backgroundColor : color
+                                    }
+                                },
+                            ]
+                        }
+                    ]
+                },e); // 向rank列表插入元素
+
+            document.getElementById("item_" + item.goodsName).addEventListener('click', function() {
+                Jump.jump("item",item.goodsName);
+            }); // 当列表中的元素被点击时候,进行跳转
+
+        };
+
+        update_rank_items_infos();
+    }
+    wait4value("rank_items_"+type).then(value => {
+        update_rank_items()
+    });
 }
-wait4value("rank_items").then(value => {
-    update_rank_items()
-});
 function update_rank_items_infos(){
     var p = document.getElementById("items");
     for (var i = 0; i < p.children.length; i++){
@@ -216,3 +234,16 @@ function update_rank_items_infos(){
         })(i);
     }
 }
+document.getElementById("rank_nav_hot").addEventListener('click', function() {
+    rank_update("hot");
+});
+document.getElementById("rank_nav_up").addEventListener('click', function() {
+    rank_update("up");
+});
+document.getElementById("rank_nav_down").addEventListener('click', function() {
+    rank_update("down");
+});
+document.getElementById("rank_nav_lease").addEventListener('click', function() {
+    rank_update("lease");
+});
+rank_update("hot");

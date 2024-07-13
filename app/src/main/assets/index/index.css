@@ -154,9 +154,11 @@
 }
 
 .rk_nav {
+    width: 90%;
+    margin: 0 5%;
     margin-bottom: 1rem;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .rk_nav p {
@@ -172,10 +174,10 @@
 }
 
 .item_data p{
-    margin : 0px;
-    color : rgba(29, 29, 31);
-    font-size : 15px;
-    font-weight : 600;
+    margin: 0px;
+    color: rgba(29, 29, 31);
+    font-size: 15px;
+    font-weight: 600;
 }
 .item_data a{
     margin : 0px;
@@ -193,7 +195,8 @@
 .item_name p{
     margin : 0px;
     color : rgba(29, 29, 31);
-    font-size : 15px;
+    font-size : 12px;
+    font-weight : 600;
 }
 
 .item_datas {
@@ -203,15 +206,17 @@
 }
 
 .data_float p{
-    margin : 4px 7px;
-    color : #F5F5F7;
-    font-size : 15px;
-    font-weight : 600;
+    margin: 4px auto;
+    color: #F5F5F7;
+    font-size: 15px;
+    font-weight: 600;
 }
 
+
 .data_float {
-    background-color: #00A943;
-    border-radius: 5px;
+    width: 21%;
+    border-radius:  5px;
+    display: flex;
 }
 
 .rank {
@@ -234,4 +239,18 @@
     margin : 0px;
     font-size : 17px;
     color : rgba(29, 29, 31, 0.8);
+}
+
+.rk_tip {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 5%;
+    margin-bottom: -0.5rem;
+}
+
+.rk_tip p{
+    margin : 0px;
+    font-size : 10px;
+    color : rgba(29, 29, 31, 0.5);
 }
