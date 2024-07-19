@@ -9,16 +9,45 @@
     <script type="text/javascript" src="../script.js"></script>
     <script type="text/javascript" src="../gsap.min.js"></script>
     <script type="text/javascript" src="../lottie.min.js"></script>
-    <script type="text/javascript" src="../klinecharts.min.js"></script>
     <title>P-trd</title>
 </head>
 
 <body style="background-color: #F4F4F4;user-select:none;">
-<div class="nav">
-</div>
+    <div class="nav">
+        <div class="nav_top_bar">
+            <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 21.446 34.635">
+                <g id="组_51" data-name="组 51" transform="translate(-55.306 -54.196)">
+                    <g id="组_57" data-name="组 57" transform="translate(75.058 57.721) rotate(90)">
+                        <path id="_2" data-name="2" d="M0,0,18.287,1.338" transform="translate(13.448 15.022) rotate(-45)" fill="none" stroke="#1d1d1f" stroke-linecap="round" stroke-width="5"/>
+                        <path id="_1" data-name="1" d="M0,0,6.3,5.4l7.144,6.115" transform="translate(0 3.51)" fill="none" stroke="#1d1d1f" stroke-linecap="round" stroke-width="5"/>
+                    </g>
+                </g>
+            </svg>
 
-<div class="container">
-</div>
+            <div>
+                <p id="item-name">参数调整</p>
+                <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 35.736 37.791">
+                    <path id="_1" data-name="1" d="M0,0H29.666" transform="translate(2.828 2.828)" fill="none" stroke="#1d1d1f" stroke-linecap="round" stroke-width="4"/>
+                    <path id="_2" data-name="2" d="M0,0H15.149" transform="translate(2.828 2.828) rotate(45)" fill="none" stroke="#1d1d1f" stroke-linecap="round" stroke-width="4"/>
+                    <line id="_3" data-name="3" y2="22.25" transform="translate(13.541 13.541)" fill="none" stroke="#1d1d1f" stroke-linecap="round" stroke-width="4"/>
+                    <path id="_2-2" data-name="2" d="M0,0H15.8" transform="translate(21.737 13.999) rotate(-45)" fill="none" stroke="#1d1d1f" stroke-linecap="round" stroke-width="4"/>
+                    <line id="_3-2" data-name="3" x1="5.446" transform="translate(19.632 19.722)" fill="none" stroke="#1d1d1f" stroke-linecap="round" stroke-width="4"/>
+                    <line id="_3-3" data-name="3" x1="3.798" transform="translate(19.632 25.49)" fill="none" stroke="#1d1d1f" stroke-linecap="round" stroke-width="4"/>
+                    <line id="_3-4" data-name="3" x1="2.929" transform="translate(19.632 31.258)" fill="none" stroke="#1d1d1f" stroke-linecap="round" stroke-width="4"/>
+                </svg>
+            </div>
+        </div>
+        <div class="nav_menu" id="nav_menu">
+            <p id="nav_hot">热门榜</p>
+            <p id="nav_up">涨幅榜</p>
+            <p id="nav_down">跌幅榜</p>
+            <p id="nav_lease">租赁榜</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="items" class="rank"></div>
+    </div>
 
 <script src="rank.js"></script>
 </body>

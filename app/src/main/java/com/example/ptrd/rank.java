@@ -53,6 +53,7 @@ public class rank extends AppCompatActivity {
 
         webView.addJavascriptInterface(new request(webView), "Request");
         // 用于发送请求的方法类
+        webView.addJavascriptInterface(new jump(this), "Jump");
 
         webView.loadUrl("file:///android_asset/rank/rank.html?name=" + rank_name);
         // 7dul2

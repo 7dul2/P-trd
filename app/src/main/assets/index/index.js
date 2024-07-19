@@ -52,7 +52,7 @@ function major_index_init(){
             symbol: 'none',
             lineStyle: {
               color: color,
-              width: 3,
+              width: 2,
             },
                 connectNulls: true,
                 data: jsons.list[0].indexList,
@@ -95,6 +95,10 @@ function rank_update(type){
 
     document.getElementById("rank_nav_" + type).style.color = "rgba(29, 29, 31)";
 
+    document.getElementById("items_more").onclick = function() {
+        Jump.jump("rank",type);
+    };
+
     var urls = {
         "hot" : "https://csgoob.onet4p.net/rank?category=&type=VOL_COUNT&timeRange=TODAY&page=1&minPrice=0&minSellCount=0&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&leaseCountTimeRange=DAY&_data=routes%2Frank",
         "up" : "https://csgoob.onet4p.net/rank?category=&type=PRICE_UP_PERCENT&timeRange=DAY&page=1&minSellCount=50&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&leaseCountTimeRange=DAY&volCountTimeRange=WEEK&volLeaseCountTimeRange=WEEK&_data=routes%2Frank",
@@ -114,17 +118,15 @@ function rank_update(type){
 
         for (let item of rank_list) {
             var change = item.minPriceChangePercent[1]*100;
+
             var color = "rgba(29, 29, 31, 0.6)";
-            var add_txt = "+";
+            var add_txt = "";
             if (change < 0) {
                 color = "#DB2F63"
-                add_txt = "";
             }
             if (change > 0) {
                 color = "#00AA41"
-            }
-            if (change == 0) {
-                add_txt = "="
+                add_txt = "+";
             }
 
             _ie({
@@ -168,7 +170,7 @@ function rank_update(type){
                                             children : [
                                                 {
                                                     tag : "p",
-                                                    innerText : item.price
+                                                    innerText : item.price/100
                                                 },
                                                 {
                                                     tag : "a",

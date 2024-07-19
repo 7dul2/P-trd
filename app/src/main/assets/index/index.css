@@ -116,7 +116,7 @@
 }
 
 .mmi_index p {
-    font-size : 36px;
+    font-size : 33px;
     margin : 0px;
     color : #1D1D1F;
     font-weight : 600;
@@ -140,7 +140,7 @@
     margin: 0 5%;
     width: 80%;
     border-radius: 1rem;
-    border: 2px solid rgba(29, 29, 31, 0.8);
+    border: 1.5px solid rgba(29, 29, 31, 0.5);
     display: flex;
     align-items: center;
     padding: 1.5% 5%;
@@ -195,7 +195,7 @@
 .item_name p{
     margin : 0px;
     color : rgba(29, 29, 31);
-    font-size : 12px;
+    font-size : 13px;
     font-weight : 600;
 }
 
@@ -208,7 +208,7 @@
 .data_float p{
     margin: 4px auto;
     color: #F5F5F7;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 600;
 }
 
@@ -251,6 +251,6 @@
 
 .rk_tip p{
     margin : 0px;
-    font-size : 10px;
+    font-size : 11px;
     color : rgba(29, 29, 31, 0.5);
 }
