@@ -19,6 +19,7 @@ function wait4value(key) {
 var url = "";
 var page = 0;
 var type_now = "";
+var num = 1;
 
 function update_rank(type){
     type_now = type;
@@ -31,6 +32,7 @@ function update_rank(type){
     };
     url = urls[type];
     page = 0;
+    num = 1;
     // 匹配url并更新页
 
     var navs = document.getElementById("nav_menu").children;
@@ -78,77 +80,91 @@ function insert_items(){
         }
 
         _ie({
-                tag : "div",
-                className : "item",
-                id : "item_" + item.goodsName,
-                children : [
-                    {
-                        tag : "div",
-                        className : "item_name",
-                        children : [{
-                            tag :  "p",
-                            innerText : item.goodsName
-                        }]
-                    },
-                    {
-                        tag : "div",
-                        className : "item_infos",
-                        children : [
-                            {
-                                tag : "div",
-                                className : "item_datas",
-                                children : [
-                                    {
-                                        tag : "div",
-                                        className : 'item_data',
-                                        children : [
-                                            {
-                                                tag : "p",
-                                                innerText : item.leasePrice/100
-                                            },
-                                            {
-                                                tag : "a",
-                                                innerText : item.longLeasePrice/100
-                                            },
-                                        ]
-                                    },
-                                    {
-                                        tag : "div",
-                                        className : 'item_data',
-                                        children : [
-                                            {
-                                                tag : "p",
-                                                innerText : item.price/100
-                                            },
-                                            {
-                                                tag : "a",
-                                                innerText : ""
-                                            },
-                                        ]
+            tag : "div",
+            className : "rk_c",
+            children : [
+                {
+                    tag : "a",
+                    innerText : num,
+                    className : "rk_num"
+                },
+                {
+                    tag : "div",
+                    className : "item",
+                    id : "item_" + item.goodsName,
+                    children: [
+                        {
+                            tag : "div",
+                            className : "item_name",
+                            children : [
+                               {
+                                tag :  "p",
+                                innerText : item.goodsName
+                            }]
+                        },
+                        {
+                            tag : "div",
+                            className : "item_infos",
+                            children : [
+                                {
+                                    tag : "div",
+                                    className : "item_datas",
+                                    children : [
+                                        {
+                                            tag : "div",
+                                            className : 'item_data',
+                                            children : [
+                                                {
+                                                    tag : "p",
+                                                    innerText : item.leasePrice/100
+                                                },
+                                                {
+                                                    tag : "a",
+                                                    innerText : item.longLeasePrice/100
+                                                },
+                                            ]
+                                        },
+                                        {
+                                            tag : "div",
+                                            className : 'item_data',
+                                            children : [
+                                                {
+                                                    tag : "p",
+                                                    innerText : item.price/100
+                                                },
+                                                {
+                                                    tag : "a",
+                                                    innerText : ""
+                                                },
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    tag : "div",
+                                    className : "data_float",
+                                    children : [
+                                        {
+                                            tag : "p",
+                                            innerText : add_txt + change.toFixed(2) + "%",
+                                        }
+                                    ],
+                                    style : {
+                                        backgroundColor : color
                                     }
-                                ]
-                            },
-                            {
-                                tag : "div",
-                                className : "data_float",
-                                children : [
-                                    {
-                                        tag : "p",
-                                        innerText : add_txt + change.toFixed(2) + "%",
-                                    }
-                                ],
-                                style : {
-                                    backgroundColor : color
-                                }
-                            },
-                        ]
-                    }
+                                },
+                            ]
+                        }
+                    ]
+                },
                 ]
             },e); // 向rank列表插入元素
 
         document.getElementById("item_" + item.goodsName).addEventListener('click', function() {
             Jump.jump("item",item.goodsName);
         }); // 当列表中的元素被点击时候,进行跳转
+
+        num ++;
 
     };
 
