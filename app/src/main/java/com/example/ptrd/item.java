@@ -75,6 +75,6 @@ public class item extends AppCompatActivity {
         webView2.getSettings().setDomStorageEnabled(true);
         webView2.setWebContentsDebuggingEnabled(true);
 
-        webView2.loadUrl("https://csgoob.com/goods?name=" + item_name);
+//        webView2.loadUrl("https://csgoob.com/goods?name=" + item_name);
     }
 }

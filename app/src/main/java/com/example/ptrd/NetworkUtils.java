@@ -23,10 +23,18 @@ public class NetworkUtils {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
                     Request originalRequest = chain.request();
-                    Request requestWithUserAgent = originalRequest.newBuilder()
-                            .header("User-Agent", USER_AGENT)
-                            .build();
-                    return chain.proceed(requestWithUserAgent);
+                    Request.Builder requestBuilder = originalRequest.newBuilder()
+                            .header("User-Agent", USER_AGENT);
+
+                    // Check if the host matches specific criteria and add extra headers
+                    String host = originalRequest.url().host();
+                    if ("api-csob.douyuex.com".equals(host)) {
+                        requestBuilder.header("timestamp", "1722125215870");
+                        requestBuilder.header("auth", "a75970b8947d00e9aff38802caeb784c");
+                    }
+
+                    Request requestWithHeaders = requestBuilder.build();
+                    return chain.proceed(requestWithHeaders);
                 }
             })
             .build();

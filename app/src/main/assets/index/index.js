@@ -16,12 +16,13 @@ function wait4value(key) {
 }
 
 
-var url = "https://www.csgoob.com/?platform=0&_data=routes%2F_index";
-Request.get(url,"major_index", "receive");
-function major_index_init(){
+var url = "https://api-csob.douyuex.com/api/v1/index/info";
+var post_data = JSON.stringify({"categoryList":["all"],"platform":0,"base":false});
+Request.post(url,post_data,"major_index", "receive");
+function major_index_load(){
     var jsons = JSON.parse(all_resps["major_index"]);
 
-    var change = jsons.list[0].change;
+    var change = jsons.data.list[0].change;
     var color = "#1D1D1F";
     if (change < 0) {
         color = "#DB2F63"
@@ -55,7 +56,7 @@ function major_index_init(){
               width: 2,
             },
                 connectNulls: true,
-                data: jsons.list[0].indexList,
+                data: jsons.data.list[0].indexList,
             },
         ],
     }
@@ -63,7 +64,7 @@ function major_index_init(){
     var myChart = echarts.init(document.getElementById('mmi_chart'));
     myChart.setOption(option);
 
-    var update_time = jsons.updateTime;
+    var update_time = jsons.data.updateTime;
     const date = new Date(update_time);
 
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -75,16 +76,17 @@ function major_index_init(){
     document.getElementById("index_update_time").innerText = formattedDate;
 
     document.getElementById("index").style.color = color;
-    document.getElementById("index").innerText = jsons.list[0].index;
+    document.getElementById("index").innerText = jsons.data.list[0].index;
     document.getElementById("index_float").style.color = color;
 
-    var float = jsons.list[0].change / jsons.list[0].index * 100;
-    var float = jsons.list[0].change + "(" + float.toFixed(2) + "%)今日";
+    var float = change / jsons.data.list[0].index * 100;
+    var float = change + "(" + float.toFixed(2) + "%)今日";
     document.getElementById("index_float").innerText = float;
 }
 wait4value("major_index").then(value => {
-    major_index_init()
+    major_index_load()
 });
+
 function rank_update(type){
     var navs = document.getElementById("rk_nav").children;
     for (var i = 0;i < navs.length;i++){
@@ -99,20 +101,18 @@ function rank_update(type){
         Jump.jump("rank",type);
     };
 
-    var urls = {
-        "hot" : "https://csgoob.onet4p.net/rank?category=&type=VOL_COUNT&timeRange=TODAY&page=1&minPrice=0&minSellCount=0&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&leaseCountTimeRange=DAY&_data=routes%2Frank",
-        "up" : "https://csgoob.onet4p.net/rank?category=&type=PRICE_UP_PERCENT&timeRange=DAY&page=1&minSellCount=50&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&leaseCountTimeRange=DAY&volCountTimeRange=WEEK&volLeaseCountTimeRange=WEEK&_data=routes%2Frank",
-        "down" : "https://csgoob.onet4p.net/rank?category=&type=PRICE_DOWN_PERCENT&timeRange=DAY&page=1&minPrice=100&minSellCount=50&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&leaseCountTimeRange=DAY&volCountTimeRange=WEEK&volLeaseCountTimeRange=WEEK&_data=routes%2Frank",
-        "lease" : "https://csgoob.onet4p.net/rank?category=&type=VOL_LEASE_COUNT&timeRange=DAY&page=1&minPrice=0&minSellCount=0&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&lease,CountTimeRange=DAY&volCountTimeRange=WEEK&volLeaseCountTimeRange=WEEK&_data=routes%2Frank"
+    var post_datas = {
+        "hot" : {"category":[],"minPrice":10000,"minSellCount":30,"sellCountType":"DOWN","sellCountTimeRange":"WEEK","sellCountChange":15,"categoryInclude":"TRUE","exterior":[],"quality":[],"rarity":[],"exteriorInclude":"TRUE","qualityInclude":"TRUE","rarityInclude":"TRUE","priceChangePercentTimeRange":"HALF_MONTH","container":[],"containerInclude":"TRUE","nameInclude":"TRUE","leaseCountType":"DOWN","leaseCountTimeRange":"WEEK","volCountTimeRange":"WEEK","volLeaseCountTimeRange":"WEEK","type":"VOL_COUNT","timeRange":"TODAY","page":1},
+        "up" : {"category":[],"minPrice":10000,"minSellCount":30,"sellCountType":"DOWN","sellCountTimeRange":"WEEK","sellCountChange":15,"categoryInclude":"TRUE","exterior":[],"quality":[],"rarity":[],"exteriorInclude":"TRUE","qualityInclude":"TRUE","rarityInclude":"TRUE","priceChangePercentTimeRange":"HALF_MONTH","container":[],"containerInclude":"TRUE","nameInclude":"TRUE","leaseCountType":"DOWN","leaseCountTimeRange":"WEEK","volCountTimeRange":"WEEK","volLeaseCountTimeRange":"WEEK","type":"PRICE_CHANGE_PERCENT_DESC","timeRange":"DAY","page":1},
+        "down" : {"category":[],"minPrice":10000,"minSellCount":30,"sellCountType":"DOWN","sellCountTimeRange":"WEEK","sellCountChange":15,"categoryInclude":"TRUE","exterior":[],"quality":[],"rarity":[],"exteriorInclude":"TRUE","qualityInclude":"TRUE","rarityInclude":"TRUE","priceChangePercentTimeRange":"HALF_MONTH","container":[],"containerInclude":"TRUE","nameInclude":"TRUE","leaseCountType":"DOWN","leaseCountTimeRange":"WEEK","volCountTimeRange":"WEEK","volLeaseCountTimeRange":"WEEK","type":"PRICE_CHANGE_PERCENT_ASC","timeRange":"DAY","page":1},
+        "lease" : {"category":[],"minPrice":10000,"minSellCount":30,"sellCountType":"DOWN","sellCountTimeRange":"WEEK","sellCountChange":15,"categoryInclude":"TRUE","exterior":[],"quality":[],"rarity":[],"exteriorInclude":"TRUE","qualityInclude":"TRUE","rarityInclude":"TRUE","priceChangePercentTimeRange":"HALF_MONTH","container":[],"containerInclude":"TRUE","nameInclude":"TRUE","leaseCountType":"DOWN","leaseCountTimeRange":"WEEK","volCountTimeRange":"WEEK","volLeaseCountTimeRange":"WEEK","type":"LEASECOUNT_DOWN","timeRange":"DAY","page":1}
     };
 
-    var url = urls[type];
-
-    Request.get(url,"rank_items_"+type, "receive");
+    Request.post("https://api-csob.douyuex.com/api/v1/rank",JSON.stringify(post_datas[type]),"rank_items_"+type, "receive");
 
     function update_rank_items(){
         var resp = JSON.parse(all_resps["rank_items_"+type]);
-        var rank_list = resp.rankList;
+        var rank_list = resp.data.list;
 
         var e = document.getElementById("items");
 

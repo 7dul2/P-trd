@@ -36,7 +36,7 @@
     margin-left: 2.5%;
 }
 
-.nav_menu p{
+.nav_menu_p{
     font-size: 15px;
     color: rgba(29, 29, 31, 0.45);
     font-weight: 600;
@@ -146,4 +146,30 @@
 #k_line_bar div{
     height : 12px;
     border-left: 2px solid rgba(29, 29, 31, 0.55);
+}
+
+.ai_text {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    margin-right: 10%;
+    text-shadow:
+        0 0 5px rgba(0,149,248, 0.1),
+        0 0 10px rgba(0,149,248, 0.3);
+    background: linear-gradient(270deg, #AD0EA1, #2739ED, #2739ED, #AD0EA1);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: bgAnimation 32s linear infinite;
+}
+@keyframes bgAnimation {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 400% 400%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
 }

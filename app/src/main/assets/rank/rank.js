@@ -16,24 +16,25 @@ function wait4value(key) {
 }
 // 用于请求处理的准备
 
-var url = "";
+var url = "https://api-csob.douyuex.com/api/v1/rank";
 var page = 0;
 var type_now = "";
 var num = 1;
+var post_data = "";
 
 function update_rank(type){
     type_now = type;
 
-    var urls = {
-        "hot" : "https://csgoob.onet4p.net/rank?category=&type=VOL_COUNT&timeRange=TODAY&minPrice=0&minSellCount=0&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&leaseCountTimeRange=DAY&_data=routes%2Frank&page=",
-        "up" : "https://csgoob.onet4p.net/rank?category=&type=PRICE_UP_PERCENT&timeRange=DAY&minSellCount=50&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&leaseCountTimeRange=DAY&volCountTimeRange=WEEK&volLeaseCountTimeRange=WEEK&_data=routes%2Frank&page=",
-        "down" : "https://csgoob.onet4p.net/rank?category=&type=PRICE_DOWN_PERCENT&timeRange=DAY&minPrice=100&minSellCount=50&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&leaseCountTimeRange=DAY&volCountTimeRange=WEEK&volLeaseCountTimeRange=WEEK&_data=routes%2Frank&page=",
-        "lease" : "https://csgoob.onet4p.net/rank?category=&type=VOL_LEASE_COUNT&timeRange=DAY&minPrice=0&minSellCount=0&sellCountType=DOWN&sellCountTimeRange=DAY&sellCountChange=0&categoryInclude=NOT&exterior=&quality=&exteriorInclude=NOT&qualityInclude=NOT&priceChangePercentTimeRange=HALF_MONTH&container=&containerInclude=NOT&nameInclude=TRUE&leaseCountType=DOWN&lease,CountTimeRange=DAY&volCountTimeRange=WEEK&volLeaseCountTimeRange=WEEK&_data=routes%2Frank&page="
+    var post_datas = {
+            "hot" : {"category":[],"minPrice":10000,"minSellCount":30,"sellCountType":"DOWN","sellCountTimeRange":"WEEK","sellCountChange":15,"categoryInclude":"TRUE","exterior":[],"quality":[],"rarity":[],"exteriorInclude":"TRUE","qualityInclude":"TRUE","rarityInclude":"TRUE","priceChangePercentTimeRange":"HALF_MONTH","container":[],"containerInclude":"TRUE","nameInclude":"TRUE","leaseCountType":"DOWN","leaseCountTimeRange":"WEEK","volCountTimeRange":"WEEK","volLeaseCountTimeRange":"WEEK","type":"VOL_COUNT","timeRange":"TODAY","page":1},
+            "up" : {"category":[],"minPrice":10000,"minSellCount":30,"sellCountType":"DOWN","sellCountTimeRange":"WEEK","sellCountChange":15,"categoryInclude":"TRUE","exterior":[],"quality":[],"rarity":[],"exteriorInclude":"TRUE","qualityInclude":"TRUE","rarityInclude":"TRUE","priceChangePercentTimeRange":"HALF_MONTH","container":[],"containerInclude":"TRUE","nameInclude":"TRUE","leaseCountType":"DOWN","leaseCountTimeRange":"WEEK","volCountTimeRange":"WEEK","volLeaseCountTimeRange":"WEEK","type":"PRICE_CHANGE_PERCENT_DESC","timeRange":"DAY","page":1},
+            "down" : {"category":[],"minPrice":10000,"minSellCount":30,"sellCountType":"DOWN","sellCountTimeRange":"WEEK","sellCountChange":15,"categoryInclude":"TRUE","exterior":[],"quality":[],"rarity":[],"exteriorInclude":"TRUE","qualityInclude":"TRUE","rarityInclude":"TRUE","priceChangePercentTimeRange":"HALF_MONTH","container":[],"containerInclude":"TRUE","nameInclude":"TRUE","leaseCountType":"DOWN","leaseCountTimeRange":"WEEK","volCountTimeRange":"WEEK","volLeaseCountTimeRange":"WEEK","type":"PRICE_CHANGE_PERCENT_ASC","timeRange":"DAY","page":1},
+            "lease" : {"category":[],"minPrice":10000,"minSellCount":30,"sellCountType":"DOWN","sellCountTimeRange":"WEEK","sellCountChange":15,"categoryInclude":"TRUE","exterior":[],"quality":[],"rarity":[],"exteriorInclude":"TRUE","qualityInclude":"TRUE","rarityInclude":"TRUE","priceChangePercentTimeRange":"HALF_MONTH","container":[],"containerInclude":"TRUE","nameInclude":"TRUE","leaseCountType":"DOWN","leaseCountTimeRange":"WEEK","volCountTimeRange":"WEEK","volLeaseCountTimeRange":"WEEK","type":"LEASECOUNT_DOWN","timeRange":"DAY","page":1}
     };
-    url = urls[type];
     page = 0;
     num = 1;
-    // 匹配url并更新页
+    post_data = post_datas[type];
+    // 匹配请求数据
 
     var navs = document.getElementById("nav_menu").children;
     for (var i = 0;i < navs.length;i++){
@@ -51,10 +52,9 @@ function update_rank(type){
 function next_page(){
     page++;
 
-    console.log(type_now +"_datas")
-    console.log(url+page)
+    post_data.page = page;
 
-    Request.get(url+page, type_now +"_datas", "receive");
+    Request.post(url,JSON.stringify(post_data), type_now +"_datas", "receive");
     wait4value(type_now +"_datas").then(value => {
         insert_items()
     });
@@ -64,7 +64,7 @@ function insert_items(){
     var e = document.getElementById("items");
 
     var resp = JSON.parse(all_resps[type_now +"_datas"]); // 获取对应的请求结果
-    var rank_list = resp.rankList;
+    var rank_list = resp.data.list;
 
     for (let item of rank_list) {
         var change = item.minPriceChangePercent[1]*100;

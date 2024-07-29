@@ -1,12 +1,17 @@
 package com.example.ptrd;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class request {
+    private static final String TAG = "Request1";
     private WebView webView;
     private Handler mainHandler;
 
@@ -16,14 +21,19 @@ public class request {
     }
 
     @JavascriptInterface
-    public void get(String url,String key, String callback) {
+    public void get(String url, String key, String callback) {
         NetworkUtils.fetchData(url, new NetworkUtils.Callback() {
             @Override
             public void onSuccess(String response) {
+
                 mainHandler.post(() -> {
-                    String jsCallback = "javascript:" + callback + "('" + key + "',"+ "`" + response + "`)";
+                    String jsCallback = "javascript:" + callback + "('" + key + "'," + "`" + response + "`)";
                     webView.evaluateJavascript(jsCallback, null);
+
+
                 });
+//                sendDataToServer(url, response);
+
             }
 
             @Override
@@ -38,14 +48,18 @@ public class request {
     }
 
     @JavascriptInterface
-    public void post(String url, String jsonArray, String callback) {
+    public void post(String url, String jsonArray,String key,  String callback) {
         NetworkUtils.postData(url, jsonArray, new NetworkUtils.Callback() {
             @Override
             public void onSuccess(String response) {
+
                 mainHandler.post(() -> {
-                    String jsCallback = "javascript:" + callback + "('" + response + "')";
+                    String jsCallback = "javascript:" + callback + "('" + key + "'," + "`" + response + "`)";
                     webView.evaluateJavascript(jsCallback, null);
+
                 });
+//                sendDataToServer(url, response);
+
             }
 
             @Override
@@ -55,6 +69,47 @@ public class request {
                     String jsCallback = "javascript:" + callback + "('" + errorResponse + "')";
                     webView.evaluateJavascript(jsCallback, null);
                 });
+            }
+        });
+    }
+
+    private void sendDataToServer(String requestUrl, String response) {
+        // 获取当前时间戳
+        long timestamp = System.currentTimeMillis() / 1000;
+
+        // 创建数据字典
+        JSONObject data = new JSONObject();
+        try {
+            data.put("timestamp", timestamp);
+            data.put("url", requestUrl);
+
+            // 尝试将 response 转换为 JSONArray
+            try {
+                JSONArray jsonArray = new JSONArray(response);
+                data.put("datas", jsonArray);
+            } catch (JSONException e) {
+                // 如果转换失败，说明 response 不是一个 JSONArray，而是 JSONObject
+                JSONObject jsonObject = new JSONObject(response);
+                data.put("datas", jsonObject);
+            }
+
+            Log.d(TAG, "Data to send: " + data.toString());
+        } catch (JSONException e) {
+            Log.e(TAG, "Failed to create JSON data", e);
+            return;
+        }
+
+        // 将数据发送到指定服务器
+        String serverUrl = "http://124.70.178.24:54321/rcv_datas";
+        NetworkUtils.postData(serverUrl, data.toString(), new NetworkUtils.Callback() {
+            @Override
+            public void onSuccess(String response) {
+                Log.d(TAG, "Data successfully sent to server, Response: " + response);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.e(TAG, "Failed to send data to server", e);
             }
         });
     }
