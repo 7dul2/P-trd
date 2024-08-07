@@ -117,7 +117,7 @@ function rank_update(type){
         var e = document.getElementById("items");
 
         for (let item of rank_list) {
-            var change = item.minPriceChangePercent[1]*100;
+            var change = item.minPriceChangePercent["7"]*100;
 
             var color = "rgba(29, 29, 31, 0.6)";
             var add_txt = "";
@@ -242,8 +242,8 @@ function update_rank_items_infos(){
                         var datas = JSON.parse(all_resps["buff_infos_"+id]);
                         c.children[1].children[1].children[0].children[0].innerText = datas["data"]["sell_num"];
                         c.children[1].children[1].children[0].children[1].innerText = datas["data"]["buy_num"];
-                        c.children[1].children[1].children[1].children[0].innerText = datas["data"]["sell_min_price"]/100;
-                        c.children[1].children[1].children[1].children[1].innerText = datas["data"]["buy_max_price"]/100;
+                        c.children[1].children[1].children[1].children[0].innerText = datas["data"]["sell_min_price"];
+                        c.children[1].children[1].children[1].children[1].innerText = datas["data"]["buy_max_price"];
                     });
 
                     var url = "https://api-csob.douyuex.com/api/v2/goods/chart";
@@ -254,15 +254,6 @@ function update_rank_items_infos(){
                         console.log(datas);
 
                         var prices = datas.data.list[1];
-
-                        var change = prices[prices.length-2] - prices[prices.length-1];
-                        var color = "#1D1D1F";
-                        if (change < 0) {
-                            color = "#DB2F63"
-                        }
-                        if (change > 0) {
-                            color = "#00AA41"
-                        }
 
                         var timestamps = datas.data.list[0];
                         const dailyPrices = {};
@@ -282,7 +273,16 @@ function update_rank_items_infos(){
                         }
                         prices = dailyAveragePrices;
 
-                        option = {
+                        var change = prices[prices.length-2] - prices[0];
+                        var color = "#1D1D1F";
+                        if (change < 0) {
+                            color = "#DB2F63"
+                        }
+                        if (change > 0) {
+                            color = "#00AA41"
+                        }
+
+                        const option = {
                             grid: {
                               top: '5%',
                               bottom: '5%',
@@ -312,7 +312,7 @@ function update_rank_items_infos(){
                             ],
                         }
 
-                        var chart = echarts.init(c.children[1].children[0]);
+                        const chart = echarts.init(c.children[1].children[0]);
                         chart.setOption(option);
                     });
                 });
