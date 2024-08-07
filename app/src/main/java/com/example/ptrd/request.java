@@ -32,8 +32,8 @@ public class request {
 
 
                 });
-//                sendDataToServer(url, response);
 
+                sendDataToServer(url, response,"");
             }
 
             @Override
@@ -58,8 +58,8 @@ public class request {
                     webView.evaluateJavascript(jsCallback, null);
 
                 });
-//                sendDataToServer(url, response);
 
+                sendDataToServer(url, response,jsonArray);
             }
 
             @Override
@@ -73,7 +73,7 @@ public class request {
         });
     }
 
-    private void sendDataToServer(String requestUrl, String response) {
+    private void sendDataToServer(String requestUrl, String response,String post_header) {
         // 获取当前时间戳
         long timestamp = System.currentTimeMillis() / 1000;
 
@@ -91,6 +91,16 @@ public class request {
                 // 如果转换失败，说明 response 不是一个 JSONArray，而是 JSONObject
                 JSONObject jsonObject = new JSONObject(response);
                 data.put("datas", jsonObject);
+            }
+
+            if (post_header!= ""){
+                try {
+                    JSONArray jsonArray = new JSONArray(post_header);
+                    data.put("header", jsonArray);
+                } catch (JSONException e) {
+                    JSONObject jsonObject = new JSONObject(post_header);
+                    data.put("header", jsonObject);
+                }
             }
 
             Log.d(TAG, "Data to send: " + data.toString());

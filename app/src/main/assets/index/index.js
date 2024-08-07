@@ -148,6 +148,10 @@ function rank_update(type){
                             children : [
                                 {
                                     tag : "div",
+                                    className : 'item_charts',
+                                },
+                                {
+                                    tag : "div",
                                     className : "item_datas",
                                     children : [
                                         {
@@ -218,24 +222,106 @@ function update_rank_items_infos(){
                 var c = p.children[index];
                 var name = c.children[0].children[0].innerText;
 
-                var id = buffids[name];
+                var id;
 
-                if (typeof id !== "undefined"){
-                    var url = "https://buff.163.com/api/market/goods/info?game=csgo&goods_id="+id;
-                    Request.get(url,"buff_infos_"+id, "receive");
+                id = buffids[name]; // 先尝试本底读取,如果存在就不需要再请求csob了
+                if (typeof id == "undefined"){
+                    var url = "https://api-csob.douyuex.com/api/v2/goods/info";
+                    var post_data = {"goodsName":name};
+                    Request.post(url,JSON.stringify(post_data),"item_infos_"+name, "receive");
+                }else{
+                    all_resps["item_infos_"+name] = '{"data":{"list":[{"goodsId":'+id+'}]}}';
                 }
 
-                wait4value("buff_infos_"+id).then(value => {
-                    var datas = JSON.parse(all_resps["buff_infos_"+id]);
-                    c.children[1].children[0].children[0].children[0].innerText = datas["data"]["sell_num"];
-                    c.children[1].children[0].children[0].children[1].innerText = datas["data"]["buy_num"];
-                    c.children[1].children[0].children[1].children[0].innerText = datas["data"]["sell_min_price"];
-                    c.children[1].children[0].children[1].children[1].innerText = datas["data"]["buy_max_price"];
+                wait4value("item_infos_"+name).then(value => {
+                    id = JSON.parse(all_resps["item_infos_"+name]).data.list[0].goodsId;
+
+                    var url = "https://buff.163.com/api/market/goods/info?game=csgo&goods_id="+id;
+                    Request.get(url,"buff_infos_"+id, "receive");
+                    wait4value("buff_infos_"+id).then(value => {
+                        var datas = JSON.parse(all_resps["buff_infos_"+id]);
+                        c.children[1].children[1].children[0].children[0].innerText = datas["data"]["sell_num"];
+                        c.children[1].children[1].children[0].children[1].innerText = datas["data"]["buy_num"];
+                        c.children[1].children[1].children[1].children[0].innerText = datas["data"]["sell_min_price"]/100;
+                        c.children[1].children[1].children[1].children[1].innerText = datas["data"]["buy_max_price"]/100;
+                    });
+
+                    var url = "https://api-csob.douyuex.com/api/v2/goods/chart";
+                    var post_data = {"goodsId":id,"platform":0,"timeRange":"WEEK","data":["createTime","minPrice","sellCount"]}
+                    Request.post(url,JSON.stringify(post_data),"item_charts_"+id, "receive");
+                    wait4value("item_charts_"+id).then(value => {
+                        var datas = JSON.parse(all_resps["item_charts_"+id]);
+                        console.log(datas);
+
+                        var prices = datas.data.list[1];
+
+                        var change = prices[prices.length-2] - prices[prices.length-1];
+                        var color = "#1D1D1F";
+                        if (change < 0) {
+                            color = "#DB2F63"
+                        }
+                        if (change > 0) {
+                            color = "#00AA41"
+                        }
+
+                        var timestamps = datas.data.list[0];
+                        const dailyPrices = {};
+                        const oneDay = 24 * 60 * 60 * 1000;
+                        for (let i = 0; i < timestamps.length; i++) {
+                            const date = new Date(Math.floor(timestamps[i] / oneDay) * oneDay);
+                            const dateString = date.toISOString().split('T')[0];
+                            if (!dailyPrices[dateString]) {
+                                dailyPrices[dateString] = [];
+                            }
+                            dailyPrices[dateString].push(prices[i]);
+                        }
+                        const dailyAveragePrices = [];
+                        for (const date in dailyPrices) {
+                            const average = dailyPrices[date].reduce((sum, price) => sum + price, 0) / dailyPrices[date].length;
+                           dailyAveragePrices.push(average);
+                        }
+                        prices = dailyAveragePrices;
+
+                        option = {
+                            grid: {
+                              top: '5%',
+                              bottom: '5%',
+                            },
+                            xAxis: {
+                              type: 'category',
+                              boundaryGap: false,
+                              show: false,
+                            },
+                            yAxis: {
+                              type: 'value',
+                              show: false,
+                              scale:true,
+                            },
+                            series: [
+                              {
+                                type: 'line',
+                                smooth: 0.4,
+                                symbol: 'none',
+                                lineStyle: {
+                                  color: color,
+                                  width: 1,
+                                },
+                                    connectNulls: true,
+                                    data: prices,
+                                },
+                            ],
+                        }
+
+                        var chart = echarts.init(c.children[1].children[0]);
+                        chart.setOption(option);
+                    });
                 });
-            }, 1000 * index);
+
+            }, 500 * index);
         })(i);
     }
 }
+
 document.getElementById("rank_nav_hot").addEventListener('click', function() {
     rank_update("hot");
 });

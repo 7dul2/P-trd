@@ -171,6 +171,7 @@
 .item_data{
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
 }
 
 .item_data p{
@@ -187,9 +188,9 @@
 
 .item_infos {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    margin-top: 0.8%;
+    margin-top: 1.2%;
 }
 
 .item_name p{
@@ -201,8 +202,9 @@
 
 .item_datas {
     display: flex;
-    width: 75%;
+    width: 55%;
     justify-content: space-between;
+    margin-right: 5%;
 }
 
 .data_float p{
@@ -253,4 +255,10 @@
     margin : 0px;
     font-size : 11px;
     color : rgba(29, 29, 31, 0.5);
+}
+
+.item_charts {
+    width: 15%;
+    height: 2rem;
+    margin-right: 5%;
 }
