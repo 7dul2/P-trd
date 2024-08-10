@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Ptrd"
         tools:targetApi="31">
         <activity
+            android:name=".search"
+            android:exported="false" />
+        <activity
             android:name=".rank"
             android:exported="false" />
         <activity
@@ -25,7 +28,7 @@
         <activity
             android:name=".index"
             android:configChanges="fontScale|screenSize|smallestScreenSize|screenLayout|orientation"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:configChanges="fontScale|screenSize|smallestScreenSize|screenLayout|orientation"

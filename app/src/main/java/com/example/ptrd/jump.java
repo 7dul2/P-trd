@@ -29,6 +29,9 @@ public class jump {
                 intent = new Intent(mContext, rank.class);
                 intent.putExtra("rank_name", data); // 将第二个参数传递给activity
                 break;
+            case "search":
+                intent = new Intent(mContext, search.class);
+                break;
             default:
                 intent = new Intent(mContext, index.class);
                 break;

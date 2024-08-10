@@ -10,6 +10,7 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,8 @@ import okhttp3.OkHttpClient;
 public class index extends AppCompatActivity {
 
     private WebView webView;
+    private long backPressedTime;
+    private Toast backToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,4 +61,18 @@ public class index extends AppCompatActivity {
         webView.loadUrl("file:///android_asset/index/index.html");
     }
 
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 1000 > System.currentTimeMillis()) {
+            if (backToast != null) {
+                backToast.cancel();
+            }
+            super.onBackPressed();
+            return;
+        } else {
+            backToast = Toast.makeText(getBaseContext(), "再次返回以退出。", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+        backPressedTime = System.currentTimeMillis();
+    }
 }
