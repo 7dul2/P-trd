@@ -319,3 +319,7 @@ document.getElementById("nav_ai").addEventListener('click', function() {
 document.getElementById("nav_news").addEventListener('click', function() {
    switch_content("news");
 });
+
+document.getElementById("back").addEventListener('click', function() {
+    Jump.jump("index","");
+});

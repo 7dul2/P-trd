@@ -194,3 +194,7 @@ document.getElementById("nav_lease").addEventListener('click', function() {
     update_rank("lease");
 });
 // 绑定点击事件
+
+document.getElementById("back").addEventListener('click', function() {
+    Jump.jump("index","");
+});

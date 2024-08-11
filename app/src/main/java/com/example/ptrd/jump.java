@@ -23,11 +23,13 @@ public class jump {
                 break;
             case "item":
                 intent = new Intent(mContext, item.class);
-                intent.putExtra("item_name", data); // 将第二个参数传递给activity
+                intent.putExtra("item_name", data);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 break;
             case "rank":
                 intent = new Intent(mContext, rank.class);
-                intent.putExtra("rank_name", data); // 将第二个参数传递给activity
+                intent.putExtra("rank_name", data);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 break;
             case "search":
                 intent = new Intent(mContext, search.class);
@@ -39,4 +41,3 @@ public class jump {
         mContext.startActivity(intent);
     }
 }
-
