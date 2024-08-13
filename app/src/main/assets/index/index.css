@@ -1,7 +1,7 @@
 .container {
     min-height: 100vh;
     width: 100%;
-    margin-top: 20%;
+    margin-top: 15%;
     margin-bottom: 15%;
     display: flex;
     z-index: 1;
@@ -21,16 +21,24 @@
 }
 
 .menu {
-    top : 0px;
-    left : 0px;
+    top: 0px;
+    left: 0px;
     position: fixed;
-    height: 10%;
-    width : 90%;
+    height: 7%;
     background: #F5F5F7;
-    z-index : 100;
+    z-index: 100;
     display: flex;
     justify-content: space-between;
-    padding: 0 5%;
+    align-items: center;
+    width: 100%;
+}
+
+.menu_top {
+    width: 87%;
+    margin: 0 6.5%;
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -44,7 +52,7 @@
 }
 
 .nav{
-    height: 8%;
+    height: 6%;
     width: 100%;
     background: #F5F5F7;
     position: fixed;
@@ -59,24 +67,14 @@
 }
 
 .nav p {
-   font-size : 18px;
-   color :  #1D1D1F;
-   font-weight : 600;
-}
-
-.checked {
-    background-color: #1D1D1F;
-    border-radius: 0.8rem;
-    width: 20%;
-    height: 60%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-weight : 600;
+   font-size : 15px;
+   color :  rgba(29, 29, 31, 0.6);
 }
 
 .checked p{
-   color :  #F5F5F7;
-   font-weight : 600;
+    font-size : 16px;
+    color :  #1d1d1f;
 }
 
 .major_market_index {
@@ -136,21 +134,10 @@
     margin-top: 5%;
 }
 
-.search_input {
-    margin: 0 5%;
-    width: 80%;
-    border-radius: 1rem;
-    border: 1.5px solid rgba(29, 29, 31, 0.5);
-    display: flex;
-    align-items: center;
-    padding: 1.5% 5%;
-}
 
-.search_input p {
-    font-size : 15px;
-    margin : 0px;
-    color : rgba(29, 29, 31, 0.6);
-    margin-left : 1rem;
+.search {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .rk_nav {

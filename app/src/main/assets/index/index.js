@@ -129,7 +129,7 @@ function rank_update(type){
                 add_txt = "+";
             }
 
-            _ie({
+            var newElement = _ie({
                     tag : "div",
                     className : "item",
                     id : "item_" + item.goodsName,
@@ -201,6 +201,13 @@ function rank_update(type){
                         }
                     ]
                 },e); // 向rank列表插入元素
+
+            gsap.from(newElement, {
+                duration: 0.5, 
+                y: 50, 
+                opacity: 0,
+                ease: "power3.out"
+            });
 
             document.getElementById("item_" + item.goodsName).addEventListener('click', function() {
                 Jump.jump("item",item.goodsName);
@@ -338,7 +345,7 @@ rank_update("hot");
 
 
 // 接下来是search页面的跳转
-var search_card = document.getElementsByClassName("search_input")[0];
-search_card.addEventListener('click', function() {
+var search = document.getElementsByClassName("search")[0];
+search.addEventListener('click', function() {
     Jump.jump("search","")
 });

@@ -260,7 +260,7 @@ function load_infos(){
                     wait4value("buff_infos_"+id).then(value => {
                         var datas = JSON.parse(all_resps["buff_infos_"+id]);
                         if (datas["data"]["sell_min_price"] == 0){
-                            datas["data"]["sell_min_price"] = "不提供相关数据"
+                            datas["data"]["sell_min_price"] = "无相关数据"
                         }
                         child.children[0].children[1].children[0].innerText = datas["data"]["sell_min_price"];
                     });
