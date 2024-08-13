@@ -21,18 +21,21 @@
 }
 
 .right div{
-    background-color: #1D1D1F;
-    border-radius: 0.8rem;
     width: 7.5rem;
     display: flex;
     justify-content: center;
+    color: rgba(29, 29, 31);
 }
 
 .right p {
     margin: .5rem 1.5rem;
-    color: #F5F5F7;
+    color: rgba(29, 29, 31);
     font-weight: 600;
     font-size: 1.5rem;
+}
+
+.right b{
+    color: #00A943;
 }
 
 #animation_loading {
