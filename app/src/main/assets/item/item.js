@@ -19,6 +19,35 @@ function wait4value(key) {
 
 document.getElementById("item-name").innerText = item_name;
 
+var stared = false;
+function star_switch(){
+    console.log(stared);
+    var star = document.getElementById("star");
+    if (stared){
+        star.children[0].style.display = "none";
+        star.children[1].style.display = "";
+        star.addEventListener('click', function() {
+            stared = false;
+            DataBase.executeSQL("DELETE FROM stars WHERE item_name = ?", [item_name]);
+            star_switch();
+        });
+    }else{
+        star.children[1].style.display = "none";
+        star.children[0].style.display = "";
+        star.addEventListener('click', function() {
+            stared = true;
+            DataBase.executeSQL("INSERT OR IGNORE INTO stars (item_name) VALUES (?)",[item_name]);
+            star_switch();
+        });
+    }
+}
+var results = DataBase.query("SELECT item_name FROM stars where item_name = ?",[item_name]);
+if (results.length != 0){
+    stared = true;
+}    
+star_switch();
+
+
 var loaded = {
     "infos" : false,
     "ai" : false,

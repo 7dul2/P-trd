@@ -139,7 +139,117 @@ function rank_update(type){
 
     document.getElementById("rank_nav_" + type).style.color = "rgba(29, 29, 31)";
 
-    document.getElementById("items_more").onclick = function() {
+    var button_more = document.getElementById("items_more");
+
+    if (type == "stars"){
+        button_more.children[0].children[0].innerText = "";
+        button_more.onclick = function(){};
+
+        var results = DataBase.query("SELECT item_name FROM stars",[]);
+        if (results.length == 0){
+            button_more.children[0].children[0].innerText = "空空如也";
+            return
+        }
+
+        results = results.trim().split('\n');
+
+        var e = document.getElementById("items");
+
+        for (let stared_item of results) {
+            var newElement = _ie({
+                tag : "div",
+                className : "item",
+                id : "item_" + stared_item,
+                children : [
+                    {
+                        tag : "div",
+                        className : "item_name",
+                        children : [{
+                            tag :  "p",
+                            innerText : stared_item
+                        }]
+                    },
+                    {
+                        tag : "div",
+                        className : "item_infos",
+                        children : [
+                            {
+                                tag : "div",
+                                className : 'item_charts',
+                            },
+                            {
+                                tag : "div",
+                                className : "item_datas",
+                                children : [
+                                    {
+                                        tag : "div",
+                                        className : 'item_data',
+                                        children : [
+                                            {
+                                                tag : "p",
+                                                innerText : "-"
+                                            },
+                                            {
+                                                tag : "a",
+                                                innerText : "-"
+                                            },
+                                        ]
+                                    },
+                                    {
+                                        tag : "div",
+                                        className : 'item_data',
+                                        children : [
+                                            {
+                                                tag : "p",
+                                                innerText : "-"
+                                            },
+                                            {
+                                                tag : "a",
+                                                innerText : "-"
+                                            },
+                                        ]
+                                    },
+                                ]
+                            },
+                            {
+                                tag : "div",
+                                className : "data_float",
+                                children : [
+                                    {
+                                        tag : "p",
+                                        innerText : "暂不提供",
+                                    }
+                                ],
+                                style : {
+                                    backgroundColor : "rgba(29, 29, 31, 0.6)"
+                                }
+                            },
+                        ]
+                    },
+                    
+                ]
+            },e); 
+
+            gsap.from(newElement, {
+                duration: 0.5, 
+                y: 50, 
+                opacity: 0,
+                ease: "power3.out"
+            });
+
+            document.getElementById("item_" + stared_item).addEventListener('click', function() {
+                Jump.jump("item",stared_item);
+            }); // 当列表中的元素被点击时候,进行跳转
+
+        }
+
+        update_rank_items_infos();
+
+        return
+    }
+
+    button_more.children[0].children[0].innerText = "查看更多";
+    button_more.onclick = function() {
         Jump.jump("rank",type);
     };
 
@@ -269,6 +379,7 @@ function update_rank_items_infos(){
         (function(index){ // 使用闭包保存当前迭代的索引值
             setTimeout(function(){
                 var c = p.children[index];
+                console.log(p.children,c);
                 var name = c.children[0].children[0].innerText;
 
                 var id;
@@ -300,7 +411,6 @@ function update_rank_items_infos(){
                     Request.post(url,JSON.stringify(post_data),"item_charts_"+id, "receive");
                     wait4value("item_charts_"+id).then(value => {
                         var datas = JSON.parse(all_resps["item_charts_"+id]);
-                        console.log(datas);
 
                         var prices = datas.data.list[1];
 
@@ -371,6 +481,9 @@ function update_rank_items_infos(){
     }
 }
 
+document.getElementById("rank_nav_stars").addEventListener('click', function() {
+    rank_update("stars");
+});
 document.getElementById("rank_nav_hot").addEventListener('click', function() {
     rank_update("hot");
 });
@@ -383,8 +496,13 @@ document.getElementById("rank_nav_down").addEventListener('click', function() {
 document.getElementById("rank_nav_lease").addEventListener('click', function() {
     rank_update("lease");
 });
-rank_update("hot");
 
+// 如果有自选就载入自选,不然就载入hot
+if (DataBase.query("SELECT item_name FROM stars",[]).length > 0){
+    rank_update("stars");
+}else{
+    rank_update("hot");
+}
 
 // 接下来是search页面的跳转
 var search = document.getElementsByClassName("search")[0];

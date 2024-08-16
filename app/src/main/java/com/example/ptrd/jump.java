@@ -24,12 +24,10 @@ public class jump {
             case "item":
                 intent = new Intent(mContext, item.class);
                 intent.putExtra("item_name", data);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 break;
             case "rank":
                 intent = new Intent(mContext, rank.class);
                 intent.putExtra("rank_name", data);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 break;
             case "search":
                 intent = new Intent(mContext, search.class);

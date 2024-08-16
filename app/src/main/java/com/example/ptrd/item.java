@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,8 +56,8 @@ public class item extends AppCompatActivity {
         // 启用广泛视口，使页面能够适应屏幕宽度
 
         webView.addJavascriptInterface(new request(webView), "Request");
-        // 用于发送请求的方法类
         webView.addJavascriptInterface(new jump(this), "Jump");
+        webView.addJavascriptInterface(new DataBase(this), "DataBase");
 
         webView.loadUrl("file:///android_asset/item/item.html?name=" + item_name);
         // 7dul2
@@ -76,6 +77,6 @@ public class item extends AppCompatActivity {
         webView2.getSettings().setDomStorageEnabled(true);
         webView2.setWebContentsDebuggingEnabled(true);
 
-//        webView2.loadUrl("https://csgoob.com/goods?name=" + item_name);
+    //  webView2.loadUrl("https://csgoob.com/goods?name=" + item_name);
     }
 }

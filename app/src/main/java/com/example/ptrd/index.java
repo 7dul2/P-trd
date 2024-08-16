@@ -56,6 +56,7 @@ public class index extends AppCompatActivity {
         webView.getSettings().setUseWideViewPort(true);
         webView.addJavascriptInterface(new request(webView), "Request");
         webView.addJavascriptInterface(new jump(this), "Jump");
+        webView.addJavascriptInterface(new DataBase(this), "DataBase");
 
         // 加载本地 HTML 文件
         webView.loadUrl("file:///android_asset/index/index.html");
