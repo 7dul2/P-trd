@@ -87,6 +87,48 @@ wait4value("major_index").then(value => {
     major_index_load()
 });
 
+var url = "https://api-csob.douyuex.com/api/v1/updown/count?platform=0";
+Request.get(url,"counter", "receive");
+wait4value("counter").then(value => {
+    var datas = JSON.parse(all_resps["counter"]).data;
+
+    var tot_num = datas.up + datas.down + datas.stay;
+    document.getElementById("c_up").innerText = "上涨: " + datas.up + ' ';
+    document.getElementById("c_down").innerText = "下跌: " + datas.down + ' ';
+
+    var lines = document.getElementsByClassName("c_line");
+    lines[0].style.width = datas.up/tot_num*100-1 + "%";
+    lines[1].style.width = datas.stay/tot_num*100-1 + "%";
+    lines[2].style.width = datas.down/tot_num*100-1 + "%";
+
+    var max =  Math.max(...Object.entries(datas).filter(([k, v]) => !["up", "down", "stay"].includes(k)).map(([k, v]) => v));;
+    var bars = document.getElementById("counter_bars").children;
+
+    bars[0].children[0].innerText = datas.up10;
+    bars[0].children[1].style.height = 6 * datas.up10/max + "rem";
+    bars[1].children[0].innerText = datas.up7;
+    bars[1].children[1].style.height = 6 * datas.up7/max + "rem";
+    bars[2].children[0].innerText = datas.up5;
+    bars[2].children[1].style.height = 6 * datas.up5/max + "rem";    
+    bars[3].children[0].innerText = datas.up3;
+    bars[3].children[1].style.height = 6 * datas.up3/max + "rem";
+    bars[4].children[0].innerText = datas.up0;
+    bars[4].children[1].style.height = 6 * datas.up0/max + "rem";
+    bars[5].children[0].innerText = datas.stay;
+    bars[5].children[1].style.height = 6 * datas.stay/max + "rem";
+    bars[6].children[0].innerText = datas.down0;
+    bars[6].children[1].style.height = 6 * datas.down0/max + "rem";
+    bars[7].children[0].innerText = datas.down3;
+    bars[7].children[1].style.height = 6 * datas.down3/max + "rem";
+    bars[8].children[0].innerText = datas.down5;
+    bars[8].children[1].style.height = 6 * datas.down5/max + "rem";
+    bars[9].children[0].innerText = datas.down7;
+    bars[9].children[1].style.height = 6 * datas.down7/max + "rem";
+    bars[10].children[0].innerText = datas.down10;
+    bars[10].children[1].style.height = 6 * datas.down10/max + "rem";
+})
+
+
 function rank_update(type){
     var navs = document.getElementById("rk_nav").children;
     for (var i = 0;i < navs.length;i++){

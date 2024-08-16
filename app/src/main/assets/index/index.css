@@ -1,7 +1,7 @@
 .container {
     min-height: 100vh;
     width: 100%;
-    margin-top: 15%;
+    margin-top: 18%;
     margin-bottom: 15%;
     display: flex;
     z-index: 1;
@@ -17,7 +17,7 @@
 
 .card {
     width : 100%;
-    padding : 1rem 0;
+    padding : 1.3rem 0;
 }
 
 .menu {
@@ -211,7 +211,7 @@
 .rank {
     width: 90%;
     margin: 0 5%;
-    min-height: 2rem
+    min-height: 1rem
 }
 
 .item {
@@ -248,4 +248,70 @@
     width: 20%;
     height: 2rem;
     margin-right: 5%;
+}
+
+.m_m_counter {
+    display: flex;
+    width: 90%;
+    min-height: 8rem;
+    margin: 0 5%;
+    margin-top: -5%;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.c_bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.c_bar p {
+    font-size: 10px;
+    margin: 0px;
+    color: rgba(29, 29, 31, 0.45);
+}
+
+.c_bar div {
+    width: 0.8rem;
+    height : 1rem;
+    background-color: rgba(29, 29, 31, 0.2);
+    transition: height 1s ease;
+}
+
+.counter_bars {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.c_text p{
+    color : #00AA41;
+    margin: 0;
+    font-size: 12px;
+}
+
+.c_text a{
+    color : #DB2F63;
+    margin: 0;
+    font-size: 12px;
+}
+
+.c_text {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.counter_lines {
+    display: flex;
+    margin-top: 3%;
+}
+
+.counter_lines div{
+    height: 0.3rem;
+    width: 1%;
+    background-color: rgba(29, 29, 31, 0.2);
+    margin: 0 0.5%;
+    transition: width 1s ease;
 }
