@@ -101,7 +101,7 @@ wait4value("counter").then(value => {
     lines[1].style.width = datas.stay/tot_num*100-1 + "%";
     lines[2].style.width = datas.down/tot_num*100-1 + "%";
 
-    var max =  Math.max(...Object.entries(datas).filter(([k, v]) => !["up", "down", "stay"].includes(k)).map(([k, v]) => v));;
+    var max =  Math.max(...Object.entries(datas).filter(([k, v]) => !["up", "down"].includes(k)).map(([k, v]) => v));;
     var bars = document.getElementById("counter_bars").children;
 
     bars[0].children[0].innerText = datas.up10;
