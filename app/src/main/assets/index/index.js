@@ -23,7 +23,7 @@ function major_index_load(){
     var jsons = JSON.parse(all_resps["major_index"]);
 
     var change = jsons.data.list[0].change;
-    var color = "#1D1D1F";
+    var color = "#48484B";
     if (change < 0) {
         color = "#DB2F63"
     }
@@ -47,16 +47,30 @@ function major_index_load(){
           scale:true,
         },
         series: [
-          {
-            type: 'line',
-            smooth: 0.4,
-            symbol: 'none',
-            lineStyle: {
-              color: color,
-              width: 2,
-            },
+            {
+                type: 'line',
+                smooth: 0.4,
+                symbol: 'none',
+                lineStyle: {
+                    color: color,
+                    width: 1,
+                },
                 connectNulls: true,
                 data: jsons.data.list[0].indexList,
+                areaStyle: {
+                    color: {
+                        type: 'linear',
+                        x : 0,
+                        x2 : 0,
+                        y : 0,
+                        y2 : 1,
+                        colorStops: [{
+                            offset: 0, color: color
+                        }, {
+                            offset: 1, color: 'rgba(0,0,0,0)'
+                        }],
+                    },
+                },
             },
         ],
     }
@@ -132,12 +146,12 @@ wait4value("counter").then(value => {
 function rank_update(type){
     var navs = document.getElementById("rk_nav").children;
     for (var i = 0;i < navs.length;i++){
-        navs[i].style.color = "rgba(29, 29, 31, 0.6)";
+        navs[i].style.color = "rgba(245,245,247, 0.6)";
     }
 
     document.getElementById("items").innerHTML = "";
 
-    document.getElementById("rank_nav_" + type).style.color = "rgba(29, 29, 31)";
+    document.getElementById("rank_nav_" + type).style.color = "rgba(245,245,247)";
 
     var button_more = document.getElementById("items_more");
 
@@ -433,7 +447,7 @@ function update_rank_items_infos(){
                         prices = dailyAveragePrices;
 
                         var change = prices[prices.length-2] - prices[0];
-                        var color = "#1D1D1F";
+                        var color = "#48484B";
                         if (change < 0) {
                             color = "#DB2F63"
                         }
@@ -467,7 +481,22 @@ function update_rank_items_infos(){
                                 },
                                     connectNulls: true,
                                     data: prices,
+                                    areaStyle: {
+                                        color: {
+                                            type: 'linear',
+                                            x : 0,
+                                            x2 : 0,
+                                            y : 0,
+                                            y2 : 1,
+                                            colorStops: [{
+                                                offset: 0, color: color
+                                            }, {
+                                                offset: 1, color: 'rgba(0,0,0,0)'
+                                            }],
+                                        },
+                                    },
                                 },
+                                
                             ],
                         }
 

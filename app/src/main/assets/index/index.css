@@ -11,8 +11,8 @@
 .hr {
     height : 0px;
     width : 100%;
-    border-top: 1px solid rgba(29, 29, 31, 0.12);
-    border-bottom: 1px solid rgba(29, 29, 31, 0.12);
+    border-top: 1px solid rgba(245,245,247, 0.12);
+    border-bottom: 1px solid rgba(245,245,247, 0.12);
 }
 
 .card {
@@ -25,7 +25,7 @@
     left: 0px;
     position: fixed;
     height: 7%;
-    background: #F5F5F7;
+    background: #1D1D1F;
     z-index: 100;
     display: flex;
     justify-content: space-between;
@@ -45,6 +45,7 @@
 .menu p{
     font-size : 22px;
     font-weight : 600;
+    color :  #F5F5F7;
 }
 
 .menu svg {
@@ -54,11 +55,11 @@
 .nav{
     height: 6%;
     width: 100%;
-    background: #F5F5F7;
+    background: #1D1D1F;
     position: fixed;
     bottom: 0;
     left: 0;
-    box-shadow: 0px 0px 10px rgba(29, 29, 31, 0.2);
+    box-shadow: 0px 0px 10px rgba(245,245,247, 0.2);
     border-radius: 11px 11px 0px 0px;
     display: flex;
     justify-content: space-around;
@@ -69,12 +70,12 @@
 .nav p {
     font-weight : 600;
    font-size : 15px;
-   color :  rgba(29, 29, 31, 0.6);
+   color :  rgba(245,245,247, 0.6);
 }
 
 .checked p{
     font-size : 16px;
-    color :  #1d1d1f;
+    color :  #F5F5F7;
 }
 
 .major_market_index {
@@ -103,27 +104,27 @@
 .mmi_title p {
     font-size : 18px;
     margin : 0px;
-    color : #1D1D1F;
+    color : #F5F5F7;
     font-weight : 600;
 }
 
 .mmi_title a {
     font-size : 10px;
     margin : 0px;
-    color : rgba(29, 29, 31, 0.45);
+    color : rgba(245,245,247, 0.45);
 }
 
 .mmi_index p {
     font-size : 33px;
     margin : 0px;
-    color : #1D1D1F;
+    color : #F5F5F7;
     font-weight : 600;
 }
 
 .mmi_index a {
     font-size : 12px;
     margin : 0px;
-    color : #1D1D1F;
+    color : #F5F5F7;
     font-weight : 600;
 }
 
@@ -152,7 +153,7 @@
     margin : 0;
     font-weight : 600;
     font-size : 15px;
-    color : rgba(29, 29, 31, 0.6);
+    color : rgba(245,245,247, 0.6);
 }
 
 .item_data{
@@ -163,13 +164,13 @@
 
 .item_data p{
     margin: 0px;
-    color: rgba(29, 29, 31);
+    color: rgba(245,245,247);
     font-size: 15px;
     font-weight: 600;
 }
 .item_data a{
     margin : 0px;
-    color : rgba(29, 29, 31, 0.45);
+    color : rgba(245,245,247, 0.45);
     font-size : 12px
 }
 
@@ -182,7 +183,7 @@
 
 .item_name p{
     margin : 0px;
-    color : rgba(29, 29, 31);
+    color : rgba(245,245,247);
     font-size : 13px;
     font-weight : 600;
 }
@@ -228,7 +229,7 @@
 .items_more p{
     margin : 0px;
     font-size : 17px;
-    color : rgba(29, 29, 31, 0.8);
+    color : rgba(245,245,247, 0.8);
 }
 
 .rk_tip {
@@ -241,7 +242,7 @@
 .rk_tip p{
     margin : 0px;
     font-size : 11px;
-    color : rgba(29, 29, 31, 0.5);
+    color : rgba(245,245,247, 0.5);
 }
 
 .item_charts {
@@ -269,13 +270,13 @@
 .c_bar p {
     font-size: 10px;
     margin: 0px;
-    color: rgba(29, 29, 31, 0.45);
+    color: rgba(245,245,247, 0.45);
 }
 
 .c_bar div {
     width: 0.8rem;
     height : 0.5rem;
-    background-color: rgba(29, 29, 31, 0.2);
+    background-color: rgba(245,245,247, 0.2);
     transition: height 1s ease;
 }
 
@@ -311,7 +312,7 @@
 .counter_lines div{
     height: 0.3rem;
     width: 1%;
-    background-color: rgba(29, 29, 31, 0.2);
+    background-color: rgba(245,245,247, 0.2);
     margin: 0 0.5%;
     transition: width 1s ease;
 }

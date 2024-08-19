@@ -80,10 +80,10 @@ function switch_content(nav){
 
     var navs = document.getElementById("nav_menu").children;
     for (var i = 0;i < navs.length;i++){
-        navs[i].style.color = "rgba(29, 29, 31, 0.45)";
+        navs[i].style.color = "rgba(245,245,247, 0.45)";
     }
 
-    document.getElementById("nav_"+nav).style.color = "rgba(29, 29, 31)"
+    document.getElementById("nav_"+nav).style.color = "rgba(245,245,247)"
 
     document.getElementById("container_" + nav).style.display = "flex";
 

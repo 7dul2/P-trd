@@ -1,8 +1,12 @@
 package com.example.ptrd;
 
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -21,15 +25,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Configuration configuration = getResources().getConfiguration();
-        configuration.fontScale = 1.0f; // 强制字体缩放比例为 1.0
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.parseColor("#1D1D1F"));
+        }
+
+        Configuration configuration = getResources().getConfiguration();
+        configuration.fontScale = 1.0f; // 强制字体缩放比例为 1.0
+        EdgeToEdge.enable(this);
 
         webView = findViewById(R.id.webview);
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);

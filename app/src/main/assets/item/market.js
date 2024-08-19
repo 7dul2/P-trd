@@ -4,6 +4,15 @@ function load_infos(){
     // 初始化图表
     var chart = klinecharts.init('k_line');
     chart.setStyles({
+        grid: {
+            show: true,
+            horizontal: {
+              color: 'rgba(245,245,247, 0.1)',
+            },
+            vertical: {
+              color: 'rgba(245,245,247, 0.1)',
+            }
+        },
         candle: {
             bar: {
                 upColor: "#00AA43",

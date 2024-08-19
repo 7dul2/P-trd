@@ -1,13 +1,12 @@
 package com.example.ptrd;
 
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -18,10 +17,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import okhttp3.OkHttpClient;
 
 public class index extends AppCompatActivity {
 
@@ -32,18 +27,25 @@ public class index extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Configuration configuration = getResources().getConfiguration();
-        configuration.fontScale = 1.0f; // 设置字体缩放比例为 1.0
-        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
-
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_index);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.parseColor("#1D1D1F"));
+        }
+
+        Configuration configuration = getResources().getConfiguration();
+        configuration.fontScale = 1.0f; // 设置字体缩放比例为 1.0
+        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
+
+        EdgeToEdge.enable(this);
+
 
         webView = findViewById(R.id.webview);
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);

@@ -1,8 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Ptrd" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#1D1D1F</item>
+        <item name="colorPrimaryVariant">#1D1D1F</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#03DAC5</item>
+        <item name="colorSecondaryVariant">#018786</item>
+        <item name="colorOnSecondary">#000000</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">#1D1D1F</item>
+        <!-- Ensure windowTranslucentStatus is not set -->
+        <!-- <item name="android:windowTranslucentStatus">true</item> -->
     </style>
 
     <style name="Theme.Ptrd" parent="Base.Theme.Ptrd" />
@@ -10,10 +19,6 @@
     <style name="Theme.Ptrd.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
         <!-- Radius of the outer bound of widgets to make the rounded corners -->
         <item name="appWidgetRadius">16dp</item>
-        <!--
-        Radius of the inner view's bound of widgets to make the rounded corners.
-        It needs to be 8dp or less than the value of appWidgetRadius
-        -->
         <item name="appWidgetInnerRadius">8dp</item>
     </style>
 

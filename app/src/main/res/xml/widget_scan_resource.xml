@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/scan_widget_layout"
+    android:minWidth="148dp"
+    android:minHeight="226dp"
+    android:updatePeriodMillis="3600000" />

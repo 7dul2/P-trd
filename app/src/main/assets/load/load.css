@@ -6,6 +6,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: #F5F5F7;
 }
 
 .load div {
@@ -24,12 +25,11 @@
     width: 7.5rem;
     display: flex;
     justify-content: center;
-    color: rgba(29, 29, 31);
 }
 
 .right p {
     margin: .5rem 1.5rem;
-    color: rgba(29, 29, 31);
+    color: #F5F5F7;
     font-weight: 600;
     font-size: 1.5rem;
 }
@@ -42,7 +42,6 @@
     height: 3rem;
     width: 3rem;
     margin-top: 3.5rem;
-    filter: hue-rotate(15.09202453987728deg);
-    filter: brightness(0.4) saturate(60%);
+    filter: brightness(100) saturate(0%);
     opacity: 0;
 }
