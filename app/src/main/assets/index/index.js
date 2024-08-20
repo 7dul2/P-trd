@@ -1,3 +1,5 @@
+update_check();
+
 var all_resps = {};
 function receive(key,resp){
     all_resps[key] = resp;
@@ -393,7 +395,6 @@ function update_rank_items_infos(){
         (function(index){ // 使用闭包保存当前迭代的索引值
             setTimeout(function(){
                 var c = p.children[index];
-                console.log(p.children,c);
                 var name = c.children[0].children[0].innerText;
 
                 var id;

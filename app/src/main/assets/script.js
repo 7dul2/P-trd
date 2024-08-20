@@ -1,3 +1,167 @@
+var version = "Alpha.1.0.0";
+function update_check(){
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', "https://p-trd.cn/api/version",true);
+    xhr.send(null);
+    xhr.onreadystatechange = function () {
+        if (xhr.status === 200 && xhr.readyState === 4) {
+            var resp = JSON.parse(xhr.responseText);
+            if (resp.version != version){
+                show_new_version(resp)
+            }
+        }
+    }
+}
+function show_new_version(resp){
+    pop_up();
+
+    _ie({
+        tag : "p",
+        innerText : "发现新版本",
+        style : {
+            fontSize : "18px",
+            fontWight : "600",
+            color : "rgba(245,245,247)",
+        },
+    },document.getElementById("pop_up_container"))
+
+    _ie(
+        {
+        tag : 'div',
+        style : {
+            display: 'flex',
+            justifyContent: 'space-between',
+            fontSize: '15px',
+            alignItems: 'center'
+        },
+        children : [
+            {
+                tag : 'div',
+                children : [
+                    {
+                        tag : "p",
+                        innerText : "当前版本：",
+                        style : {
+                            color : "rgba(245,245,247, 0.5)",
+                        }
+                    },
+                    {
+                        tag : "p",
+                        innerText : version,
+                        style : {
+                            color : "rgba(245,245,247)",
+                            fontSize : "16px",
+                            fontWight : 600
+                        }
+                    },
+                ],
+                style : {
+                    display: 'flex',
+                    alignItems: 'center'
+                }
+            },
+            {
+                tag : "p",
+                innerText : "→",
+                style : {
+                    color : "rgba(245,245,247, 0.5)",
+                }
+            },
+            {
+                tag : 'div',
+                children : [
+                    {
+                        tag : "p",
+                        innerText : "最新版本：",
+                        style : {
+                            color : "rgba(245,245,247, 0.5)",
+                        }
+                    },
+                    {
+                        tag : "p",
+                        innerText : resp.version,
+                        style : {
+                            color : "rgba(245,245,247)",
+                            fontSize : "16px",
+                            fontWight : 600
+                        }
+                    }
+                ],
+                style : {
+                    display: 'flex',
+                    alignItems: 'center'
+                }
+            },
+        ]
+    },document.getElementById("pop_up_container"));
+
+    _ie({
+        tag : "textarea",
+        value : resp.bulletin,
+        style : {
+            fontSize: '18px',
+            color: 'rgb(245, 245, 247)',
+            backgroundColor: 'rgb(29, 29, 31)',
+            border: 'none',
+            width: '100%',
+            height: '100%',
+            marginTop: '5%'
+        },
+    },document.getElementById("pop_up_container"));
+
+    _ie({
+        tag : 'div',
+        children : [
+            {
+                tag : "p",
+                id : "btn_refuse",
+                innerText : "拒绝"
+            },
+            {
+                tag : "p",
+                id : "btn_update",
+                innerText : "更新"
+            }
+        ], 
+        style : {
+            display: 'flex',
+            color: 'white',
+            justifyContent: 'space-between',
+            width: '60%',
+            margin: '0 20%',
+            fontSize: '18px',
+            fontWeight: '600'
+        }
+    },document.getElementById("pop_up_container"));
+
+    document.getElementById("btn_refuse").addEventListener('click', function() {
+        pop_up()
+    });
+    document.getElementById("btn_update").addEventListener('click', function() {
+        Jump.jump("web","https://p-trd.cn/download");
+    });
+
+}
+
+{
+    version = "Alpha.1.0.1", // 最新版本的版本号
+    commands = [], // 可以在这里添加字符串命令,例如"FORCE":强制更新,"DELETE":清空数据库,"UNINSTALL"卸载app...
+    bulletin = "1.更新了xxxxxx\n2.更新了xxxx", // 更新公告
+    attachment = {} // 附件,用来提供更多的参数(例如指令"INSERT":向用户提供热更新,需要更多的参数)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 function insertElement(attribute,parent){
   var attribute = Object.assign({},attribute);
   var element = document.createElement(attribute.tag);
@@ -45,6 +209,160 @@ function insertElement(attribute,parent){
   // 返回 element对象
 }// 用于添加element元素的函数
 var _ie = insertElement;// 简写
+
+
+
+
+
+
+window.onload = function() {
+    // 创建 pop_up
+    _ie({
+        tag: "div",
+        id: "pop_up",
+        style: {
+            position: 'fixed',
+            width: '87%',
+            height: '50%',
+            bottom: '-50%', // 初始位置在屏幕下方
+            left: '-1px',
+            backgroundColor: 'rgb(29, 29, 31)',
+            zIndex: '999',
+            borderRadius: '2rem 2rem 0px 0px',
+            padding: '5% 7%',
+            boxShadow: 'rgba(245, 245, 247, 0.1) 0px 0px 20px 0px',
+            display: 'none',
+            justifyContent: 'flex-start',
+            flexDirection: 'column'
+        },
+        children: [
+            {
+                tag : "div",
+                id: "drag_handle",
+                style : {
+                    width: '100%',
+                    height: '5%',
+                    marginTop: '-5%',
+                    display: 'flex',
+                    justifyContent: 'center'
+                },
+                children : [
+                    {
+                        tag: "div",
+                        style: {
+                            backgroundColor: 'rgba(245, 245, 247, 0.6)',
+                            width: '10%',
+                            height: '16%',
+                            borderRadius: '15px',
+                            marginTop: '2%',
+                            cursor: 'pointer'
+                        }
+                    }
+                ]
+            },
+            {
+                tag : "div",
+                id : "pop_up_container",
+                style : {
+                    width : "100%",
+                },
+            }
+        ]
+    }, document.body);
+
+    // 创建遮罩层
+    var mask = _ie({
+        tag: "div",
+        id: "pop_up_mask",
+        style: {
+            position: 'fixed',
+            width: '101%',
+            height: '101%',
+            top: '-1px',
+            left: '-1px',
+            backgroundColor: 'rgba(29, 29, 31, 0.8)',
+            zIndex: '998',
+            display: "none",
+        }
+    }, document.body);
+
+    mask.addEventListener('click', function() {
+        pop_up();
+    });
+
+    // 获取元素并添加拖动事件监听器
+    var dragHandle = document.getElementById("drag_handle");
+    var popUp = document.getElementById("pop_up");
+    var startY, initialY;
+
+    dragHandle.addEventListener('touchstart', startDrag);
+
+    function startDrag(e) {
+        e.preventDefault();
+        startY = e.touches[0].clientY; // 获取初始触摸位置
+        initialY = parseFloat(getComputedStyle(popUp).bottom);
+        document.addEventListener('touchmove', onDrag);
+        document.addEventListener('touchend', stopDrag);
+    }
+
+    function onDrag(e) {
+        e.preventDefault();
+        let deltaY = e.touches[0].clientY - startY; // 计算触摸移动的距离
+        let newY = initialY - deltaY;
+        
+        if (newY > 0) {
+            newY = 0;
+        }
+    
+        popUp.style.bottom = `${newY}px`;
+    }
+    
+
+    function stopDrag(e) {
+        document.removeEventListener('touchmove', onDrag);
+        document.removeEventListener('touchend', stopDrag);
+        let currentY = parseFloat(getComputedStyle(popUp).bottom);
+        if (currentY < 0) {
+            gsap.to(popUp, {duration: 0.3, bottom: '-60%', ease: "power2.inOut"});
+            pop_up_mask();
+            pop_up_display = false;
+        }
+    }
+}
+var pop_up_display = false;
+function pop_up_mask() {
+    var mask = document.getElementById("pop_up_mask");
+    if (!pop_up_display) {
+        mask.style.display = "flex";
+        gsap.to(mask, {duration: 0.3, opacity: 1, ease: "power2.inOut"});
+    } else {
+        gsap.to(mask, {duration: 0.3, opacity: 0, ease: "power2.inOut", onComplete: function() {
+            mask.style.display = "none";
+        }});
+    }
+}
+function pop_up() {
+    var e = document.getElementById("pop_up");
+    if (!pop_up_display) {
+        document.getElementById("pop_up_container").innerHTML = "";
+        e.style.display = "flex";
+        gsap.to(e, {duration: 0.3, bottom: '0', ease: "power2.inOut"});
+    } else {
+        gsap.to(e, {duration: 0.3, bottom: '-50%', ease: "power2.inOut", onComplete: function() {
+            e.style.display = "none";
+        }});
+    }
+    pop_up_mask();
+    pop_up_display = !pop_up_display;
+}
+
+
+
+
+
+
+
+
 
 
 

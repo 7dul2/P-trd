@@ -2,6 +2,7 @@ package com.example.ptrd;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.webkit.JavascriptInterface;
 
 public class jump {
@@ -32,10 +33,19 @@ public class jump {
             case "search":
                 intent = new Intent(mContext, search.class);
                 break;
+            case "web":
+                openWebPage(data);
+                return; // 直接返回，不执行后面的startActivity
             default:
                 intent = new Intent(mContext, index.class);
                 break;
         }
+        mContext.startActivity(intent);
+    }
+
+    private void openWebPage(String url) {
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         mContext.startActivity(intent);
     }
 }
