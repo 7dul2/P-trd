@@ -37,11 +37,3 @@
 .right b{
     color: #00A943;
 }
-
-#animation_loading {
-    height: 3rem;
-    width: 3rem;
-    margin-top: 3.5rem;
-    filter: brightness(100) saturate(0%);
-    opacity: 0;
-}

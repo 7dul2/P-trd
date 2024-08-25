@@ -1,4 +1,4 @@
-update_check();
+// update_check();
 
 var all_resps = {};
 function receive(key,resp){
@@ -17,14 +17,31 @@ function wait4value(key) {
     });
 }
 
+// 排行榜上的加载动画
+lottie.loadAnimation({
+      container: document.getElementById('loading'),
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      animationData: anim_loading,
+      speed: 2,
+});
+document.getElementById('loading').style.opacity = 1;
 
-var url = "https://api-csob.douyuex.com/api/v1/index/info";
-var post_data = JSON.stringify({"categoryList":["all"],"platform":0,"base":false});
-Request.post(url,post_data,"major_index", "receive");
+var url = "https://api-csob.douyuex.com/api/v1/index/chart?category=all&platform=0&type=HOUR";
+Request.get(url,"major_index", "receive");
 function major_index_load(){
-    var jsons = JSON.parse(all_resps["major_index"]);
+    var list = JSON.parse(all_resps["major_index"]).data.list;
 
-    var change = jsons.data.list[0].change;
+    const timestamps = list.map(item => {
+        const date = new Date(item[0]);
+        return date.getFullYear() + '-' + 
+               (date.getMonth() + 1).toString().padStart(2, '0') + '-' + 
+               date.getDate().toString().padStart(2, '0');
+    });;
+    const values = list.map(item => item[1]);
+
+    var change = values[values.length-1] - values[values.length-2];
     var color = "#48484B";
     if (change < 0) {
         color = "#DB2F63"
@@ -58,7 +75,7 @@ function major_index_load(){
                     width: 1,
                 },
                 connectNulls: true,
-                data: jsons.data.list[0].indexList,
+                data: values.slice( values.length-31,values.length-1),
                 areaStyle: {
                     color: {
                         type: 'linear',
@@ -80,25 +97,211 @@ function major_index_load(){
     var myChart = echarts.init(document.getElementById('mmi_chart'));
     myChart.setOption(option);
 
-    var update_time = jsons.data.updateTime;
-    const date = new Date(update_time);
-
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hour = String(date.getHours()).padStart(2, '0');
-    const minute = String(date.getMinutes()).padStart(2, '0');
-    const formattedDate = `${month}-${day} ${hour}:${minute}`;
-
-    document.getElementById("index_update_time").innerText = formattedDate;
-
     document.getElementById("index").style.color = color;
-    document.getElementById("index").innerText = jsons.data.list[0].index;
+    document.getElementById("index").innerText = values[values.length-1];
     document.getElementById("index_float").style.color = color;
 
-    var float = change / jsons.data.list[0].index * 100;
-    var float = change + "(" + float.toFixed(2) + "%)今日";
+    change = change.toFixed(2);
+
+    var float = (change / values[values.length-2] * 100).toFixed(2);
+
+    if (change > 0){
+        change = "+" + change;
+        float = "+" + float;
+    }
+    var float = change + "(" + float + "%)今日";
     document.getElementById("index_float").innerText = float;
+
+
+    document.getElementById("mmi_infos").addEventListener('click', function() {
+        pop_up();
+        _ie({
+            tag : "div",
+            className : "pop_up_index",
+            children : [
+                {
+                    tag : "div",
+                    className : "top",
+                    children : [{
+                        tag : "h1",
+                        innerText : "大盘指数"
+                    }]
+                },
+                {
+                    tag : "div",
+                    className : "legends",
+                    children : [
+                        {
+                            tag : "div",
+                            className : "legend",
+                            "data-series" : "0",
+                            children : [
+                                {
+                                    tag : 'div',
+                                    className : "top",
+                                    children : [
+                                        {
+                                            tag : "div"
+                                        },
+                                        {
+                                            tag : "p",
+                                            innerText : "指数"
+                                        }
+                                    ]
+                                },
+                                {
+                                    tag : "p",
+                                    innerText : values[values.length-1],
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    tag : "div",
+                    id : "pop_up_index_chart",
+                    className : "chart"
+                }
+            ]
+        },document.getElementById("pop_up_container"));
+
+        var option = {
+            tooltip: {
+                backgroundColor : "#48484b",
+                borderColor: '#48484b',
+                textStyle: {
+                    color: '#fff',
+                    fontSize: 12,
+                },
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#48484b',
+                    },
+                    fontSize: 12,
+                },
+                formatter: function(params) {
+                    return params.map(param => {
+                        const seriesName = param.seriesName;
+                        const value = param.value;
+                        return `${seriesName}: ${value}`;
+                    }).join('<br/>');
+                }
+            },
+            legend: {
+                show: false,
+            },
+            grid: {
+                top: '5%',
+                right: '3%',
+                bottom: '15%',
+                left: '13%',
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: timestamps,
+                axisLabel: {
+                    fontSize: 10,
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#48484b'
+                    }
+                },
+                splitLine: {
+                    show: false
+                }
+            },
+            yAxis: {
+                type: 'value',
+                scale: true,
+                axisLabel: {
+                    formatter: function(value) {
+                        if (value >= 10000) {
+                            return (value / 10000) + 'w';
+                        } else if (value >= 1000) {
+                            return (value / 1000) + 'k';
+                        } else {
+                            return value;
+                        }
+                    },
+                    fontSize: 10,
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#48484b'
+                    }
+                },
+                splitLine: {
+                    show: true,
+                    lineStyle: {
+                        color: 'rgba(255, 255, 255, 0.05)',
+                        width: 1,
+                        type: 'solid',
+                    }
+                },
+            },
+            series: [
+                {
+                    name: "indexs",
+                    type: 'line',
+                    smooth: 0.4,
+                    symbol: 'none',
+                    lineStyle: {
+                        color: "#157efb",
+                        width: 2,
+                    },
+                    connectNulls: true,
+                    data: values,
+                    animationDuration: 500,
+                    animationEasing: 'cubicInOut',
+                }
+            ],
+            dataZoom: [
+                {
+                    show : false,
+                    type: 'inside',
+                    xAxisIndex: [0],
+                },
+                {
+                    show : false,
+                    type: 'slider',
+                    xAxisIndex: [0],
+                    bottom: 0,
+                }
+            ]
+        };
+        
+
+        option.series.forEach(series => {
+            series.originalData = series.data.slice();
+        });
+        
+        var index_chart = echarts.init(document.getElementById('pop_up_index_chart'));
+        index_chart.setOption(option);
+
+        document.querySelectorAll('.legend').forEach((item, index) => {
+            item.addEventListener('click', () => {
+                const isActive = item.classList.toggle('active');
+                const updatedSeries = option.series.map((series, i) => {
+                    if (i === index) {
+                        return {
+                            ...series,
+                            data: !isActive ? series.originalData : []
+                        };
+                    }
+                    return series;
+                });
+                index_chart.setOption({
+                    series: updatedSeries
+                });
+            });
+        });
+    });
 }
+
 wait4value("major_index").then(value => {
     major_index_load()
 });
@@ -146,6 +349,10 @@ wait4value("counter").then(value => {
 
 
 function rank_update(type){
+    document.getElementById('loading').style.display = "";
+    document.getElementById('loading').style.opacity = 1;
+    // 加载动画出现
+
     var navs = document.getElementById("rk_nav").children;
     for (var i = 0;i < navs.length;i++){
         navs[i].style.color = "rgba(245,245,247, 0.6)";
@@ -163,6 +370,9 @@ function rank_update(type){
 
         var results = DataBase.query("SELECT item_name FROM stars",[]);
         if (results.length == 0){
+            document.getElementById('loading').style.opacity = 0;
+            setTimeout(function(){document.getElementById('loading').style.display = "none";},500);
+            // 加载动画消失
             button_more.children[0].children[0].innerText = "空空如也";
             return
         }
@@ -170,6 +380,10 @@ function rank_update(type){
         results = results.trim().split('\n');
 
         var e = document.getElementById("items");
+
+        document.getElementById('loading').style.opacity = 0;
+        setTimeout(function(){document.getElementById('loading').style.display = "none";},500);
+        // 加载动画消失
 
         for (let stared_item of results) {
             var newElement = _ie({
@@ -283,6 +497,10 @@ function rank_update(type){
         var rank_list = resp.data.list;
 
         var e = document.getElementById("items");
+
+        document.getElementById('loading').style.opacity = 0;
+        setTimeout(function(){document.getElementById('loading').style.display = "none";},500);
+        // 加载动画消失
 
         for (let item of rank_list) {
             var change = item.minPriceChangePercent["7"]*100;
