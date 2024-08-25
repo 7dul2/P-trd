@@ -212,7 +212,8 @@
 .rank {
     width: 90%;
     margin: 0 5%;
-    min-height: 1rem
+    min-height: 1rem;
+    transition: max-height 0.3s ease-in-out;
 }
 
 .item {
@@ -315,4 +316,16 @@
     background-color: rgba(245,245,247, 0.2);
     margin: 0 0.5%;
     transition: width 1s ease;
+}
+
+#loading {
+    width: 10%;
+    margin: 0 45% 1rem 45%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.pop_icon {
+    display: flex;
+    margin-left: 0.3rem;
 }

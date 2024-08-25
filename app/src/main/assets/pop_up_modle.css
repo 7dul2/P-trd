@@ -1,0 +1,55 @@
+.pop_up_index {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: space-around;
+}
+.pop_up_index h1{
+    color: var(--text-color);
+    font-size: var(--heading-2-font-size);
+}
+.pop_up_index .top {
+    display: flex;
+}
+.pop_up_index .legends {
+    display: flex;
+    margin: 1rem 0;
+}
+.pop_up_index .legends .legend{
+    display: flex;
+    background-color: var(--background-color-internal);
+    border-radius: 0.5rem;
+    flex-direction: column;
+    padding: 0.5rem;
+}
+.pop_up_index .legends .legend p{
+    margin: 0px;
+    font-size: var(--text-2-font-size);
+    color: var(--text-color);
+    font-weight: 600;
+}
+.pop_up_index .legends .top{
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.3rem;
+}
+.pop_up_index .legends .top div{
+    width: 0.3rem;
+    height: 0.8rem;
+    border-radius: 0.1rem;
+    background-color: var(--chart-color-1);
+}
+.pop_up_index .legends .top p{
+    font-size: var(--text-2-font-size);
+    margin-left: 1rem;
+    font-weight: 400;
+}
+.pop_up_index .chart {
+    width: 100%;
+    height: 60%;
+}
+.legend.active .top div{
+    background-color: #48484b;
+}
+
