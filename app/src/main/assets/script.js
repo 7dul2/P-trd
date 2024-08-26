@@ -139,7 +139,7 @@ function show_new_version(resp){
         pop_up()
     });
     document.getElementById("btn_update").addEventListener('click', function() {
-        Jump.jump("web","https://p-trd.cn/download");
+        Jump.jump("web","http://p-trd.cn/download");
     });
 
 }
