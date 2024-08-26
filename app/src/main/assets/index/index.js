@@ -1,4 +1,4 @@
-// update_check();
+update_check();
 
 var all_resps = {};
 function receive(key,resp){
@@ -28,7 +28,7 @@ lottie.loadAnimation({
 });
 document.getElementById('loading').style.opacity = 1;
 
-var url = "https://api-csob.douyuex.com/api/v1/index/chart?category=all&platform=0&type=HOUR";
+var url = "https://api-csob.douyuex.com/api/v1/index/chart?category=all&platform=0&type=DAY";
 Request.get(url,"major_index", "receive");
 function major_index_load(){
     var list = JSON.parse(all_resps["major_index"]).data.list;
@@ -38,7 +38,7 @@ function major_index_load(){
         return date.getFullYear() + '-' + 
                (date.getMonth() + 1).toString().padStart(2, '0') + '-' + 
                date.getDate().toString().padStart(2, '0');
-    });;
+    });
     const values = list.map(item => item[1]);
 
     var change = values[values.length-1] - values[values.length-2];
@@ -113,7 +113,7 @@ function major_index_load(){
     document.getElementById("index_float").innerText = float;
 
 
-    document.getElementById("mmi_infos").addEventListener('click', function() {
+    document.getElementById("mmi_chart").addEventListener('click', function() {
         pop_up();
         _ie({
             tag : "div",
@@ -191,6 +191,9 @@ function major_index_load(){
             },
             legend: {
                 show: false,
+                selected: {
+                    '指数': true
+                },
             },
             grid: {
                 top: '5%',
@@ -245,7 +248,7 @@ function major_index_load(){
             },
             series: [
                 {
-                    name: "indexs",
+                    name: "指数",
                     type: 'line',
                     smooth: 0.4,
                     symbol: 'none',
@@ -275,8 +278,10 @@ function major_index_load(){
         };
         
 
+        const selectedStatus = {};
+
         option.series.forEach(series => {
-            series.originalData = series.data.slice();
+            selectedStatus[series.name] = true;
         });
         
         var index_chart = echarts.init(document.getElementById('pop_up_index_chart'));
@@ -284,18 +289,13 @@ function major_index_load(){
 
         document.querySelectorAll('.legend').forEach((item, index) => {
             item.addEventListener('click', () => {
+                const seriesName = option.series[index].name;
                 const isActive = item.classList.toggle('active');
-                const updatedSeries = option.series.map((series, i) => {
-                    if (i === index) {
-                        return {
-                            ...series,
-                            data: !isActive ? series.originalData : []
-                        };
-                    }
-                    return series;
-                });
+                selectedStatus[seriesName] = !isActive;
                 index_chart.setOption({
-                    series: updatedSeries
+                    legend: {
+                        selected: selectedStatus
+                    }
                 });
             });
         });
@@ -640,32 +640,23 @@ function update_rank_items_infos(){
                     });
 
                     var url = "https://api-csob.douyuex.com/api/v2/goods/chart";
-                    var post_data = {"goodsId":id,"platform":0,"timeRange":"WEEK","data":["createTime","minPrice","sellCount"]}
+                    var post_data = {"goodsId":id,"platform":0,"timeRange":"HALF_YEAR","data":["createTime","minPrice","sellCount"]}
                     Request.post(url,JSON.stringify(post_data),"item_charts_"+id, "receive");
                     wait4value("item_charts_"+id).then(value => {
                         var datas = JSON.parse(all_resps["item_charts_"+id]);
 
-                        var prices = datas.data.list[1];
+                        var prices = datas.data.list[1].map(item => item/100);
 
-                        var timestamps = datas.data.list[0];
-                        const dailyPrices = {};
-                        const oneDay = 24 * 60 * 60 * 1000;
-                        for (let i = 0; i < timestamps.length; i++) {
-                            const date = new Date(Math.floor(timestamps[i] / oneDay) * oneDay);
-                            const dateString = date.toISOString().split('T')[0];
-                            if (!dailyPrices[dateString]) {
-                                dailyPrices[dateString] = [];
-                            }
-                            dailyPrices[dateString].push(prices[i]);
-                        }
-                        const dailyAveragePrices = [];
-                        for (const date in dailyPrices) {
-                            const average = dailyPrices[date].reduce((sum, price) => sum + price, 0) / dailyPrices[date].length;
-                           dailyAveragePrices.push(average);
-                        }
-                        prices = dailyAveragePrices;
+                        var timestamps_format = datas.data.list[0].map(item => {
+                            const date = new Date(item);
+                            return date.getFullYear() + '-' + 
+                                   (date.getMonth() + 1).toString().padStart(2, '0') + '-' + 
+                                   date.getDate().toString().padStart(2, '0');
+                        });
 
-                        var change = prices[prices.length-2] - prices[0];
+                        var nums = datas.data.list[2];
+
+                        var change = prices[prices.length-1] - prices[prices.length-8];
                         var color = "#48484B";
                         if (change < 0) {
                             color = "#DB2F63"
@@ -699,7 +690,7 @@ function update_rank_items_infos(){
                                   width: 1,
                                 },
                                     connectNulls: true,
-                                    data: prices,
+                                    data: prices.slice(prices.length-31,prices.length-1),
                                     areaStyle: {
                                         color: {
                                             type: 'linear',
@@ -721,6 +712,270 @@ function update_rank_items_infos(){
 
                         const chart = echarts.init(c.children[1].children[0]);
                         chart.setOption(option);
+
+                        c.children[1].children[0].addEventListener('click', function() {
+                            event.stopPropagation();
+                            pop_up();
+                            _ie({
+                                tag : "div",
+                                className : "pop_up_index",
+                                children : [
+                                    {
+                                        tag : "div",
+                                        className : "top",
+                                        children : [{
+                                            tag : "h1",
+                                            innerText : name
+                                        }]
+                                    },
+                                    {
+                                        tag : "div",
+                                        className : "legends",
+                                        children : [
+                                            {
+                                                tag : "div",
+                                                className : "legend",
+                                                "data-series" : "0",
+                                                children : [
+                                                    {
+                                                        tag : 'div',
+                                                        className : "top",
+                                                        children : [
+                                                            {
+                                                                tag : "div",
+                                                                className : "l1"
+                                                            },
+                                                            {
+                                                                tag : "p",
+                                                                innerText : "价格"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        tag : "p",
+                                                        innerText : prices[prices.length-1],
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                tag : "div",
+                                                className : "legend",
+                                                "data-series" : "1",
+                                                children : [
+                                                    {
+                                                        tag : 'div',
+                                                        className : "top",
+                                                        children : [
+                                                            {
+                                                                tag : "div",
+                                                                className : "l2"
+                                                            },
+                                                            {
+                                                                tag : "p",
+                                                                innerText : "在售量"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        tag : "p",
+                                                        innerText : nums[nums.length-1],
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        tag : "div",
+                                        id : "pop_up_index_chart",
+                                        className : "chart"
+                                    }
+                                ]
+                            },document.getElementById("pop_up_container"));
+
+                            var option = {
+                                tooltip: {
+                                    backgroundColor : "#48484b",
+                                    borderColor: '#48484b',
+                                    textStyle: {
+                                        color: '#fff',
+                                        fontSize: 12,
+                                    },
+                                    trigger: 'axis',
+                                    axisPointer: {
+                                        type: 'cross',
+                                        label: {
+                                            backgroundColor: '#48484b',
+                                        },
+                                        fontSize: 12,
+                                    },
+                                    formatter: function(params) {
+                                        return params.map(param => {
+                                            const seriesName = param.seriesName;
+                                            const value = param.value;
+                                            return `${seriesName}: ${value}`;
+                                        }).join('<br/>');
+                                    }
+                                },
+                                legend: {
+                                    show: false,
+                                    selected: {
+                                        '价格': true,
+                                        "在售量" : true
+                                    },
+                                },
+                                grid: {
+                                    top: '5%',
+                                    right: '13%',
+                                    bottom: '15%',
+                                    left: '13%',
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: timestamps_format,
+                                    axisLabel: {
+                                        fontSize: 10,
+                                    },
+                                    axisLine: {
+                                        lineStyle: {
+                                            color: '#48484b'
+                                        }
+                                    },
+                                    splitLine: {
+                                        show: false
+                                    }
+                                },
+                                yAxis: [
+                                    {
+                                        type: 'value',
+                                        scale: true,
+                                        position: 'left',
+                                        axisLabel: {
+                                            formatter: function(value) {
+                                                if (value >= 10000) {
+                                                    return (value / 10000) + 'w';
+                                                } else if (value >= 1000) {
+                                                    return (value / 1000) + 'k';
+                                                } else {
+                                                    return value;
+                                                }
+                                            },
+                                            fontSize: 10,
+                                        },
+                                        axisLine: {
+                                            lineStyle: {
+                                                color: '#48484b'
+                                            }
+                                        },
+                                        splitLine: {
+                                            show: true,
+                                            lineStyle: {
+                                                color: 'rgba(255, 255, 255, 0.05)',
+                                                width: 1,
+                                                type: 'solid',
+                                            }
+                                        },
+                                    },
+                                    {
+                                        type: 'value',
+                                        scale: true,
+                                        position: 'right',
+                                        axisLabel: {
+                                            formatter: function(value) {
+                                                if (value >= 10000) {
+                                                    return (value / 10000) + 'w';
+                                                } else if (value >= 1000) {
+                                                    return (value / 1000) + 'k';
+                                                } else {
+                                                    return value;
+                                                }
+                                            },
+                                            fontSize: 10,
+                                        },
+                                        axisLine: {
+                                            lineStyle: {
+                                                color: '#48484b'
+                                            }
+                                        },
+                                        splitLine: {
+                                            show: true,
+                                            lineStyle: {
+                                                color: 'rgba(255, 255, 255, 0.05)',
+                                                width: 1,
+                                                type: 'solid',
+                                            }
+                                        },
+                                    }
+                                ],
+                                series: [
+                                    {
+                                        name: "价格",
+                                        type: 'line',
+                                        smooth: 0.4,
+                                        symbol: 'none',
+                                        lineStyle: {
+                                            color: "#157efb",
+                                            width: 2,
+                                        },
+                                        connectNulls: true,
+                                        data: prices,
+                                        animationDuration: 500,
+                                        animationEasing: 'cubicInOut',
+                                        yAxisIndex: 0
+                                    },
+                                    {
+                                        name: "在售量",
+                                        type: 'line',
+                                        smooth: 0.4,
+                                        symbol: 'none',
+                                        lineStyle: {
+                                            color: "#53d769",
+                                            width: 2,
+                                        },
+                                        connectNulls: true,
+                                        data: nums,
+                                        animationDuration: 500,
+                                        animationEasing: 'cubicInOut',
+                                        yAxisIndex: 1 
+                                    },
+                                ],
+                                dataZoom: [
+                                    {
+                                        show : false,
+                                        type: 'inside',
+                                        xAxisIndex: [0],
+                                    },
+                                    {
+                                        show : false,
+                                        type: 'slider',
+                                        xAxisIndex: [0],
+                                        bottom: 0,
+                                    }
+                                ]
+                            };
+
+                            const selectedStatus = {};
+
+                            option.series.forEach(series => {
+                                selectedStatus[series.name] = true;
+                            });
+                            
+                            var index_chart = echarts.init(document.getElementById('pop_up_index_chart'));
+                            index_chart.setOption(option);
+
+                            document.querySelectorAll('.legend').forEach((item, index) => {
+                                item.addEventListener('click', () => {
+                                    const seriesName = option.series[index].name;
+                                    const isActive = item.classList.toggle('active');
+                                    selectedStatus[seriesName] = !isActive;
+                                    index_chart.setOption({
+                                        legend: {
+                                            selected: selectedStatus
+                                        }
+                                    });
+                                });
+                            });
+                        })
                     });
                 });
 

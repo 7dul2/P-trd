@@ -1,4 +1,4 @@
-var Version = "Alpha.1.0.0";
+var Version = "Alpha.1.0.1";
 function update_check(){
     var xhr = new XMLHttpRequest();
     xhr.open('GET', "http://p-trd.cn/api/version",true);

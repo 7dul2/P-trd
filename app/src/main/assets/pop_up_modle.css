@@ -15,6 +15,9 @@
 .pop_up_index .legends {
     display: flex;
     margin: 1rem 0;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 .pop_up_index .legends .legend{
     display: flex;
@@ -22,6 +25,9 @@
     border-radius: 0.5rem;
     flex-direction: column;
     padding: 0.5rem;
+    overflow: hidden;
+    min-width: 20%;
+    margin-right: 1rem;
 }
 .pop_up_index .legends .legend p{
     margin: 0px;
@@ -42,7 +48,7 @@
 }
 .pop_up_index .legends .top p{
     font-size: var(--text-2-font-size);
-    margin-left: 1rem;
+    margin-left: 0.5rem;
     font-weight: 400;
 }
 .pop_up_index .chart {
@@ -52,4 +58,21 @@
 .legend.active .top div{
     background-color: #48484b;
 }
-
+.pop_up_index .legends .top .l1{
+    width: 0.3rem;
+    height: 0.8rem;
+    border-radius: 0.1rem;
+    background-color: var(--chart-color-1);
+}
+.pop_up_index .legends .top .l2{
+    width: 0.3rem;
+    height: 0.8rem;
+    border-radius: 0.1rem;
+    background-color: var(--chart-color-2);
+}
+.legend.active .top .l1{
+    background-color: #48484b;
+}
+.legend.active .top .l2{
+    background-color: #48484b;
+}
