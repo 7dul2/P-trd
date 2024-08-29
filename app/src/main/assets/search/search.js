@@ -1,4 +1,4 @@
-var goods = Object.keys(buffids);
+var goods = _items_.map(item=>item[0]);
 
 // 精准匹配
 function exact_match(keyword) {
@@ -253,8 +253,8 @@ function load_infos(){
             var child = results.children[i];
             if (child.className == "item"){
                 var name = child.children[0].children[0].innerText;
-                var id = buffids[name];
-                if (typeof id != "undefined"){
+                var id = match_id(name,"buff");
+                if (id){
                     var url = "https://buff.163.com/api/market/goods/info?game=csgo&goods_id="+id;
                     Request.get(url,"buff_infos_"+id, "receive");
                     wait4value("buff_infos_"+id).then(value => {

@@ -9,16 +9,61 @@ lottie.loadAnimation({
 });
 // load动画
 
-function finish(){
-    var tl = gsap.timeline();
-    tl.to("#load", {duration: 0.25, opacity: 0, scale: 1.5});
-    tl.play();
+var finished = false;
 
-    setTimeout(function() {
-        Jump.jump("index","");
-    }, 500);
+function finish(){
+    if (!finished){
+        finished = true;
+        var tl = gsap.timeline();
+        tl.to("#load", {duration: 0.25, opacity: 0, scale: 1.5});
+        tl.play();
+    
+        setTimeout(function() {
+            Jump.jump("index","");
+        }, 500);
+    }
 }
 
-finish();
+// 获取本地数据库所储存的物品信息
+var local_items = DataBase.query("SELECT * FROM items",[]).trim().split('\n');
 
+function fetch_up2date_items(){
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', "http://p-trd.cn/api/items?pre_check=1",true);
+    xhr.send(null);
+    xhr.onreadystatechange = function () {
+        if (xhr.status === 200 && xhr.readyState === 4) {
+            var resp = JSON.parse(xhr.responseText).data;
+            if (resp != local_items.length){
+                update_local_items()
+            }else{
+                finish()
+            }
+        }else {
+            finish()
+        }
+    }
+}
+function update_local_items(){
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', "http://p-trd.cn/api/items",true);
+    xhr.send(null);
+    xhr.onreadystatechange = function () {
+        DataBase.executeSQL("DELETE FROM items", []);
+        var resp = JSON.parse(xhr.responseText).data;
+        for (var i = 0; i < resp.length; i++) {
+            var item = resp[i];
+            var buff_id = item.buff_id;
+            var hash_name = item.hash_name;
+            var item_name = item.name;
+            var yyyp_id = "";
+            DataBase.executeSQL(
+                "INSERT OR IGNORE INTO items (item_name, hash_name, buff_id, yyyp_id) VALUES (?, ?, ?, ?)", 
+                [item_name, hash_name, buff_id, yyyp_id]
+            );
+        }
+        finish()
+    }
+}
 
+fetch_up2date_items()

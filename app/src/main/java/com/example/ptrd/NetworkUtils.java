@@ -39,7 +39,7 @@ public class NetworkUtils {
             })
             .build();
 
-    private static final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private static final ExecutorService executor = Executors.newCachedThreadPool();
     private static final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     // MediaType for JSON

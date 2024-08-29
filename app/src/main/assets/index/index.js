@@ -617,8 +617,8 @@ function update_rank_items_infos(){
 
                 var id;
 
-                id = buffids[name]; // 先尝试本底读取,如果存在就不需要再请求csob了
-                if (typeof id == "undefined"){
+                id = match_id(name,"buff"); // 先尝试本底读取,如果存在就不需要再请求csob了
+                if (!id){
                     var url = "https://api-csob.douyuex.com/api/v2/goods/info";
                     var post_data = {"goodsName":name};
                     Request.post(url,JSON.stringify(post_data),"item_infos_"+name, "receive");
@@ -656,7 +656,7 @@ function update_rank_items_infos(){
 
                         var nums = datas.data.list[2];
 
-                        var change = prices[prices.length-1] - prices[prices.length-8];
+                        var change = prices[prices.length-1] - prices[0];
                         var color = "#48484B";
                         if (change < 0) {
                             color = "#DB2F63"

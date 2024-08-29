@@ -48,8 +48,8 @@ public class search extends AppCompatActivity {
         // 启用广泛视口，使页面能够适应屏幕宽度
 
         webView.addJavascriptInterface(new request(webView), "Request");
-        // 用于发送请求的方法类
         webView.addJavascriptInterface(new jump(this), "Jump");
+        webView.addJavascriptInterface(new DataBase(this), "DataBase");
 
         webView.loadUrl("file:///android_asset/search/search.html");
         // 7dul2

@@ -240,9 +240,9 @@ function load_infos(){
     }
     function buff_fetch(){
         if (item_id == 0){
-            item_id = buffids[item_name];
+            item_id = match_id(item_name,"buff");
         }
-        if (typeof item_id !== "undefined"){
+        if (item_id){
             var url = "https://buff.163.com/api/market/goods/info?game=csgo&goods_id="+item_id;
             Request.get(url,"buff_datas", "receive");
             wait4value("buff_datas").then(value => {

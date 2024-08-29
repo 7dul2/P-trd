@@ -52,7 +52,10 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setUseWideViewPort(true);
         webView.getSettings().setJavaScriptEnabled(true);
+
+        webView.addJavascriptInterface(new request(webView), "Request");
         webView.addJavascriptInterface(new jump(this), "Jump");
+        webView.addJavascriptInterface(new DataBase(this), "DataBase");
         // 加载本地 HTML 文件
         webView.loadUrl("file:///android_asset/load/load.html");
     }

