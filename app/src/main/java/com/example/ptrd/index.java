@@ -61,7 +61,7 @@ public class index extends AppCompatActivity {
         webView.addJavascriptInterface(new DataBase(this), "DataBase");
 
         // 加载本地 HTML 文件
-        webView.loadUrl("file:///android_asset/index/index.html");
+        webView.loadUrl("file:///android_asset/new_item/item.html?name=摩托手套（★） | 薄荷 (久经沙场)");
     }
 
     @Override

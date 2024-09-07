@@ -21,7 +21,7 @@
 }
 .pop_up_index .legends .legend{
     display: flex;
-    background-color: var(--background-color-internal);
+    background-color: var(--background-sub-color);
     border-radius: 0.5rem;
     flex-direction: column;
     padding: 0.5rem;
@@ -71,8 +71,8 @@
     background-color: var(--chart-color-2);
 }
 .legend.active .top .l1{
-    background-color: #48484b;
+    background-color: var(--text-sub-color);
 }
 .legend.active .top .l2{
-    background-color: #48484b;
+    background-color: var(--text-sub-color);
 }

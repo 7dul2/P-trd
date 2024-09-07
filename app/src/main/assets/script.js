@@ -1,4 +1,4 @@
-var Version = "Alpha.1.0.2";
+var Version = "Alpha.1.0.3";
 function update_check(){
     var xhr = new XMLHttpRequest();
     xhr.open('GET', "http://p-trd.cn/api/version",true);
@@ -145,51 +145,48 @@ function show_new_version(resp){
 }
 
 function insertElement(attribute,parent){
-  var attribute = Object.assign({},attribute);
-  var element = document.createElement(attribute.tag);
-  // 创建element对象
-  delete attribute.tag;
-  // 删除标签名称
-  if (attribute.attribute !== undefined){
-      for (var i in attribute.attribute) {
-          element.setAttribute(i,attribute.attribute[i]);}
-      delete attribute.attribute;}
-  // 设置其他自定义参数
-  if (attribute.children !== undefined){
-      for (var i in attribute.children) {
-          insertElement(attribute.children[i],element)
+    var attribute = Object.assign({},attribute);
+    var element;
+    // 判断是否是SVG元素，如果是则用createElementNS创建
+    if (attribute.tag === 'svg' || attribute.tag === 'path') {
+        element = document.createElementNS('http://www.w3.org/2000/svg', attribute.tag);
+    } else {
+        element = document.createElement(attribute.tag);
+    }
+    // 创建element对象
+    delete attribute.tag;
+    // 删除标签名称
+    if (attribute.attribute !== undefined){
+        for (var i in attribute.attribute) {
+            element.setAttribute(i,attribute.attribute[i]);}
+        delete attribute.attribute;
+    }
+    // 设置其他自定义参数
+    if (attribute.children !== undefined){
+        for (var i in attribute.children) {
+            insertElement(attribute.children[i],element)
+        }
+        delete attribute.children;
+    }
+    for (var key in attribute) {
+        if (key !== 'style'){
+            element[key] = attribute[key];
+        }
+    }
+    // 将其他要赋值的赋值
+    parent.appendChild(element);
+    // 将element对象添加
+  
+    if (attribute.style !== undefined){
+      for (var t in attribute.style[i]){
+          events[i] += t + ":" + attribute.style[i][t] + ";"
       }
-      delete attribute.children;
-  }
-  for (var key in attribute) {
-      if (key !== 'style'){
-          element[key] = attribute[key];
-      }
-  }
-  // 将其他要赋值的赋值
-  parent.appendChild(element);
-  // 将element对象添加
-
-  if (attribute.style !== undefined){
-      var events = {'onHover':''};
-      var style_str = "";
-      for (var i in attribute.style) {
-          if (i in events !== true){
-              element.style[i] = attribute.style[i];
-              style_str += i + ":" + attribute.style[i] + ";";
-          }else{
-              for (var t in attribute.style[i]){
-                  events[i] += t + ":" + attribute.style[i][t] + ";"
-              }
-          }
-      }
-      delete attribute.style;
-  }
-  // 设置style
-
-  return(element);
-  // 返回 element对象
-}// 用于添加element元素的函数
+    }
+    // 设置style
+  
+    return(element);
+    // 返回 element对象
+  }// 用于添加element元素的函数
 var _ie = insertElement;// 简写
 
 
@@ -347,7 +344,11 @@ var anim_loading = JSON.parse(anim_loading_data.replace(/[\x00-\x1F\x7F-\xFF]/g,
 
 
 
-var _items_ = DataBase.query("SELECT * FROM items",[]).trim().split('\n').map(item=>item.split(','));
+var _items_ = "";
+function load_items(){
+    _items_ = DataBase.query("SELECT * FROM items",[]).trim().split('\n').map(item=>item.split(','));
+}
+load_items();
 // 匹配buff_id,传入hash_name或者name都可以
 function match_id(name,market){
     for (const item of _items_) {

@@ -116,7 +116,6 @@ function load_infos(){
         load_item_id();
         var url = "https://api-csob.douyuex.com/api/v1/goods/chart/kline";
         var post_data = {"goods":{"goodsId":item_id,"platform":0},"kType":"DAY","isFilter":false,"samplingSize":5,"upPercent":30,"downPercent":30}
-        console.log(post_data);
         Request.post(url,JSON.stringify(post_data),"item_charts", "receive");
         wait4value("item_charts").then(value => {
             load_charts_datas();
