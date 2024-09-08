@@ -30,11 +30,12 @@ var local_items = DataBase.query("SELECT * FROM items",[]).trim().split('\n');
 function fetch_up2date_items(){
     var xhr = new XMLHttpRequest();
     xhr.open('GET', "http://p-trd.cn/api/items?pre_check=1",true);
+    xhr.timeout = 3000;
     xhr.send(null);
     xhr.onreadystatechange = function () {
         if (xhr.status === 200 && xhr.readyState === 4) {
             var resp = JSON.parse(xhr.responseText).data;
-            if (resp != local_items.length){
+            if (resp.length > local_items.length){
                 update_local_items()
             }else{
                 finish()
@@ -43,10 +44,14 @@ function fetch_up2date_items(){
             finish()
         }
     }
+    xhr.ontimeout = function () {
+        finish();
+    };
 }
 function update_local_items(){
     var xhr = new XMLHttpRequest();
     xhr.open('GET', "http://p-trd.cn/api/items",true);
+    xhr.timeout = 3000;
     xhr.send(null);
     xhr.onreadystatechange = function () {
         DataBase.executeSQL("DELETE FROM items", []);
@@ -64,6 +69,9 @@ function update_local_items(){
         }
         finish()
     }
+    xhr.ontimeout = function () {
+        finish();
+    };
 }
 
 fetch_up2date_items()

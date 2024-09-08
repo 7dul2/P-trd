@@ -16,9 +16,6 @@ import androidx.core.view.WindowInsetsCompat;
 public class item extends AppCompatActivity {
 
     private WebView webView;
-    private WebView webView2;
-
-    private CustomWebViewClient customWebViewClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,22 +58,5 @@ public class item extends AppCompatActivity {
 
         webView.loadUrl("file:///android_asset/new_item/item.html?name=" + item_name);
         // 7dul2
-
-        webView2 = findViewById(R.id.webview2);
-
-        CustomBridge customBridge = new CustomBridge(this, webView, webView2);
-        webView.setWebViewClient(customBridge);
-        customBridge.registerInterface(webView);
-        // 对接两个webview
-
-        CustomWebViewClient webViewClient = new CustomWebViewClient(this);
-        webView2.setWebViewClient(webViewClient);
-        // 网络代理
-
-        webView2.getSettings().setJavaScriptEnabled(true);
-        webView2.getSettings().setDomStorageEnabled(true);
-        webView2.setWebContentsDebuggingEnabled(true);
-
-    //  webView2.loadUrl("https://csgoob.com/goods?name=" + item_name);
     }
 }

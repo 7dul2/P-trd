@@ -1,4 +1,4 @@
-var Version = "Alpha.1.0.3";
+var Version = "Alpha.1.0.5";
 function update_check(){
     var xhr = new XMLHttpRequest();
     xhr.open('GET', "http://p-trd.cn/api/version",true);
@@ -178,9 +178,9 @@ function insertElement(attribute,parent){
     // 将element对象添加
   
     if (attribute.style !== undefined){
-      for (var t in attribute.style[i]){
-          events[i] += t + ":" + attribute.style[i][t] + ";"
-      }
+        for (var i in attribute.style) {
+            element.style[i] = attribute.style[i];
+        }
     }
     // 设置style
   

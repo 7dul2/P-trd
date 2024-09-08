@@ -12,11 +12,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <WebView
-        android:id="@+id/webview2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:translationX="-10000dp"
-        android:translationY="-10000dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
