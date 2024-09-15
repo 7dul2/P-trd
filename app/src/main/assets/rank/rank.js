@@ -67,7 +67,7 @@ function insert_items(){
     var rank_list = resp.data.list;
 
     for (let item of rank_list) {
-        var change = item.minPriceChangePercent[1]*100;
+        var change = item.minPriceChangePercent[7]*100;
 
         var color = "rgba(29, 29, 31, 0.6)";
         var add_txt = "";

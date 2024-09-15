@@ -18,10 +18,59 @@
         className : "relations",
     },document.getElementById("container"));
 
+    var info_heading = _ie({
+        tag: 'div',
+        attribute: {
+            class: 'info_heading'
+        },
+        style : {
+            diplay : "none"
+        },
+        children: [
+            {
+                tag: 'p',
+                children: [
+                    {
+                        tag: 'text',
+                    }
+                ]
+            },
+            {
+                tag: 'div',
+                attribute: {
+                    class: 'info_indexs'
+                },
+            },
+            {
+                tag: 'div',
+                attribute: {
+                    class: 'info_setting'
+                },
+                children: [
+                    {
+                        tag: 'svg',
+                        attribute: {
+                            viewBox: '64 64 896 896',
+                            width: '1.3rem'
+                        },
+                        children: [
+                            {
+                                tag: 'path',
+                                attribute: {
+                                    d: 'M924.8 625.7l-65.5-56c3.1-19 4.7-38.4 4.7-57.8s-1.6-38.8-4.7-57.8l65.5-56a32.03 32.03 0 009.3-35.2l-.9-2.6a443.74 443.74 0 00-79.7-137.9l-1.8-2.1a32.12 32.12 0 00-35.1-9.5l-81.3 28.9c-30-24.6-63.5-44-99.7-57.6l-15.7-85a32.05 32.05 0 00-25.8-25.7l-2.7-.5c-52.1-9.4-106.9-9.4-159 0l-2.7.5a32.05 32.05 0 00-25.8 25.7l-15.8 85.4a351.86 351.86 0 00-99 57.4l-81.9-29.1a32 32 0 00-35.1 9.5l-1.8 2.1a446.02 446.02 0 00-79.7 137.9l-.9 2.6c-4.5 12.5-.8 26.5 9.3 35.2l66.3 56.6c-3.1 18.8-4.6 38-4.6 57.1 0 19.2 1.5 38.4 4.6 57.1L99 625.5a32.03 32.03 0 00-9.3 35.2l.9 2.6c18.1 50.4 44.9 96.9 79.7 137.9l1.8 2.1a32.12 32.12 0 0035.1 9.5l81.9-29.1c29.8 24.5 63.1 43.9 99 57.4l15.8 85.4a32.05 32.05 0 0025.8 25.7l2.7.5a449.4 449.4 0 00159 0l2.7-.5a32.05 32.05 0 0025.8-25.7l15.7-85a350 350 0 0099.7-57.6l81.3 28.9a32 32 0 0035.1-9.5l1.8-2.1c34.8-41.1 61.6-87.5 79.7-137.9l.9-2.6c4.5-12.3.8-26.3-9.3-35zM788.3 465.9c2.5 15.1 3.8 30.6 3.8 46.1s-1.3 31-3.8 46.1l-6.6 40.1 74.7 63.9a370.03 370.03 0 01-42.6 73.6L721 702.8l-31.4 25.8c-23.9 19.6-50.5 35-79.3 45.8l-38.1 14.3-17.9 97a377.5 377.5 0 01-85 0l-17.9-97.2-37.8-14.5c-28.5-10.8-55-26.2-78.7-45.7l-31.4-25.9-93.4 33.2c-17-22.9-31.2-47.6-42.6-73.6l75.5-64.5-6.5-40c-2.4-14.9-3.7-30.3-3.7-45.5 0-15.3 1.2-30.6 3.7-45.5l6.5-40-75.5-64.5c11.3-26.1 25.6-50.7 42.6-73.6l93.4 33.2 31.4-25.9c23.7-19.5 50.2-34.9 78.7-45.7l37.9-14.3 17.9-97.2c28.1-3.2 56.8-3.2 85 0l17.9 97 38.1 14.3c28.7 10.8 55.4 26.2 79.3 45.8l31.4 25.8 92.8-32.9c17 22.9 31.2 47.6 42.6 73.6L781.8 426l6.5 39.9zM512 326c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm79.2 255.2A111.6 111.6 0 01512 614c-29.9 0-58-11.7-79.2-32.8A111.6 111.6 0 01400 502c0-29.9 11.7-58 32.8-79.2C454 401.6 482.1 390 512 390c29.9 0 58 11.6 79.2 32.8A111.6 111.6 0 01624 502c0 29.9-11.7 58-32.8 79.2z'
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },document.getElementById("container"));
     var horizontal_infos_list = _ie({
         tag : "div",
         className : "horizontal_infos_list",
     },document.getElementById("container"));
+    
     var chart = _ie({
         tag : "div",
         className : "chart"
@@ -34,13 +83,15 @@
 
         // tags
         var tag_info = resp.info;
-        gsap.from(_ie({tag:"div",className:"tag",children:[{tag:"p",innerHTML:tag_info.exterior}]},tags), {
-            duration: 0.5, 
-            x: 50, 
-            opacity: 0,
-            ease: "power3.out",
-            delay: 0
-        });
+        if (tag_info.exterior){
+            gsap.from(_ie({tag:"div",className:"tag",children:[{tag:"p",innerHTML:tag_info.exterior}]},tags), {
+                duration: 0.5, 
+                x: 50, 
+                opacity: 0,
+                ease: "power3.out",
+                delay: 0
+            });
+        }
         gsap.from(_ie({tag:"div",className:"tag",children:[{tag:"p",innerHTML:tag_info.rarity}]},tags), {
             duration: 0.5, 
             x: 50, 
@@ -65,7 +116,7 @@
                 children : [
                     {
                         tag : "p",
-                        innerHTML : relation_info[i].exterior
+                        innerHTML : relation_info[i].goodsName
                     },
                     {
                         tag : "a",
@@ -89,6 +140,15 @@
 
         // infos
         var info = resp.list;
+        var info_heading_names = ["在售价","求购价"];
+        info_heading.style.display = "";
+        gsap.from(info_heading, {
+            duration: 0.5, 
+            y: 50, 
+            opacity: 0,
+            ease: "power3.out",
+            delay: 0
+        });
         // 在售价格
         const _prices = info.map(item => item.minPrice);        
         const _min = _prices.indexOf(Math.min(..._prices));
@@ -97,17 +157,7 @@
             className : "infos",
             children :[
                 {
-                    tag : "p",
-                    className : "heading",
-                    children : [
-                        {
-                            tag : "p",
-                            innerHTML : "在售价格"
-                        }
-                    ]
-                },
-                {
-                    tag : "p",
+                    tag : "div",
                     className : "info",
                     children : [
                         {
@@ -121,7 +171,7 @@
                     ]
                 },
                 {
-                    tag : "p",
+                    tag : "div",
                     className : "info",
                     children : [
                         {
@@ -135,7 +185,7 @@
                     ]
                 },
                 {
-                    tag : "p",
+                    tag : "div",
                     className : "info",
                     children : [
                         {
@@ -149,7 +199,7 @@
                     ]
                 },
                 {
-                    tag : "p",
+                    tag : "div",
                     className : "info",
                     children : [
                         {
@@ -170,7 +220,7 @@
             x: 50, 
             opacity: 0,
             ease: "power3.out",
-            delay: 0
+            delay: 0.3
         });
         // 求购价格
         const _buy_prices = info.map(item => item.purchaseMaxPrice);        
@@ -180,17 +230,7 @@
             className : "infos",
             children :[
                 {
-                    tag : "p",
-                    className : "heading",
-                    children : [
-                        {
-                            tag : "p",
-                            innerHTML : "求购价格"
-                        }
-                    ]
-                },
-                {
-                    tag : "p",
+                    tag : "div",
                     className : "info",
                     children : [
                         {
@@ -204,7 +244,7 @@
                     ]
                 },
                 {
-                    tag : "p",
+                    tag : "div",
                     className : "info",
                     children : [
                         {
@@ -218,7 +258,7 @@
                     ]
                 },
                 {
-                    tag : "p",
+                    tag : "div",
                     className : "info",
                     children : [
                         {
@@ -232,7 +272,7 @@
                     ]
                 },
                 {
-                    tag : "p",
+                    tag : "div",
                     className : "info",
                     children : [
                         {
@@ -253,7 +293,141 @@
             x: 50, 
             opacity: 0,
             ease: "power3.out",
-            delay: 0.3
+            delay: 0.6
+        });
+        // 租赁
+
+        // 挂刀
+        var markets = ["BUFF","悠悠有品","IGXE","C5"];
+        var _option = {
+            tag : "div",
+            className : "infos",
+            children :[
+                {
+                    tag : "div",
+                    className : "info",
+                    id : "steam_max",
+                    children : [
+                        {
+                            tag : "p",
+                            innerHTML : "<c>求购价:</c>" + info[_max].purchaseMaxPrice/100
+                        },
+                        {
+                            tag : "a",
+                            innerHTML : markets[_max] + "<b>Max</b>"
+                        }
+                    ]
+                },
+                {
+                    tag : "div",
+                    className : "info",
+                    id : "steam_min",
+                    children : [
+                        {
+                            tag : "p",
+                            innerHTML : "<c>售价:</c>" + info[_min].minPrice/100
+                        },
+                        {
+                            tag : "a",
+                            innerHTML : markets[_min] + "<b>Min</b>"
+                        }
+                    ]
+                },
+                {
+                    tag : "div",
+                    className : "info",
+                    children : [
+                        {
+                            tag : "p",
+                            innerHTML : info[0].sellCount
+                        },
+                        {
+                            tag : "a",
+                            innerHTML : "在售量"
+                        }
+                    ]
+                },
+                {
+                    tag : "div",
+                    className : "info",
+                    children : [
+                        {
+                            tag : "p",
+                            innerHTML : tag_info.steamRatio.toFixed(3)
+                        },
+                        {
+                            tag : "a",
+                            innerHTML : "挂刀比"
+                        }
+                    ]
+                },
+                                {
+                    tag : "div",
+                    className : "info",
+                    children : [
+                        {
+                            tag : "p",
+                            innerHTML : ((1/tag_info.steamRatio)-1).toFixed(3)*100 + "%"
+                        },
+                        {
+                            tag : "a",
+                            innerHTML : "收益率"
+                        }
+                    ]
+                },
+            ]
+        };
+        gsap.from(_ie(_option,horizontal_infos_list), {
+            duration: 0.5, 
+            x: 50, 
+            opacity: 0,
+            ease: "power3.out",
+            delay: 0.9
+        });
+        info_heading_names.push("挂刀");
+        document.getElementById("steam_max").addEventListener('click', function() {
+            Jump.jump(markets[_max],info[_max].goodsId);
+        });            
+        document.getElementById("steam_min").addEventListener('click', function() {
+            Jump.jump(markets[_min],info[_min].goodsId);
+        });
+
+        const info_indexs = document.querySelector('.info_indexs');
+        const cards = document.querySelectorAll('.infos');
+        function create_indicators() {
+            info_indexs.innerHTML = '';
+            cards.forEach((_, index) => {
+                const dot = document.createElement('div');
+                if (index === 0) {
+                    dot.classList.add('index');
+                }
+                info_indexs.appendChild(dot);
+            });
+        }
+        create_indicators();
+
+        function update_indicator(active_index) {
+            info_heading.children[0].innerHTML = info_heading_names[active_index];
+            const dots = info_indexs.querySelectorAll('div');
+            dots.forEach((dot, index) => {
+                if (index === active_index) {
+                    dot.classList.add('index');
+                } else {
+                    dot.classList.remove('index');
+                }
+            });
+        }
+        let scroll_timeout;
+        horizontal_infos_list.addEventListener('scroll', () => {
+            if (scroll_timeout) {
+                clearTimeout(scroll_timeout);
+            }
+            scroll_timeout = setTimeout(() => {
+                let container_width = horizontal_infos_list.clientWidth;
+                let scroll_left = horizontal_infos_list.scrollLeft;
+                let active_card_index = Math.round(scroll_left / container_width);
+                update_indicator(active_card_index);
+            }, 10);
         });
 
         var heading = _ie({

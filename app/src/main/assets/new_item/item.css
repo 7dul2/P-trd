@@ -58,7 +58,7 @@
     margin-left: 5%;
     display: flex;
     overflow-x: auto;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--margin_bottom_2);
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     touch-action: pan-x pan-y;
@@ -84,7 +84,7 @@
     margin-left: 5%;
     display: flex;
     overflow-x: auto;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--margin_bottom_1);
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     touch-action: pan-x pan-y;
@@ -125,7 +125,7 @@
     scroll-snap-type: x mandatory;;
     scroll-behavior: smooth;
     touch-action: pan-x pan-y;
-    margin-bottom: 3rem;
+    margin-bottom: var(--margin_bottom_2);
 }
 
 .infos {
@@ -134,23 +134,51 @@
     display: flex;
     flex-wrap: wrap;
     border-radius: var(--border-radius-1);
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--margin_bottom_2);
     margin-right: 1rem;
     scroll-snap-align: start;
     flex-shrink: 0;
 }
 
-.heading {
-    width: 100%;
+.info_heading {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin-bottom: var(--margin_bottom_3);
     margin-left: 5%;
-    margin-top: 0.8rem;
 }
 
-.heading p{
+.info_heading p{
     margin: 0;
     color: var(--text-color);
     font-size: var(--heading-2-font-size);
     font-weight: 600;
+    width: 28%;
+}
+
+.info_indexs {
+    display: flex;
+    max-width: 33%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info_indexs div{
+    background-color: var(--text-sub-color);
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 0.5rem;
+    margin-right: 0.3rem;
+    transition: background-color 0.3s ease;
+}
+
+.info_indexs .index{
+    background-color: var(--text-color);
+}
+
+.info_heading svg{
+    fill: var(--text-sub-color);
+    transition: fill 0.3s ease;
 }
 
 .info {
@@ -185,6 +213,13 @@
     padding: 0rem 0.1rem;
     border-radius: 0.2rem;
     margin-left: 0.1rem;
+}
+
+.info c{
+    color: var(--text-sub-color);
+    font-size: var(--text-3-font-size);
+    font-weight: 400;
+    margin-right: 0.1rem;
 }
 
 .loading_anim {
@@ -232,7 +267,7 @@
     width: 105%;
     display: flex;
     overflow-x: auto;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--margin_bottom_2);
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     touch-action: pan-x pan-y;

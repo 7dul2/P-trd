@@ -142,18 +142,24 @@
 }
 
 .rk_nav {
-    width: 90%;
-    margin: 0 5%;
+    min-width: 95%;
+    margin-left: 5%;
     margin-bottom: 1rem;
     display: flex;
     justify-content: space-between;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    touch-action: pan-x pan-y;
 }
 
 .rk_nav p {
-    margin : 0;
-    font-weight : 600;
-    font-size : 15px;
-    color : rgba(245,245,247, 0.6);
+    margin: 0;
+    font-weight: 600;
+    font-size: 15px;
+    color: rgba(245,245,247, 0.6);
+    margin-right: 1.5rem;
+    white-space: nowrap;
 }
 
 .item_data{
@@ -328,4 +334,61 @@
 .pop_icon {
     display: flex;
     margin-left: 0.3rem;
+}
+
+.steam {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    min-width: 30%;
+}
+
+.steam p{
+    margin: 0px;
+    color: var(--text-color);
+    font-size: var(--text-1-font-size);
+    font-weight: 600;
+}
+.steam_a{
+    margin : 0px;
+    color : var(--text-sub-color);
+    font-size : var(--text-2-font-size);
+    display: flex;
+}
+.steam_a svg {
+    fill: var(--chart-color-1);
+    width: var(--text-2-font-size);
+    margin-left: 0.3rem;
+}
+.steam_rate {
+    width: 21%;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-end;
+}
+.steam_rate p{
+    margin: 0px;
+    color: #F5F5F7;
+    font-size: 13px;
+    font-weight: 600;
+    margin-right: 0.1rem;
+}
+.steam_num {
+    width: 21%;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-start;
+}
+.steam_num p{
+    margin: 0px;
+    color: #F5F5F7;
+    font-size: var(--text-2-font-size);
+    font-weight: 600;
+    margin-left: 0.1rem;
+}
+
+.steam_datas {
+    display: flex;
+    width: 54%;
+    justify-content: space-between;
 }

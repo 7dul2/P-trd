@@ -35,7 +35,8 @@ function fetch_up2date_items(){
     xhr.onreadystatechange = function () {
         if (xhr.status === 200 && xhr.readyState === 4) {
             var resp = JSON.parse(xhr.responseText).data;
-            if (resp.length > local_items.length){
+            console.log(resp,local_items.length,local_items);
+            if (resp > local_items.length){
                 update_local_items()
             }else{
                 finish()
@@ -54,8 +55,9 @@ function update_local_items(){
     xhr.timeout = 3000;
     xhr.send(null);
     xhr.onreadystatechange = function () {
-        DataBase.executeSQL("DELETE FROM items", []);
         var resp = JSON.parse(xhr.responseText).data;
+        console.log(resp);
+        DataBase.executeSQL("DELETE FROM items", []);
         for (var i = 0; i < resp.length; i++) {
             var item = resp[i];
             var buff_id = item.buff_id;

@@ -21,6 +21,10 @@
 
     --border-radius-1: 0.5rem;
     --border-radius-2: 0.3rem;
+
+    --margin_bottom_1: 3rem;
+    --margin_bottom_2: 1.5rem;
+    --margin_bottom_3: 1rem;
 }
 
 body {

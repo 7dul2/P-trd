@@ -347,8 +347,32 @@ wait4value("counter").then(value => {
     bars[10].children[1].style.height = 6 * datas.down10/max + "rem";
 })
 
+var update_index = 0;
 
 function rank_update(type){
+    update_index ++;
+    var rk_tip = document.getElementById("rk_tip");
+    rk_tip.innerHTML = "";
+    _ie({
+        tag : "p",
+        innerHTML : "走势简图(月)",
+    },rk_tip);
+    _ie({
+        tag : "p",
+        innerHTML : "在售/求购数量",
+        style : {
+            marginRight: "10%"
+        }
+    },rk_tip);
+    _ie({
+        tag : "p",
+        innerHTML : "在售/求购价格",
+    },rk_tip);
+    _ie({
+        tag : "p",
+        innerHTML : "浮动率(周)",
+    },rk_tip);
+
     document.getElementById('loading').style.display = "";
     document.getElementById('loading').style.opacity = 1;
     // 加载动画出现
@@ -473,9 +497,17 @@ function rank_update(type){
 
         }
 
-        update_rank_items_infos();
+        update_rank_items_infos(update_index);
 
         return
+    }
+
+    if (type == "steam"){
+        _ie({
+            tag : "script",
+            src : "index_rank_steam.js"
+        },document.body);
+        return 0
     }
 
     button_more.children[0].children[0].innerText = "查看更多";
@@ -601,17 +633,20 @@ function rank_update(type){
 
         };
 
-        update_rank_items_infos();
+        update_rank_items_infos(update_index);
     }
     wait4value("rank_items_"+type).then(value => {
         update_rank_items()
     });
 }
-function update_rank_items_infos(){
+function update_rank_items_infos(_index){
     var p = document.getElementById("items");
     for (var i = 0; i < p.children.length; i++){
         (function(index){ // 使用闭包保存当前迭代的索引值
             setTimeout(function(){
+                if (update_index != _index){
+                    return
+                }
                 var c = p.children[index];
                 var name = c.children[0].children[0].innerText;
 
@@ -998,6 +1033,9 @@ document.getElementById("rank_nav_down").addEventListener('click', function() {
 });
 document.getElementById("rank_nav_lease").addEventListener('click', function() {
     rank_update("lease");
+});
+document.getElementById("rank_nav_steam").addEventListener('click', function() {
+    rank_update("steam");
 });
 
 // 如果有自选就载入自选,不然就载入hot
