@@ -24,7 +24,7 @@
     font-size: var(--heading-2-font-size);
     font-weight: 600;
     color: var(--text-color);
-    max-width: 70%;
+    max-width: 60%;
     white-space: nowrap; 
     overflow: auto;
     text-overflow: ellipsis;
@@ -91,7 +91,6 @@
 }
 
 .relation {
-    width: 33%;
     background-color: var(--background-sub-color);
     border-radius: var(--border-radius-1);
     margin-right: 1rem;
@@ -339,4 +338,22 @@
     height: 20rem;
     margin-left: -5.6%;
     margin-top: 1rem;
+}
+
+.tools {
+    display: flex;
+}
+
+.tools svg{
+    margin-left: 1rem;
+}
+
+.mark {
+    width: 100%;
+    display: flex;
+    color: var(--text-sub-color);
+    font-size: var(--text-3-font-size);
+    font-weight: 400;
+    justify-content: center;
+    margin-top: var(--margin_bottom_2);
 }

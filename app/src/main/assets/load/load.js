@@ -77,3 +77,9 @@ function update_local_items(){
 }
 
 fetch_up2date_items()
+
+
+// var is_initial = DataBase.query("SELECT token FROM user where share = ?",["initial"]);
+// if (is_initial.length == 0){
+//     return false
+// }

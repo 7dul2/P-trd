@@ -1,13 +1,4 @@
 (function() {
-    // infos
-    var url = "https://api-csob.douyuex.com/api/v2/goods/info";
-    var post_data = {"goodsName":item_name};
-    Request.post(url,JSON.stringify(post_data),"item_info", "receive");
-    wait4value("item_info").then(value => {
-        document.getElementById('loading').style.opacity = 0;
-        infos_handling();
-    });
-
     var tags = _ie({
         tag : "div",
         className : "tags",
@@ -76,6 +67,24 @@
         className : "chart"
     },document.getElementById("container"));
 
+    // infos
+    var url = "https://api-csob.douyuex.com/api/v2/goods/info";
+    var post_data = {"goodsName":item_name};
+    Request.post(url,JSON.stringify(post_data),"item_info", "receive");
+    wait4value("item_info").then(value => {
+        document.getElementById('loading').style.display = "none";
+        infos_handling();
+    });
+
+    function extractTextInBrackets(str) {
+        const matches = str.match(/[\(\（]([^\)\）]+)[\)\）]/g);
+        var result = matches ? matches.map(text => text.slice(1, -1)).join('-') : '';
+        if (result === ""){
+            return "普通";
+        }
+        return result
+    }
+
     function infos_handling(){
         var resp = JSON.parse(all_resps["item_info"]).data;
 
@@ -116,7 +125,7 @@
                 children : [
                     {
                         tag : "p",
-                        innerHTML : relation_info[i].goodsName
+                        innerHTML : extractTextInBrackets(relation_info[i].goodsName),
                     },
                     {
                         tag : "a",
@@ -150,71 +159,75 @@
             delay: 0
         });
         // 在售价格
-        const _prices = info.map(item => item.minPrice);        
-        const _min = _prices.indexOf(Math.min(..._prices));
+        const uniqueInfo = info.reduce((acc, item) => {
+            acc[item.platform] = item;
+            return acc;
+        }, {});
+        const _prices = Object.values(uniqueInfo).map(item => item.minPrice || 0);
+        const _min = _prices.indexOf(Math.min(..._prices.filter(price => price > 0)));
         var _option = {
-            tag : "div",
-            className : "infos",
-            children :[
+            tag: "div",
+            className: "infos",
+            children: [
                 {
-                    tag : "div",
-                    className : "info",
-                    children : [
+                    tag: "div",
+                    className: "info",
+                    children: [
                         {
-                            tag : "p",
-                            innerHTML : info[0].minPrice/100
+                            tag: "p",
+                            innerHTML: isNaN(info[0].minPrice / 100) ? 0 : info[0].minPrice / 100
                         },
                         {
-                            tag : "a",
-                            innerHTML : "BUFF"
+                            tag: "a",
+                            innerHTML: "BUFF"
                         }
                     ]
                 },
                 {
-                    tag : "div",
-                    className : "info",
-                    children : [
+                    tag: "div",
+                    className: "info",
+                    children: [
                         {
-                            tag : "p",
-                            innerHTML : info[1].minPrice/100
+                            tag: "p",
+                            innerHTML: isNaN(info[1].minPrice / 100) ? 0 : info[1].minPrice / 100
                         },
                         {
-                            tag : "a",
-                            innerHTML : "悠悠有品"
+                            tag: "a",
+                            innerHTML: "悠悠有品"
                         }
                     ]
                 },
                 {
-                    tag : "div",
-                    className : "info",
-                    children : [
+                    tag: "div",
+                    className: "info",
+                    children: [
                         {
-                            tag : "p",
-                            innerHTML : info[2].minPrice/100
+                            tag: "p",
+                            innerHTML: isNaN(info[2].minPrice / 100) ? 0 : info[2].minPrice / 100
                         },
                         {
-                            tag : "a",
-                            innerHTML : "IGXE"
+                            tag: "a",
+                            innerHTML: "IGXE"
                         }
                     ]
                 },
                 {
-                    tag : "div",
-                    className : "info",
-                    children : [
+                    tag: "div",
+                    className: "info",
+                    children: [
                         {
-                            tag : "p",
-                            innerHTML : info[3].minPrice/100
+                            tag: "p",
+                            innerHTML: isNaN(info[3].minPrice / 100) ? 0 : info[3].minPrice / 100
                         },
                         {
-                            tag : "a",
-                            innerHTML : "C5"
+                            tag: "a",
+                            innerHTML: "C5"
                         }
                     ]
-                },
+                }
             ]
         };
-        _option.children[_min+1].children[1].innerHTML += "<b>Min</b>";
+        _option.children[_min].children[1].innerHTML += "<b>Min</b>";
         gsap.from(_ie(_option,horizontal_infos_list), {
             duration: 0.5, 
             x: 50, 
@@ -223,71 +236,71 @@
             delay: 0.3
         });
         // 求购价格
-        const _buy_prices = info.map(item => item.purchaseMaxPrice);        
-        const _max = _buy_prices.indexOf(Math.min(..._buy_prices));
+        const _buy_prices = Object.values(uniqueInfo).map(item => item.purchaseMaxPrice !== undefined ? item.purchaseMaxPrice : 0);    
+        const _max = _buy_prices.indexOf(Math.min(..._buy_prices.filter(price => price > 0)));
         var _option = {
-            tag : "div",
-            className : "infos",
-            children :[
+            tag: "div",
+            className: "infos",
+            children: [
                 {
-                    tag : "div",
-                    className : "info",
-                    children : [
+                    tag: "div",
+                    className: "info",
+                    children: [
                         {
-                            tag : "p",
-                            innerHTML : info[0].purchaseMaxPrice/100
+                            tag: "p",
+                            innerHTML: isNaN(info[0].purchaseMaxPrice / 100) ? 0 : info[0].purchaseMaxPrice / 100
                         },
                         {
-                            tag : "a",
-                            innerHTML : "BUFF"
+                            tag: "a",
+                            innerHTML: "BUFF"
                         }
                     ]
                 },
                 {
-                    tag : "div",
-                    className : "info",
-                    children : [
+                    tag: "div",
+                    className: "info",
+                    children: [
                         {
-                            tag : "p",
-                            innerHTML : info[1].purchaseMaxPrice/100
+                            tag: "p",
+                            innerHTML: isNaN(info[1].purchaseMaxPrice / 100) ? 0 : info[1].purchaseMaxPrice / 100
                         },
                         {
-                            tag : "a",
-                            innerHTML : "悠悠有品"
+                            tag: "a",
+                            innerHTML: "悠悠有品"
                         }
                     ]
                 },
                 {
-                    tag : "div",
-                    className : "info",
-                    children : [
+                    tag: "div",
+                    className: "info",
+                    children: [
                         {
-                            tag : "p",
-                            innerHTML : info[2].purchaseMaxPrice/100
+                            tag: "p",
+                            innerHTML: isNaN(info[2].purchaseMaxPrice / 100) ? 0 : info[2].purchaseMaxPrice / 100
                         },
                         {
-                            tag : "a",
-                            innerHTML : "IGXE"
+                            tag: "a",
+                            innerHTML: "IGXE"
                         }
                     ]
                 },
                 {
-                    tag : "div",
-                    className : "info",
-                    children : [
+                    tag: "div",
+                    className: "info",
+                    children: [
                         {
-                            tag : "p",
-                            innerHTML : info[3].purchaseMaxPrice/100
+                            tag: "p",
+                            innerHTML: isNaN(info[3].purchaseMaxPrice / 100) ? 0 : info[3].purchaseMaxPrice / 100
                         },
                         {
-                            tag : "a",
-                            innerHTML : "C5"
+                            tag: "a",
+                            innerHTML: "C5"
                         }
                     ]
-                },
+                }
             ]
         };
-        _option.children[_max+1].children[1].innerHTML += "<b>Max</b>";
+        _option.children[_max].children[1].innerHTML += "<b>Max</b>";
         gsap.from(_ie(_option,horizontal_infos_list), {
             duration: 0.5, 
             x: 50, 
@@ -367,7 +380,7 @@
                     children : [
                         {
                             tag : "p",
-                            innerHTML : ((1/tag_info.steamRatio)-1).toFixed(3)*100 + "%"
+                            innerHTML : (((1/tag_info.steamRatio)-1)*100).toFixed(2) + "%"
                         },
                         {
                             tag : "a",

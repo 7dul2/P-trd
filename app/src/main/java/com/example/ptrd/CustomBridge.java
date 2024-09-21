@@ -11,8 +11,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.content.Context;
 
-import androidx.annotation.NonNull;
-
 public class CustomBridge extends WebViewClient {
     private Context mContext;
     private WebView webView;

@@ -46,7 +46,7 @@ function switch_content(index){
 
     document.getElementById("container").innerHTML = "";
 
-    document.getElementById('loading').style.opacity = 1;
+    document.getElementById('loading').style.display = "";
 
     _ie({
         tag : "script",
