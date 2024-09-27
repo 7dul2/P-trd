@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="../font.css">
     <link rel="stylesheet" type="text/css" href="../style.css">
     <script type="text/javascript" src="../script.js"></script>
+    <script type="text/javascript" src="../datas/name.json.js"></script>
     <script type="text/javascript" src="../gsap.min.js"></script>
     <script type="text/javascript" src="../lottie.min.js"></script>
     <title>P-trd</title>
@@ -19,25 +20,18 @@
     </script>
 </head>
 
-<body style="background-color: #F5F5F7;user-select:none;">
+<body style="user-select:none;">
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <defs>
-            <symbol id="go" viewBox="0 0 27.533 22.718">
-                <g id="组_51" data-name="组 51" transform="translate(25.262 20.603) rotate(180)">
-                    <g id="组_57" data-name="组 57" transform="translate(9.31 0) rotate(90)">
-                        <path id="_2" data-name="2" d="M0,0,12.269.9" transform="translate(9.022 8.675) rotate(-45)" fill="rgba(0,0,0,0)" stroke="#1d1d1f" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
-                        <path id="_1" data-name="1" d="M0,0,4.229,3.62l4.793,4.1" transform="translate(0 0.952)" fill="rgba(0,0,0,0)" stroke="#1d1d1f" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
-                        <path id="_2-2" data-name="2" d="M0,0,12.269.9" transform="translate(9.022 8.675) rotate(-45)" fill="rgba(0,0,0,0)" stroke="#1d1d1f" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
-                    </g>
-                </g>
-                <path id="路径_28" data-name="路径 28" d="M0,0H22.146" transform="translate(23.646 11.515) rotate(180)" fill="rgba(0,0,0,0)" stroke="#1d1d1f" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
-            </symbol>
+            <svg viewBox="64 64 896 896" id="go">
+                <path d="M869 487.8L491.2 159.9c-2.9-2.5-6.6-3.9-10.5-3.9h-88.5c-7.4 0-10.8 9.2-5.2 14l350.2 304H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h585.1L386.9 854c-5.6 4.9-2.2 14 5.2 14h91.5c1.9 0 3.8-.7 5.2-2L869 536.2a32.07 32.07 0 000-48.4z"></path>
+            </svg>
         </defs>
     </svg>
 
     <div class="input">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 41.5 44.5">
-            <path id="联合_4" data-name="联合 4" d="M-7533.012-2740.924l14.511,14.425ZM-7555-2752.23A13.575,13.575,0,0,1-7541.629-2766a13.574,13.574,0,0,1,13.371,13.769,13.574,13.574,0,0,1-13.371,13.771A13.575,13.575,0,0,1-7555-2752.23Z" transform="translate(7557.5 2768.499)" fill="none" stroke="#1d1d1f" stroke-linecap="round" stroke-linejoin="round" stroke-width="5" opacity="0.7"/>
+        <svg viewBox="64 64 896 896" width="20">
+            <path d="M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0011.6 0l43.6-43.5a8.2 8.2 0 000-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z"></path>
         </svg>
         <label>
             <input id="input" type="text" placeholder="搜索">

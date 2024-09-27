@@ -68,7 +68,7 @@
     },document.getElementById("container"));
 
     // infos
-    var url = "https://api-csob.douyuex.com/api/v2/goods/info";
+    var url = "https://api-csob.ok-skins.com/api/v2/goods/info";
     var post_data = {"goodsName":item_name};
     Request.post(url,JSON.stringify(post_data),"item_info", "receive");
     wait4value("item_info").then(value => {
@@ -352,6 +352,20 @@
                     children : [
                         {
                             tag : "p",
+                            innerHTML : info[0].steamPrice/100
+                        },
+                        {
+                            tag : "a",
+                            innerHTML : "Steam价格"
+                        }
+                    ]
+                },
+                {
+                    tag : "div",
+                    className : "info",
+                    children : [
+                        {
+                            tag : "p",
                             innerHTML : info[0].sellCount
                         },
                         {
@@ -511,7 +525,7 @@
     }
 
     function line(){
-        var url = "https://api-csob.douyuex.com/api/v2/goods/chart";
+        var url = "https://api-csob.ok-skins.com/api/v2/goods/chart";
         var post_data = {"goodsId":all_resps["id"],"platform":0,"timeRange":"HALF_YEAR","data":["createTime","minPrice","sellCount"]};
         Request.post(url,JSON.stringify(post_data),"item_line", "receive");
         wait4value("item_line").then(value => {
@@ -798,7 +812,7 @@
             delay: 0.3
         });
 
-        var url = "https://api-csob.douyuex.com/api/v1/goods/chart/kline";
+        var url = "https://api-csob.ok-skins.com/api/v1/goods/chart/kline";
         var post_data = {"goods":{"goodsId":all_resps["id"],"platform":0},"kType":"DAY","isFilter":false,"samplingSize":5,"upPercent":30,"downPercent":30}
         Request.post(url,JSON.stringify(post_data),"item_kline", "receive");
         wait4value("item_kline").then(value => {

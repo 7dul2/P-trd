@@ -109,12 +109,12 @@ function load_infos(){
     func_VOL();
     // 图表相关
 
-    var url = "https://api-csob.douyuex.com/api/v2/goods/info";
+    var url = "https://api-csob.ok-skins.com/api/v2/goods/info";
     var post_data = {"goodsName":item_name};
     Request.post(url,JSON.stringify(post_data),"item_infos", "receive");
     wait4value("item_infos").then(value => {
         load_item_id();
-        var url = "https://api-csob.douyuex.com/api/v1/goods/chart/kline";
+        var url = "https://api-csob.ok-skins.com/api/v1/goods/chart/kline";
         var post_data = {"goods":{"goodsId":item_id,"platform":0},"kType":"DAY","isFilter":false,"samplingSize":5,"upPercent":30,"downPercent":30}
         Request.post(url,JSON.stringify(post_data),"item_charts", "receive");
         wait4value("item_charts").then(value => {

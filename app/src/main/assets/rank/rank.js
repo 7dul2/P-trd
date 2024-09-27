@@ -16,7 +16,7 @@ function wait4value(key) {
 }
 // 用于请求处理的准备
 
-var url = "https://api-csob.douyuex.com/api/v1/rank";
+var url = "https://api-csob.ok-skins.com/api/v1/rank";
 var page = 0;
 var type_now = "";
 var num = 1;

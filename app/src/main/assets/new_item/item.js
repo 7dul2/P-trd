@@ -18,6 +18,38 @@ function wait4value(key) {
 var item_name = new URLSearchParams(window.location.search).get("name");
 document.getElementById("item_name").innerText = item_name;
 
+(function(){
+    const copyText = document.getElementById("item_name");
+    let originalText = copyText.innerText;
+    let pressTimer;
+    copyText.addEventListener("touchstart", function(event) {
+        event.stopPropagation();
+        pressTimer = setTimeout(() => {
+            Clipboard.copyToClipboard(originalText);
+            gsap.timeline()
+                .to(copyText, { duration: 0.3, opacity: 0 })
+                .call(() => {
+                    copyText.innerText = "已复制";
+                })
+                .to(copyText, { opacity: 1, duration: 0.3 })
+                .to(copyText, { opacity: 0.5, repeat: 1, yoyo: true, duration: 0.2 })
+                .to(copyText, { opacity: 0, duration: 0.3, delay: 0.3 })
+                .call(() => {
+                    copyText.innerText = originalText;
+                })
+                .to(copyText, { opacity: 1, duration: 0.3 });
+        }, 500);
+    });
+    copyText.addEventListener("touchend", function(event) {
+        event.stopPropagation();
+        clearTimeout(pressTimer);
+    });
+    copyText.addEventListener("touchmove", function(event) {
+        event.stopPropagation();
+        clearTimeout(pressTimer);
+    });
+}())
+
 lottie.loadAnimation({
     container: document.getElementById('loading'),
     renderer: 'svg',

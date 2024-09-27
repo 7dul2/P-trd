@@ -28,7 +28,7 @@ public class NetworkUtils {
 
                     // Check if the host matches specific criteria and add extra headers
                     String host = originalRequest.url().host();
-                    if ("api-csob.douyuex.com".equals(host)) {
+                    if ("api-csob.ok-skins.com".equals(host)) {
                         requestBuilder.header("timestamp", "1722125215870");
                         requestBuilder.header("auth", "a75970b8947d00e9aff38802caeb784c");
                     }

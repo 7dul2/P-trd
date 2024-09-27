@@ -4,21 +4,27 @@
     padding: 0 5%;
     display: flex;
     position: fixed;
-    background-color :#F5F5F7;
+    background-color :var(--background-color);
 }
 
 .input label{
     width: 75%;
+    color: var(--text-sub-color);
+}
+
+.input svg{
+    fill: var(--text-sub-color);
 }
 
 .input input{
     padding-left: 7%;
-    font-size: 20px;
+    font-size: var(--heading-2-font-size);
     font-weight: 600;
     border: none;
     outline: none;
     background: none;
     width: 100%;
+    color: var(--text-color);
 }
 
 .result {
@@ -36,7 +42,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 3% 0px 6% 0px;
+    margin: 3% 0px var(--margin_bottom_2) 0px;
 }
 
 .item p{
@@ -45,8 +51,8 @@
 
 .title {
     margin: 0;
-    font-size: 15px;
-    color: rgba(29, 29, 31, 0.7);
+    font-size: var(--text-1-font-size);
+    color: var(--text-sub-color);
     margin-top : 7%;
 }
 
@@ -57,15 +63,15 @@
 }
 
 .infos h1{
-    font-size: 15px;
-    color: rgba(29, 29, 31);
+    font-size: var(--text-1-font-size);
+    color: var(--text-color);
     font-weight : 600;
     margin : 0px;
 }
 
 .infos abbr{
-    background-color: #00A943;
-    color : #F5F5F7;
+    background-color: var(--chart-color-1);
+    color : var(--text-color);
 }
 
 .data {
@@ -75,7 +81,10 @@
 }
 
 .data p{
-    font-size: 12px;
-    color: rgba(29, 29, 31);
+    font-size: var(--text-2-font-size);
+    color: var(--text-color);
 }
 
+#go {
+    fill: var(--text-sub-color);
+}

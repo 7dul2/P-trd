@@ -1,4 +1,4 @@
-var goods = _items_.map(item=>item[0]);
+var goods = Object.keys(item_names);
 
 // 精准匹配
 function exact_match(keyword) {
@@ -106,27 +106,28 @@ function insert_result(name,price,float) {
     },p);
 
     gsap.from(newElement, {
-        duration: 0.5, 
+        duration: 0.3, 
         y: 50, 
         opacity: 0,
-        ease: "power3.out"
+        ease: "power3.out",
+        delay : _d,
     });
 
     newElement.addEventListener('click', function() {
         gsap.to(newElement, {
-            duration: 0.08,
+            duration: 0.2,
             opacity: 0,
             yoyo: true,
-            repeat: 1,
+            repeat: 2,
             ease: "power3.inOut"
         });
         setTimeout(function(){
             Jump.jump("item",name.replace("<abbr>", "").replace("</abbr>", ""));
-        },100)
+        },220) 
     });
-
-
+    _d += 0.1;
 }
+var _d = 0;
 function insert_title(title){
     var p = document.getElementById("result");
     var newElement  = _ie({
@@ -140,15 +141,18 @@ function insert_title(title){
         ]
     },p);
     gsap.from(newElement, {
-        duration: 0.5, 
+        duration: 0.3, 
         y: 50, 
         opacity: 0,
-        ease: "power3.out"
+        ease: "power3.out",
+        delay : _d,
     });
+    _d += 0.1;
 }
 
 var input = document.getElementById("input");
 input.addEventListener("input", debounce(function() {
+    _d = 0;
     match(input.value);
 }, 300));
 
@@ -227,7 +231,7 @@ function wait4value(key) {
 function load_hot(){
     document.getElementById("result").innerHTML = "";
 
-    var url = "https://api-csob.douyuex.com/api/v1/rank";
+    var url = "https://api-csob.ok-skins.com/api/v1/rank";
     var post = {"category":[],"minPrice":10000,"minSellCount":30,"sellCountType":"DOWN","sellCountTimeRange":"WEEK","sellCountChange":15,"categoryInclude":"TRUE","exterior":[],"quality":[],"rarity":[],"exteriorInclude":"TRUE","qualityInclude":"TRUE","rarityInclude":"TRUE","priceChangePercentTimeRange":"HALF_MONTH","container":[],"containerInclude":"TRUE","nameInclude":"TRUE","leaseCountType":"DOWN","leaseCountTimeRange":"WEEK","volCountTimeRange":"WEEK","volLeaseCountTimeRange":"WEEK","type":"VOL_COUNT","timeRange":"WEEK","page":1}
     Request.post(url,JSON.stringify(post), "hot", "receive");
     wait4value("hot").then(value => {

@@ -17,6 +17,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.microsoft.clarity.Clarity;
+import com.microsoft.clarity.ClarityConfig;
+import com.microsoft.clarity.models.ApplicationFramework;
+import com.microsoft.clarity.models.LogLevel;
+
+import java.util.Collections;
 
 public class index extends AppCompatActivity {
 
@@ -33,6 +39,21 @@ public class index extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        ClarityConfig config = new ClarityConfig(
+                "o9isthx2ek",  // 你的 ProjectId
+                null,          // 默认用户 ID
+                LogLevel.None, // 日志级别
+                false,         // 禁用按流量计费的网络
+                true,          // 启用 WebView 捕获
+                Collections.singletonList("*"),  // 允许的域名
+                ApplicationFramework.Native,     // 应用框架
+                Collections.emptyList(),         // 允许的活动
+                Collections.emptyList(),         // 忽略的活动
+                false,         // 禁用低端设备
+                null           // 每日最大允许的网络使用量 (null = 不限)
+        );
+        Clarity.initialize(getApplicationContext(), config);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -59,6 +80,7 @@ public class index extends AppCompatActivity {
         webView.addJavascriptInterface(new request(webView), "Request");
         webView.addJavascriptInterface(new jump(this), "Jump");
         webView.addJavascriptInterface(new DataBase(this), "DataBase");
+        webView.addJavascriptInterface(new ClipboardHandler(this), "Clipboard");
 
         // 加载本地 HTML 文件
         webView.loadUrl("file:///android_asset/index/index.html");

@@ -54,6 +54,7 @@ public class item extends AppCompatActivity {
         webView.addJavascriptInterface(new request(webView), "Request");
         webView.addJavascriptInterface(new jump(this), "Jump");
         webView.addJavascriptInterface(new DataBase(this), "DataBase");
+        webView.addJavascriptInterface(new ClipboardHandler(this), "Clipboard");
 
         webView.loadUrl("file:///android_asset/new_item/item.html?name=" + item_name);
         // 7dul2

@@ -28,7 +28,44 @@ lottie.loadAnimation({
 });
 document.getElementById('loading').style.opacity = 1;
 
-var url = "https://api-csob.douyuex.com/api/v1/index/chart?category=all&platform=0&type=DAY";
+_ie = function(a,b){
+    var c = insertElement(a,b);
+    if (a.className === "item"){
+        const copyText = c.children[0].children[0];
+        let originalText = copyText.innerText;
+        let pressTimer;
+        copyText.addEventListener("touchstart", function(event) {
+            event.stopPropagation();
+            pressTimer = setTimeout(() => {
+                Clipboard.copyToClipboard(originalText);
+                gsap.timeline()
+                    .to(copyText, { duration: 0.3, opacity: 0 })
+                    .call(() => {
+                        copyText.innerText = "已复制";
+                    })
+                    .to(copyText, { opacity: 1, duration: 0.3 })
+                    .to(copyText, { opacity: 0.5, repeat: 1, yoyo: true, duration: 0.2 })
+                    .to(copyText, { opacity: 0, duration: 0.3, delay: 0.3 })
+                    .call(() => {
+                        copyText.innerText = originalText;
+                    })
+                    .to(copyText, { opacity: 1, duration: 0.3 });
+            }, 500);
+        });
+        copyText.addEventListener("touchend", function(event) {
+            event.stopPropagation();
+            clearTimeout(pressTimer);
+        });
+        copyText.addEventListener("touchmove", function(event) {
+            event.stopPropagation();
+            clearTimeout(pressTimer);
+        });
+        
+    }
+    return c;
+};
+
+var url = "https://api-csob.ok-skins.com/api/v1/index/chart?category=all&platform=0&type=DAY";
 Request.get(url,"major_index", "receive");
 function major_index_load(){
     var list = JSON.parse(all_resps["major_index"]).data.list;
@@ -306,7 +343,8 @@ wait4value("major_index").then(value => {
     major_index_load()
 });
 
-var url = "https://api-csob.douyuex.com/api/v1/updown/count?platform=0";
+var url = "https://api-csob.ok-skins.com/api/v1/updown/count?platform=0";
+
 Request.get(url,"counter", "receive");
 wait4value("counter").then(value => {
     var datas = JSON.parse(all_resps["counter"]).data;
@@ -522,7 +560,7 @@ function rank_update(type){
         "lease" : {"category":[],"minPrice":10000,"minSellCount":30,"sellCountType":"DOWN","sellCountTimeRange":"WEEK","sellCountChange":15,"categoryInclude":"TRUE","exterior":[],"quality":[],"rarity":[],"exteriorInclude":"TRUE","qualityInclude":"TRUE","rarityInclude":"TRUE","priceChangePercentTimeRange":"HALF_MONTH","container":[],"containerInclude":"TRUE","nameInclude":"TRUE","leaseCountType":"DOWN","leaseCountTimeRange":"WEEK","volCountTimeRange":"WEEK","volLeaseCountTimeRange":"WEEK","type":"LEASECOUNT_DOWN","timeRange":"WEEK","page":1}
     };
 
-    Request.post("https://api-csob.douyuex.com/api/v1/rank",JSON.stringify(post_datas[type]),"rank_items_"+type, "receive");
+    Request.post("https://api-csob.ok-skins.com/api/v1/rank",JSON.stringify(post_datas[type]),"rank_items_"+type, "receive");
 
     function update_rank_items(){
         var resp = JSON.parse(all_resps["rank_items_"+type]);
@@ -654,7 +692,7 @@ function update_rank_items_infos(_index){
 
                 id = match_id(name,"buff"); // 先尝试本底读取,如果存在就不需要再请求csob了
                 if (!id){
-                    var url = "https://api-csob.douyuex.com/api/v2/goods/info";
+                    var url = "https://api-csob.ok-skins.com/api/v2/goods/info";
                     var post_data = {"goodsName":name};
                     Request.post(url,JSON.stringify(post_data),"item_infos_"+name, "receive");
                 }else{
@@ -674,7 +712,7 @@ function update_rank_items_infos(_index){
                         c.children[1].children[1].children[1].children[1].innerText = datas["data"]["buy_max_price"];
                     });
 
-                    var url = "https://api-csob.douyuex.com/api/v2/goods/chart";
+                    var url = "https://api-csob.ok-skins.com/api/v2/goods/chart";
                     var post_data = {"goodsId":id,"platform":0,"timeRange":"HALF_YEAR","data":["createTime","minPrice","sellCount"]}
                     Request.post(url,JSON.stringify(post_data),"item_charts_"+id, "receive");
                     wait4value("item_charts_"+id).then(value => {

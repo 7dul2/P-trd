@@ -28,7 +28,7 @@
     update_rk_tips();
 
     var post_data = {"category":[],"minPrice":100,"minSellCount":100,"sellCountType":"DOWN","sellCountTimeRange":"DAY","sellCountChange":88,"categoryInclude":"TRUE","exterior":[],"quality":[],"rarity":[],"exteriorInclude":"TRUE","qualityInclude":"TRUE","rarityInclude":"TRUE","priceChangePercentTimeRange":"HALF_MONTH","container":[],"containerInclude":"TRUE","nameInclude":"TRUE","leaseCountType":"DOWN","leaseCountTimeRange":"WEEK","volCountTimeRange":"DAY","volLeaseCountTimeRange":"WEEK","volCount":"","maxPrice":500000,"type":"STEAM","page":1}
-    var url = "https://api-csob.douyuex.com/api/v1/rank";
+    var url = "https://api-csob.ok-skins.com/api/v1/rank";
     Request.post(url,JSON.stringify(post_data),"index_rank_steam", "receive");
 
     wait4value("index_rank_steam").then(value => {
@@ -200,25 +200,26 @@
             let max_purchase_max_price_index = data.reduce((max_index, item, index, arr) => 
                 item.purchaseMaxPrice > arr[max_index].purchaseMaxPrice ? index : max_index, 0);
             _infos.children[1].children[0].children[0].innerHTML = data[max_purchase_max_price_index].purchaseMaxPrice/100;
-            _infos.children[1].children[0].children[1].children[0].innerHTML = plants[max_purchase_max_price_index];
+            _infos.children[1].children[0].children[1].children[0].innerHTML = plants[data[max_purchase_max_price_index].platform];
             _infos.children[1].children[0].children[1].addEventListener('click', function() {
                 event.stopPropagation();
-                Jump.jump(plants[max_purchase_max_price_index],data[max_min_price_index].goodsId);
+                Jump.jump(plants[data[max_purchase_max_price_index].platform],data[max_purchase_max_price_index].goodsId);
             });
             
 
             let max_min_price_index = data.reduce((max_index, item, index, arr) => 
                 item.minPrice < arr[max_index].minPrice ? index : max_index, 0);
             _infos.children[1].children[1].children[0].innerHTML = data[max_min_price_index].minPrice/100;
-            _infos.children[1].children[1].children[1].children[0].innerHTML = plants[max_min_price_index];
+            _infos.children[1].children[1].children[1].children[0].innerHTML = plants[data[max_min_price_index].platform];
             _infos.children[1].children[1].children[1].addEventListener('click', function() {
+                console.log(data,plants[max_min_price_index],data[max_min_price_index].goodsId);
                 event.stopPropagation();
-                Jump.jump(plants[max_min_price_index],data[max_min_price_index].goodsId);
+                Jump.jump(plants[data[max_min_price_index].platform],data[max_min_price_index].goodsId);
             });
         }
 
         setTimeout(function(){
-            var url = "https://api-csob.douyuex.com/api/v2/goods/info";
+            var url = "https://api-csob.ok-skins.com/api/v2/goods/info";
             var post_data = {"goodsName":item.goodsName};
             Request.post(url,JSON.stringify(post_data),"item_info_"+item.goodsName, "receive");
             wait4value("item_info_"+item.goodsName).then(value => {

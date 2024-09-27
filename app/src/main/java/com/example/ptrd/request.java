@@ -30,7 +30,7 @@ public class request {
                     String jsCallback = "javascript:" + callback + "('" + key + "'," + "`" + response + "`)";
                     webView.evaluateJavascript(jsCallback, null);
                 });
-                sendDataToServer(url, response,"");
+//                sendDataToServer(url, response,"");
             }
 
             @Override
@@ -55,7 +55,7 @@ public class request {
                     webView.evaluateJavascript(jsCallback, null);
 
                 });
-                sendDataToServer(url, response,jsonArray);
+//                sendDataToServer(url, response,jsonArray);
             }
 
             @Override

@@ -9,26 +9,28 @@
     top: 0;
     background-color: var(--background-color);
     z-index: 888;
+    user-select: none;
 }
 
 .title {
     display: flex;
     width: 90%;
     padding: 0 5%;
-    align-items: center;
     justify-content: space-between;
     margin-top: 1.5rem;
+    align-items: flex-end;
 }
 
 .title p{
     font-size: var(--heading-2-font-size);
     font-weight: 600;
     color: var(--text-color);
-    max-width: 60%;
-    white-space: nowrap; 
+    white-space: nowrap;
     overflow: auto;
     text-overflow: ellipsis;
     margin: 0;
+    margin-bottom: 1%;
+    margin-left: 1rem;
 }
 
 .nav {
@@ -37,6 +39,7 @@
     display: flex;
     justify-content: space-around;
     margin: 1rem 0px;
+    margin-bottom: 0.5rem;
 }
 
 .nav p{
@@ -50,7 +53,7 @@
 }
 
 .container {
-    margin-top: 7.5rem; 
+    margin-top: 7rem; 
 }
 
 .tags {
@@ -342,9 +345,11 @@
 
 .tools {
     display: flex;
+    justify-content: space-between;
 }
 
-.tools svg{
+.tools div{
+    width: 1.3rem;
     margin-left: 1rem;
 }
 
@@ -356,4 +361,10 @@
     font-weight: 400;
     justify-content: center;
     margin-top: var(--margin_bottom_2);
+}
+
+#name {
+    width: 70%;
+    display: flex;
+    justify-content: flex-start;
 }
