@@ -90,6 +90,15 @@
     margin: 0px 5%;
 }
 
+.mmi_chart {
+    color: var(--text-sub-color);
+    font-size: var(--text-1-font-size);
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    align-items: center;
+}
+
 .mmi_text {
     display: flex;
     flex-direction: column;

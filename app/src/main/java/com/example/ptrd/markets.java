@@ -9,7 +9,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,27 +16,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class index extends AppCompatActivity {
-
-    private WebView webView;
-    private long backPressedTime;
-    private Toast backToast;
+public class markets extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_index);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_markets);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.parseColor("#1D1D1F"));
-        }
 
         Configuration configuration = getResources().getConfiguration();
         configuration.fontScale = 1.0f; // 设置字体缩放比例为 1.0
@@ -45,8 +35,7 @@ public class index extends AppCompatActivity {
 
         EdgeToEdge.enable(this);
 
-
-        webView = findViewById(R.id.webview);
+        WebView webView = findViewById(R.id.webview);
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
 
@@ -61,21 +50,6 @@ public class index extends AppCompatActivity {
         webView.addJavascriptInterface(new ClipboardHandler(this), "Clipboard");
 
         // 加载本地 HTML 文件
-        webView.loadUrl("file:///android_asset/index/index.html");
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (backPressedTime + 1000 > System.currentTimeMillis()) {
-            if (backToast != null) {
-                backToast.cancel();
-            }
-            super.onBackPressed();
-            return;
-        } else {
-            backToast = Toast.makeText(getBaseContext(), "再次返回以退出。", Toast.LENGTH_SHORT);
-            backToast.show();
-        }
-        backPressedTime = System.currentTimeMillis();
+        webView.loadUrl("file:///android_asset/markets/markets.html");
     }
 }

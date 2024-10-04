@@ -1088,3 +1088,7 @@ var search = document.getElementsByClassName("search")[0];
 search.addEventListener('click', function() {
     Jump.jump("search","")
 });
+
+document.getElementById("markets_infos").addEventListener('click', function() {
+    Jump.jump("markets","")
+});

@@ -5,7 +5,7 @@
     --text-sub-color: #8e8e8e;
     --up-color:#00AA41;
     --down-color:#DB2F63;
-    --stay-color:#48484a;
+    --stay-color:#8e8e8e;
     --chart-color-1:#157efb;
     --chart-color-2:#53d769;
     --chart-color-3:#fdcb2e;
@@ -25,12 +25,13 @@
     --margin_bottom_1: 3rem;
     --margin_bottom_2: 1.5rem;
     --margin_bottom_3: 1rem;
+    --margin_bottom_4: 0.6rem;
+    --margin_bottom_5: 0.3rem;
 }
 
 body {
     background-color: var(--background-color);
     font-family: 'sans-serif', sans-serif;
-    transition: all 0.3s ease;
 }
 
 .hr {

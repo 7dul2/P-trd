@@ -33,6 +33,9 @@ public class jump {
             case "search":
                 intent = new Intent(mContext, search.class);
                 break;
+            case "markets":
+                intent = new Intent(mContext, markets.class);
+                break;
             case "web":
                 openWebPage(data);
                 return; // 直接返回，不执行后面的startActivity
