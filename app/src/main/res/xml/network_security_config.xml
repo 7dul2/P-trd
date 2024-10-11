@@ -3,6 +3,5 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">p-trd.cn</domain>
         <domain includeSubdomains="true">api-csob.ok-skins.com</domain>
-        <domain includeSubdomains="true">124.70.178.24</domain>
     </domain-config>
 </network-security-config>

@@ -189,8 +189,7 @@ function insertElement(attribute,parent){
   }// 用于添加element元素的函数
 var _ie = insertElement;// 简写
 
-
-window.onload = function() {
+window.addEventListener('load', function() {
     // 创建 pop_up
     _ie({
         tag: "div",
@@ -304,7 +303,7 @@ window.onload = function() {
             pop_up_display = false;
         }
     }
-}
+});
 var pop_up_display = false;
 function pop_up_mask() {
     var mask = document.getElementById("pop_up_mask");
@@ -335,14 +334,15 @@ function pop_up() {
 
 
 
-
-
 var anim_loading_data = `{"v":"5.12.2","fr":60,"ip":0,"op":180,"w":640,"h":640,"nm":"合成 1","ddd":0,"assets":[],"layers":[{"ddd":0,"ind":1,"ty":4,"nm":"“loading/icons”轮廓 3","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10,"x":"var $bm_rt;\n$bm_rt = thisComp.layer('\\u201Cloading/icons\\u201D轮廓').transform.rotation;"},"p":{"a":0,"k":[320,320,0],"ix":2,"l":2},"a":{"a":0,"k":[32,32,0],"ix":1,"l":2},"s":{"a":0,"k":[1000,1000,100],"ix":6,"l":2}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,-12.15],[12.15,0],[0,12.15],[-12.15,0]],"o":[[0,12.15],[-12.15,0],[0,-12.15],[12.15,0]],"v":[[22,0],[0,22],[-22,0],[0,-22]],"c":true},"ix":2},"nm":"路径 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.250980407,0.411764711142,0.890196084976,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":4,"ix":5},"lc":2,"lj":2,"bm":0,"nm":"描边 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[32,32],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"变换"}],"nm":"组 1","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":0,"k":65,"ix":1,"x":"var $bm_rt;\n$bm_rt = $bm_sum(thisComp.layer('\\u201Cloading/icons\\u201D轮廓').content('修剪路径 1').end, 5);"},"e":{"a":0,"k":95,"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"修剪路径 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":0,"op":180,"st":0,"ct":1,"bm":0},{"ddd":0,"ind":2,"ty":4,"nm":"“loading/icons”轮廓","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"t":0,"s":[0]},{"t":180,"s":[-360]}],"ix":10},"p":{"a":0,"k":[320,320,0],"ix":2,"l":2},"a":{"a":0,"k":[32,32,0],"ix":1,"l":2},"s":{"a":0,"k":[1000,1000,100],"ix":6,"l":2}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,-12.15],[12.15,0],[0,12.15],[-12.15,0]],"o":[[0,12.15],[-12.15,0],[0,-12.15],[12.15,0]],"v":[[22,0],[0,22],[-22,0],[0,-22]],"c":true},"ix":2},"nm":"路径 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.250980407,0.411764711142,0.890196084976,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":4,"ix":5},"lc":2,"lj":2,"bm":0,"nm":"描边 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[32,32],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"变换"}],"nm":"组 1","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.604],"y":[0]},"t":0,"s":[20]},{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.612],"y":[0]},"t":60,"s":[75]},{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.604],"y":[0]},"t":120,"s":[43]},{"t":180,"s":[20]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.604],"y":[0]},"t":0,"s":[60]},{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.612],"y":[0]},"t":60,"s":[85.643]},{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.604],"y":[0]},"t":120,"s":[73]},{"t":180,"s":[60]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"修剪路径 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":0,"op":180,"st":0,"ct":1,"bm":0},{"ddd":0,"ind":3,"ty":4,"nm":"“loading/icons”轮廓 2","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10,"x":"var $bm_rt;\n$bm_rt = thisComp.layer('\\u201Cloading/icons\\u201D轮廓').transform.rotation;"},"p":{"a":0,"k":[320,320,0],"ix":2,"l":2},"a":{"a":0,"k":[32,32,0],"ix":1,"l":2},"s":{"a":0,"k":[1000,1000,100],"ix":6,"l":2}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,-12.15],[12.15,0],[0,12.15],[-12.15,0]],"o":[[0,12.15],[-12.15,0],[0,-12.15],[12.15,0]],"v":[[22,0],[0,22],[-22,0],[0,-22]],"c":true},"ix":2},"nm":"路径 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.250980407,0.411764711142,0.890196084976,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":4,"ix":5},"lc":2,"lj":2,"bm":0,"nm":"描边 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[32,32],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"变换"}],"nm":"组 1","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":0,"k":0,"ix":1},"e":{"a":0,"k":15,"ix":2,"x":"var $bm_rt;\n$bm_rt = $bm_sub(thisComp.layer('\\u201Cloading/icons\\u201D轮廓').content('修剪路径 1').start, 5);"},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"修剪路径 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":0,"op":180,"st":0,"ct":1,"bm":0}],"markers":[],"props":{}}`;
 var anim_loading = JSON.parse(anim_loading_data.replace(/[\x00-\x1F\x7F-\xFF]/g, ''));
 
 var _items_ = "";
 function load_items(){
-    _items_ = DataBase.query("SELECT * FROM items",[]).trim().split('\n').map(item=>item.split(','));
+    if (!(typeof DataBase !== 'undefined')) {  
+        return
+    } 
+    _items_ = DataBase.query("SELECT * FROM items", []).trim().split('\n').map(item => item.split(','));  
 }
 load_items();
 // 匹配buff_id,传入hash_name或者name都可以
@@ -359,3 +359,101 @@ function match_id(name,market){
     }
     return 0
 }
+
+// 用来给大菜单实现跳转
+window.addEventListener("DOMContentLoaded", function() {
+    var navs = {
+        "首页" : "index",
+        "我" : "profile"
+    };
+
+    var page_name = document.getElementById("page_name");
+
+    if (!page_name) {
+        return
+    } // 如果不存在此元素
+
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+            location.reload();
+        }
+    });
+
+    page_name = page_name.innerText;
+
+    var e = _ie({
+        tag : "div",
+        className : "main_nav",
+    },document.body);
+
+    for (var nav in navs) {
+        var option = {
+            tag : "div",
+            children : [
+                {
+                    tag : "p",
+                    innerText : nav
+                }
+            ]
+        }
+        if (nav === page_name){
+            option.className = "main_nav_checked";
+        }
+        _ie(option,e);
+    }
+
+    const nav_items = document.querySelectorAll('.main_nav div');
+
+    // 遍历每个元素，并添加点击事件监听器
+    nav_items.forEach(function(item) {
+        item.addEventListener('click', function() {
+
+            // 获取被点击元素下 p 标签的文本
+            const text = item.querySelector('p').textContent;
+
+            Jump.jump(navs[text],"");
+        });
+    });
+
+});
+
+// 修改style根目录下面的样式
+function set_css_variable(variable_name, value) {
+    document.documentElement.style.setProperty(variable_name, value);
+}
+
+// 载入本地配置
+var config = {};
+
+function load_trend_color_preference(){
+    var status = "bearish";
+
+    // 涨跌颜色偏好
+    var trend_color_preference = DataBase.query("SELECT * FROM config WHERE name = ?", ["trend_color_preference"]);
+    // bullish：表示绿色代表上涨，红色代表下跌（标准状态）
+    // bearish：表示红色代表上涨，绿色代表下跌（反转状态）
+
+    if (trend_color_preference.length == 0){
+        // 初始值
+        DataBase.executeSQL("INSERT OR REPLACE INTO config (name, value) VALUES (?, ?)",["trend_color_preference","bearish"]);
+    }else {
+        trend_color_preference = trend_color_preference.replace(" ","").split('\n').map(item => item.split(','))[0][1];
+        if (trend_color_preference != "bearish"){
+            status = "bullish"
+        }
+    }
+
+    if (status === "bearish"){
+        config.up_color = "#DB2F63";
+        config.down_color = "#00AA41";
+    }else {
+        config.up_color = "#00AA41";
+        config.down_color = "#DB2F63";
+    }
+
+    set_css_variable('--up-color', config.up_color);
+    set_css_variable('--down-color', config.down_color);
+
+    return status;
+}
+load_trend_color_preference();

@@ -158,13 +158,19 @@
             ease: "power3.out",
             delay: 0
         });
-        // 在售价格
-        const uniqueInfo = info.reduce((acc, item) => {
-            acc[item.platform] = item;
+
+        var info = info.reduce((acc, item) => {
+            // 检查平台是否已存在于 acc 中
+            if (!acc.some(existingItem => existingItem.platform === item.platform)) {
+                acc.push(item); // 如果不存在，则添加到 acc
+            }
             return acc;
-        }, {});
-        const _prices = Object.values(uniqueInfo).map(item => item.minPrice || 0);
-        const _min = _prices.indexOf(Math.min(..._prices.filter(price => price > 0)));
+        }, []);
+
+        // 在售价格
+        const _prices = Array.from(info.values()).map(item => item.minPrice || 0);
+        var p_min = _prices.indexOf(Math.min(..._prices.filter(price => price > 0)));
+        var p_max = _prices.indexOf(Math.max(..._prices.filter(price => price > 0)));
         var _option = {
             tag: "div",
             className: "infos",
@@ -227,7 +233,8 @@
                 }
             ]
         };
-        _option.children[_min].children[1].innerHTML += "<b>Min</b>";
+        _option.children[p_min].children[1].innerHTML += "<b>Min</b>";
+        _option.children[p_max].children[1].innerHTML += "<b>Max</b>";
         gsap.from(_ie(_option,horizontal_infos_list), {
             duration: 0.5, 
             x: 50, 
@@ -236,8 +243,9 @@
             delay: 0.3
         });
         // 求购价格
-        const _buy_prices = Object.values(uniqueInfo).map(item => item.purchaseMaxPrice !== undefined ? item.purchaseMaxPrice : 0);    
-        const _max = _buy_prices.indexOf(Math.min(..._buy_prices.filter(price => price > 0)));
+        const _buy_prices = Array.from(info.values()).map(item => item.purchaseMaxPrice || 0);
+        var b_min = _buy_prices.indexOf(Math.min(..._buy_prices.filter(price => price > 0)));
+        var b_max = _buy_prices.indexOf(Math.max(..._buy_prices.filter(price => price > 0)));
         var _option = {
             tag: "div",
             className: "infos",
@@ -300,7 +308,8 @@
                 }
             ]
         };
-        _option.children[_max].children[1].innerHTML += "<b>Max</b>";
+        _option.children[b_max].children[1].innerHTML += "<b>Max</b>";
+        _option.children[b_min].children[1].innerHTML += "<b>Min</b>";
         gsap.from(_ie(_option,horizontal_infos_list), {
             duration: 0.5, 
             x: 50, 
@@ -323,11 +332,11 @@
                     children : [
                         {
                             tag : "p",
-                            innerHTML : "<c>求购价:</c>" + info[_max].purchaseMaxPrice/100
+                            innerHTML : "<c>求购价:</c>" + info[b_max].purchaseMaxPrice/100
                         },
                         {
                             tag : "a",
-                            innerHTML : markets[_max] + "<b>Max</b>"
+                            innerHTML : markets[b_max] + "<b>Max</b>"
                         }
                     ]
                 },
@@ -338,11 +347,11 @@
                     children : [
                         {
                             tag : "p",
-                            innerHTML : "<c>售价:</c>" + info[_min].minPrice/100
+                            innerHTML : "<c>售价:</c>" + info[p_min].minPrice/100
                         },
                         {
                             tag : "a",
-                            innerHTML : markets[_min] + "<b>Min</b>"
+                            innerHTML : markets[p_min] + "<b>Min</b>"
                         }
                     ]
                 },
@@ -413,10 +422,10 @@
         });
         info_heading_names.push("挂刀");
         document.getElementById("steam_max").addEventListener('click', function() {
-            Jump.jump(markets[_max],info[_max].goodsId);
+            Jump.jump(markets[b_max],info[b_max].goodsId);
         });            
         document.getElementById("steam_min").addEventListener('click', function() {
-            Jump.jump(markets[_min],info[_min].goodsId);
+            Jump.jump(markets[p_min],info[p_min].goodsId);
         });
 
         const info_indexs = document.querySelector('.info_indexs');
@@ -526,7 +535,7 @@
 
     function line(){
         var url = "https://api-csob.ok-skins.com/api/v2/goods/chart";
-        var post_data = {"goodsId":all_resps["id"],"platform":0,"timeRange":"HALF_YEAR","data":["createTime","minPrice","sellCount"]};
+        var post_data = {"goodsId":all_resps["id"],"platform":0,"timeRange":"YEAR","data":["createTime","minPrice","sellCount"]};
         Request.post(url,JSON.stringify(post_data),"item_line", "receive");
         wait4value("item_line").then(value => {
             var resp = JSON.parse(all_resps["item_line"]).data.list;
@@ -616,8 +625,8 @@
 
             var option = {
                 tooltip: {
-                    backgroundColor : "#48484b",
-                    borderColor: '#48484b',
+                    backgroundColor : "#8e8e8e",
+                    borderColor: '#8e8e8e',
                     textStyle: {
                         color: '#fff',
                         fontSize: 12,
@@ -626,7 +635,7 @@
                     axisPointer: {
                         type: 'cross',
                         label: {
-                            backgroundColor: '#48484b',
+                            backgroundColor: '#8e8e8e',
                         },
                         fontSize: 12,
                     },
@@ -660,7 +669,7 @@
                     },
                     axisLine: {
                         lineStyle: {
-                            color: '#48484b'
+                            color: '#8e8e8e'
                         }
                     },
                     splitLine: {
@@ -686,7 +695,7 @@
                         },
                         axisLine: {
                             lineStyle: {
-                                color: '#48484b'
+                                color: '#8e8e8e'
                             }
                         },
                         splitLine: {
@@ -716,7 +725,7 @@
                         },
                         axisLine: {
                             lineStyle: {
-                                color: '#48484b'
+                                color: '#8e8e8e'
                             }
                         },
                         splitLine: {
@@ -831,17 +840,17 @@
                 },
                 candle: {
                     bar: {
-                        upColor: "#00AA43",
-                        downColor: "#DB2F63",
-                        upBorderColor: "#00AA43",
-                        downBorderColor: "#DB2F63",
-                        upWickColor: "#00AA43",
-                        downWickColor: "#DB2F63"
+                        upColor: config.up_color,
+                        downColor: config.down_color,
+                        upBorderColor: config.up_color,
+                        downBorderColor: config.down_color,
+                        upWickColor: config.up_color,
+                        downWickColor: config.down_color
                     },
                     priceMark: {
                         last: {
-                            upColor: "#00AA43",
-                            downColor: "#DB2F63"
+                            upColor: config.up_color,
+                            downColor: config.down_color
                         }
                     },
                     tooltip: {
@@ -858,8 +867,8 @@
                     }
                 },indicator: {
                     bars: [{
-                        upColor: 'rgba(0,170,67,.7)',
-                        downColor: 'rgba(219,47,99,.7)',
+                        upColor: config.up_color,
+                        downColor: config.down_color,
                     }],
                 },
                 yAxis: {

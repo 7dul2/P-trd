@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,7 +57,7 @@ public class item extends AppCompatActivity {
         webView.addJavascriptInterface(new DataBase(this), "DataBase");
         webView.addJavascriptInterface(new ClipboardHandler(this), "Clipboard");
 
-        webView.loadUrl("file:///android_asset/new_item/item.html?name=" + item_name);
+        webView.loadUrl("file:///android_asset/item/item.html?name=" + item_name);
         // 7dul2
     }
 }

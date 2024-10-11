@@ -65,284 +65,6 @@ _ie = function(a,b){
     return c;
 };
 
-var url = "https://api-csob.ok-skins.com/api/v1/index/chart?category=all&platform=0&type=DAY";
-Request.get(url,"major_index", "receive");
-function major_index_load(){
-    var list = JSON.parse(all_resps["major_index"]).data.list;
-
-    const timestamps = list.map(item => {
-        const date = new Date(item[0]);
-        return date.getFullYear() + '-' + 
-               (date.getMonth() + 1).toString().padStart(2, '0') + '-' + 
-               date.getDate().toString().padStart(2, '0');
-    });
-    const values = list.map(item => item[1]);
-
-    var change = values[values.length-1] - values[values.length-2];
-    var color = "#48484B";
-    if (change < 0) {
-        color = "#DB2F63"
-    }
-    if (change > 0) {
-        color = "#00AA41"
-    }
-
-    option = {
-        grid: {
-          top: '5%',
-          bottom: '5%',
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          show: false,
-        },
-        yAxis: {
-          type: 'value',
-          show: false,
-          scale:true,
-        },
-        series: [
-            {
-                type: 'line',
-                smooth: 0.4,
-                symbol: 'none',
-                lineStyle: {
-                    color: color,
-                    width: 1,
-                },
-                connectNulls: true,
-                data: values.slice( values.length-31,values.length-1),
-                areaStyle: {
-                    color: {
-                        type: 'linear',
-                        x : 0,
-                        x2 : 0,
-                        y : 0,
-                        y2 : 1,
-                        colorStops: [{
-                            offset: 0, color: color
-                        }, {
-                            offset: 1, color: 'rgba(0,0,0,0)'
-                        }],
-                    },
-                },
-            },
-        ],
-    }
-
-    var myChart = echarts.init(document.getElementById('mmi_chart'));
-    myChart.setOption(option);
-
-    document.getElementById("index").style.color = color;
-    document.getElementById("index").innerText = values[values.length-1];
-    document.getElementById("index_float").style.color = color;
-
-    change = change.toFixed(2);
-
-    var float = (change / values[values.length-2] * 100).toFixed(2);
-
-    if (change > 0){
-        change = "+" + change;
-        float = "+" + float;
-    }
-    var float = change + "(" + float + "%)今日";
-    document.getElementById("index_float").innerText = float;
-
-
-    document.getElementById("mmi_chart").addEventListener('click', function() {
-        pop_up();
-        _ie({
-            tag : "div",
-            className : "pop_up_index",
-            children : [
-                {
-                    tag : "div",
-                    className : "top",
-                    children : [{
-                        tag : "h1",
-                        innerText : "大盘指数"
-                    }]
-                },
-                {
-                    tag : "div",
-                    className : "legends",
-                    children : [
-                        {
-                            tag : "div",
-                            className : "legend",
-                            "data-series" : "0",
-                            children : [
-                                {
-                                    tag : 'div',
-                                    className : "top",
-                                    children : [
-                                        {
-                                            tag : "div"
-                                        },
-                                        {
-                                            tag : "p",
-                                            innerText : "指数"
-                                        }
-                                    ]
-                                },
-                                {
-                                    tag : "p",
-                                    innerText : values[values.length-1],
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    tag : "div",
-                    id : "pop_up_index_chart",
-                    className : "chart"
-                }
-            ]
-        },document.getElementById("pop_up_container"));
-
-        var option = {
-            tooltip: {
-                backgroundColor : "#48484b",
-                borderColor: '#48484b',
-                textStyle: {
-                    color: '#fff',
-                    fontSize: 12,
-                },
-                trigger: 'axis',
-                axisPointer: {
-                    type: 'cross',
-                    label: {
-                        backgroundColor: '#48484b',
-                    },
-                    fontSize: 12,
-                },
-                formatter: function(params) {
-                    return params.map(param => {
-                        const seriesName = param.seriesName;
-                        const value = param.value;
-                        return `${seriesName}: ${value}`;
-                    }).join('<br/>');
-                }
-            },
-            legend: {
-                show: false,
-                selected: {
-                    '指数': true
-                },
-            },
-            grid: {
-                top: '5%',
-                right: '3%',
-                bottom: '15%',
-                left: '13%',
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: timestamps,
-                axisLabel: {
-                    fontSize: 10,
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#48484b'
-                    }
-                },
-                splitLine: {
-                    show: false
-                }
-            },
-            yAxis: {
-                type: 'value',
-                scale: true,
-                axisLabel: {
-                    formatter: function(value) {
-                        if (value >= 10000) {
-                            return (value / 10000) + 'w';
-                        } else if (value >= 1000) {
-                            return (value / 1000) + 'k';
-                        } else {
-                            return value;
-                        }
-                    },
-                    fontSize: 10,
-                },
-                axisLine: {
-                    lineStyle: {
-                        color: '#48484b'
-                    }
-                },
-                splitLine: {
-                    show: true,
-                    lineStyle: {
-                        color: 'rgba(255, 255, 255, 0.05)',
-                        width: 1,
-                        type: 'solid',
-                    }
-                },
-            },
-            series: [
-                {
-                    name: "指数",
-                    type: 'line',
-                    smooth: 0.4,
-                    symbol: 'none',
-                    lineStyle: {
-                        color: "#157efb",
-                        width: 2,
-                    },
-                    connectNulls: true,
-                    data: values,
-                    animationDuration: 500,
-                    animationEasing: 'cubicInOut',
-                }
-            ],
-            dataZoom: [
-                {
-                    show : false,
-                    type: 'inside',
-                    xAxisIndex: [0],
-                },
-                {
-                    show : false,
-                    type: 'slider',
-                    xAxisIndex: [0],
-                    bottom: 0,
-                }
-            ]
-        };
-        
-
-        const selectedStatus = {};
-
-        option.series.forEach(series => {
-            selectedStatus[series.name] = true;
-        });
-        
-        var index_chart = echarts.init(document.getElementById('pop_up_index_chart'));
-        index_chart.setOption(option);
-
-        document.querySelectorAll('.legend').forEach((item, index) => {
-            item.addEventListener('click', () => {
-                const seriesName = option.series[index].name;
-                const isActive = item.classList.toggle('active');
-                selectedStatus[seriesName] = !isActive;
-                index_chart.setOption({
-                    legend: {
-                        selected: selectedStatus
-                    }
-                });
-            });
-        });
-    });
-}
-
-wait4value("major_index").then(value => {
-    major_index_load()
-});
-
 var url = "https://api-csob.ok-skins.com/api/v1/updown/count?platform=0";
 
 Request.get(url,"counter", "receive");
@@ -417,12 +139,12 @@ function rank_update(type){
 
     var navs = document.getElementById("rk_nav").children;
     for (var i = 0;i < navs.length;i++){
-        navs[i].style.color = "rgba(245,245,247, 0.6)";
+        navs[i].style.color = "var(--text-sub-color)";
     }
 
     document.getElementById("items").innerHTML = "";
 
-    document.getElementById("rank_nav_" + type).style.color = "rgba(245,245,247)";
+    document.getElementById("rank_nav_" + type).style.color = "var(--text-color)";
 
     var button_more = document.getElementById("items_more");
 
@@ -509,11 +231,11 @@ function rank_update(type){
                                 children : [
                                     {
                                         tag : "p",
-                                        innerText : "暂不提供",
+                                        innerText : "-",
                                     }
                                 ],
                                 style : {
-                                    backgroundColor : "rgba(29, 29, 31, 0.6)"
+                                    backgroundColor : "#262629"
                                 }
                             },
                         ]
@@ -575,13 +297,13 @@ function rank_update(type){
         for (let item of rank_list) {
             var change = item.minPriceChangePercent["7"]*100;
 
-            var color = "rgba(29, 29, 31, 0.6)";
+            var color = "#262629";
             var add_txt = "";
             if (change < 0) {
-                color = "#DB2F63"
+                color = config.down_color
             }
             if (change > 0) {
-                color = "#00AA41"
+                color = config.up_color
                 add_txt = "+";
             }
 
@@ -729,13 +451,15 @@ function update_rank_items_infos(_index){
 
                         var nums = datas.data.list[2];
 
-                        var change = prices[prices.length-1] - prices[0];
-                        var color = "#48484B";
+                        var month_price = prices.slice(prices.length-30)
+
+                        var change = month_price[month_price.length-1] - month_price[0];
+                        var color = "#8e8e8e";
                         if (change < 0) {
-                            color = "#DB2F63"
+                            color = config.down_color 
                         }
                         if (change > 0) {
-                            color = "#00AA41"
+                            color = config.up_color 
                         }
 
                         const option = {
@@ -763,7 +487,7 @@ function update_rank_items_infos(_index){
                                   width: 1,
                                 },
                                     connectNulls: true,
-                                    data: prices.slice(prices.length-31,prices.length-1),
+                                    data: month_price,
                                     areaStyle: {
                                         color: {
                                             type: 'linear',
@@ -785,6 +509,27 @@ function update_rank_items_infos(_index){
 
                         const chart = echarts.init(c.children[1].children[0]);
                         chart.setOption(option);
+
+                        if (c.children[1].children[2].children[0].innerText === "-"){
+                            var week_prices = prices.slice(prices.length-7);
+
+                            var change = ((week_prices[week_prices.length-1] - week_prices[0])/week_prices[0]*100).toFixed(2);
+
+                            var color = "#8e8e8e";
+                            if (change < 0) {
+                                color = config.down_color 
+                            }
+                            if (change > 0) {
+                                color = config.up_color 
+                            }
+
+                            if (change > 0){
+                                change = "+" + change;
+                            }
+
+                            c.children[1].children[2].style.backgroundColor = color;
+                            c.children[1].children[2].children[0].innerText = change + "%"
+                        }
 
                         c.children[1].children[0].addEventListener('click', function() {
                             event.stopPropagation();
@@ -867,8 +612,8 @@ function update_rank_items_infos(_index){
 
                             var option = {
                                 tooltip: {
-                                    backgroundColor : "#48484b",
-                                    borderColor: '#48484b',
+                                    backgroundColor : "#8e8e8e",
+                                    borderColor: '#8e8e8e',
                                     textStyle: {
                                         color: '#fff',
                                         fontSize: 12,
@@ -877,7 +622,7 @@ function update_rank_items_infos(_index){
                                     axisPointer: {
                                         type: 'cross',
                                         label: {
-                                            backgroundColor: '#48484b',
+                                            backgroundColor: '#8e8e8e',
                                         },
                                         fontSize: 12,
                                     },
@@ -911,7 +656,7 @@ function update_rank_items_infos(_index){
                                     },
                                     axisLine: {
                                         lineStyle: {
-                                            color: '#48484b'
+                                            color: '#8e8e8e'
                                         }
                                     },
                                     splitLine: {
@@ -937,7 +682,7 @@ function update_rank_items_infos(_index){
                                         },
                                         axisLine: {
                                             lineStyle: {
-                                                color: '#48484b'
+                                                color: '#8e8e8e'
                                             }
                                         },
                                         splitLine: {
@@ -967,7 +712,7 @@ function update_rank_items_infos(_index){
                                         },
                                         axisLine: {
                                             lineStyle: {
-                                                color: '#48484b'
+                                                color: '#8e8e8e'
                                             }
                                         },
                                         splitLine: {

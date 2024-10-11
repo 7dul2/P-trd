@@ -66,16 +66,24 @@ public class index extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // 如果在 1 秒内再次按下返回键
         if (backPressedTime + 1000 > System.currentTimeMillis()) {
             if (backToast != null) {
                 backToast.cancel();
             }
-            super.onBackPressed();
-            return;
+            // 切换应用到后台，而不是退出
+            moveTaskToBack(true);
+
+            if (false){
+                super.onBackPressed();
+            } // 不允许切回load_activity
         } else {
-            backToast = Toast.makeText(getBaseContext(), "再次返回以退出。", Toast.LENGTH_SHORT);
+            // 第一次按下返回键时显示提示信息
+            backToast = Toast.makeText(getBaseContext(), "再次返回以切换到后台。", Toast.LENGTH_SHORT);
             backToast.show();
+            // 不直接调用 super.onBackPressed()，防止 Activity 被关闭
         }
+        // 更新上次按下返回键的时间
         backPressedTime = System.currentTimeMillis();
     }
 }

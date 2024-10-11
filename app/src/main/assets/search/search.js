@@ -2,12 +2,18 @@ var goods = Object.keys(item_names);
 
 // 精准匹配
 function exact_match(keyword) {
-    const lowerCaseKeyword = keyword.toLowerCase();
-    return goods.filter(item => item.toLowerCase().includes(lowerCaseKeyword));
+    const lowerCaseKeywords = keyword.toLowerCase().split(' ');
+    return goods.filter(item => {
+        const lowerCaseItem = item.toLowerCase();
+        return lowerCaseKeywords.every(kw => lowerCaseItem.includes(kw));
+    });
 }
+
 
 // 模糊匹配
 function jaro(s1, s2) {
+    s1 = s1.toLowerCase();
+    s2 = s2.toLowerCase();
     const s1_len = s1.length;
     const s2_len = s2.length;
     if (s1_len === 0 && s2_len === 0) return 1.0;
@@ -41,24 +47,31 @@ function jaro(s1, s2) {
     return ((matches / s1_len) + (matches / s2_len) + ((matches - transpositions) / matches)) / 3.0;
 }
 function jaro_match(keyword, threshold = 0) {
+    const keywords = keyword.toLowerCase().trim().split(/\s+/); // 将输入的 keyword 拆分成多个子关键字
+
     return goods
-        .map(item => ({ item, score: jaro(item, keyword) }))
-        .filter(result => result.score > threshold)
-        .sort((a, b) => b.score - a.score)
-        .map(result => result.item);
+        .map(item => {
+            const score = keywords
+                .map(kw => jaro(item, kw)) // 对每个子关键字计算与 item 的 Jaro 距离
+                .reduce((a, b) => a + b, 0) / keywords.length; // 计算所有子关键字的平均相似度
+            return { item, score };
+        })
+        .filter(result => result.score > threshold) // 过滤出符合相似度阈值的结果
+        .sort((a, b) => b.score - a.score) // 按相似度降序排列
+        .map(result => result.item); // 返回排序后的 items
 }
 
 
-function insert_result(name,price,float) {
+function insert_result(name,price,float,item_name) {
     var p = document.getElementById("result");
 
     var add = "";
     var color = "#1D1D1F";
     if (float < 0) {
-        color = "#DB2F63"
+        color = config.down_color
     }
     if (float > 0) {
-        color = "#00AA41";
+        color = config.up_color;
         add = "+";
     }
     if (float != 0){
@@ -119,10 +132,13 @@ function insert_result(name,price,float) {
             opacity: 0,
             yoyo: true,
             repeat: 2,
-            ease: "power3.inOut"
+            ease: "power3.inOut",
+            onComplete: function() {
+                newElement.style.opacity = 1; // 动画结束后将透明度设置为1
+            }
         });
         setTimeout(function(){
-            Jump.jump("item",name.replace("<abbr>", "").replace("</abbr>", ""));
+            Jump.jump("item",item_name);
         },220) 
     });
     _d += 0.1;
@@ -178,18 +194,24 @@ function match(query) {
     var exact_result = exact_match(query);
 
     var count = 0;
-    if (exact_result.length > 0){
+    if (exact_result.length > 0) {
         insert_title("精确匹配");
         exact_result.forEach(function(result) {
-            if (count < 6){
-                var name = "";
-                var strs = result.split(query);
-                strs.forEach(function(str) {
-                    name += str + "<abbr>" + query + "</abbr>";
-                })
-                var name = name.slice(0, -("<abbr>" + query + "</abbr>").length);
-                insert_result(name, "-", 0);
-                count ++;
+            if (count < 100) {
+                var name = result; // 原始的结果文本
+                var lowerCaseQuery = query.toLowerCase().trim(); // 去除首尾空格
+                var keywords = lowerCaseQuery.split(/\s+/); // 使用正则表达式按空白字符拆分
+    
+                // 遍历每个关键词，并为其添加 <abbr> 标记
+                keywords.forEach(function(keyword) {
+                    if (keyword) { // 确保关键词非空
+                        var regex = new RegExp("(" + keyword + ")", "gi"); // 创建正则表达式，忽略大小写
+                        name = name.replace(regex, "<abbr>$1</abbr>"); // 替换匹配的关键词为带标注的文本
+                    }
+                });
+    
+                insert_result(name, "-", 0,result); // 插入结果
+                count++;
             }
         });
     }
@@ -201,14 +223,14 @@ function match(query) {
             insert_title("猜您想搜");
             jaro_result.forEach(function(result) {
                 if (count < 6){
-                    insert_result(result, "-", 0);
+                    insert_result(result, "-", 0,result);
                     count ++;
                 }
             });
         }
     }
 
-    load_infos();
+    // load_infos();
 }
 
 // 用于请求处理的准备
@@ -240,7 +262,7 @@ function load_hot(){
         var count = 0;
         datas.forEach(function(data) {
             if (count < 6){
-                insert_result(data.goodsName, data.price/100, (data.minPriceChangePercent["7"]*100).toFixed(2));
+                insert_result(data.goodsName, data.price/100, (data.minPriceChangePercent["7"]*100).toFixed(2),data.goodsName);
                 count ++;
             }
         });

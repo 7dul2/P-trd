@@ -72,10 +72,10 @@ function insert_items(){
         var color = "rgba(29, 29, 31, 0.6)";
         var add_txt = "";
         if (change < 0) {
-            color = "#DB2F63"
+            color = config.down_color
         }
         if (change > 0) {
-            color = "#00AA41"
+            color = config.up_color
             add_txt = "+";
         }
 

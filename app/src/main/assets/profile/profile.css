@@ -1,0 +1,98 @@
+.menu {
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    height: 7vh;
+    background: var(--background-color);
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.menu_top {
+    width: 87%;
+    margin: 0 6.5%;
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu p{
+    font-size : var(--heading-1-font-size);
+    font-weight : 600;
+    color :  var(--text-color);
+}
+
+.menu svg {
+    height : 25%;
+    fill : var(--text-sub-color);
+}
+
+.container {
+    margin-top: calc(7vh + var(--margin_bottom_2));
+    width: 100%;
+}
+
+.setting_block {
+    margin-left: 5%;
+    width: 90%;
+    margin-bottom: var(--margin_bottom_1);
+}
+
+.setting_block p{
+    font-size: var(--heading-2-font-size);
+    color: var(--text-sub-color);
+    margin: 0;
+    margin-bottom: 0.3rem;
+}
+
+.settings {
+    border-radius: var(--border-radius-1);
+    background-color: var(--background-sub-color);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.setting {
+    margin: var(--margin_bottom_3) 0;
+    width: 90%;
+    margin-left: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.setting div{
+    display: flex;
+}
+
+.setting p{
+    font-size: var(--text-1-font-size);
+    color: var(--text-color);
+    margin: 0;
+    font-weight: 600;
+}
+
+.setting svg {
+    width: 1.3rem;
+    fill: var(--text-color);
+}
+
+.setting_left p {
+    margin-left: 0.5rem;
+}
+
+.setting_right p {
+    margin-right: 0.5rem;
+}
+
+up {
+    color: var(--up-color);
+}
+
+down {
+    color: var(--down-color);
+}

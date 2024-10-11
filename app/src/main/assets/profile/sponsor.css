@@ -1,0 +1,99 @@
+._top svg{
+    fill: var(--text-color);
+}
+
+._top {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background-color: var(--background-color);
+    z-index: 888;
+    user-select: none;
+}
+
+.title {
+    display: flex;
+    width: 90%;
+    padding: 0 5%;
+    justify-content: flex-start;
+    margin-top: 1.5rem;
+    align-items: center;
+}
+
+.title p{
+    font-size: var(--heading-2-font-size);
+    font-weight: 600;
+    color: var(--text-color);
+    white-space: nowrap;
+    overflow: auto;
+    text-overflow: ellipsis;
+    margin: 0;
+    margin-bottom: 1%;
+    margin-left: 1rem;
+}
+
+.container {
+    margin-top: 7rem; 
+}
+
+.display-none {
+    display: none;
+
+}
+.display-none pre {
+    color: var(--text-color);
+    display: none;
+}
+.display-none pre.active {
+    display: block;
+}
+
+
+.view {
+    width: 100%;
+    height: 25rem;
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+}
+
+.sponsors {
+    width: 90%;
+    margin-left: 5%;
+    display: flex;
+    color: var(--text-color);
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.sponsors p{
+    margin: 0;
+    margin-left: var(--margin_bottom_3);
+}
+
+.draggable {
+    padding: 10px;
+    border-radius: 4px;
+    cursor: grab;
+    user-select: none;
+}
+
+.draggable:active {
+    cursor: grabbing;
+}
+
+.dropzone {
+    padding: 20px;
+    margin: 10px;
+    min-height: 50px;
+}
+
+.rain {
+    position: absolute;
+    font-size: 24px;
+    opacity: 0.8;
+    white-space: nowrap; /* 防止字符换行 */
+}

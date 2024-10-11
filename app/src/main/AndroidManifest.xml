@@ -16,6 +16,12 @@
         android:theme="@style/Theme.Ptrd"
         tools:targetApi="31">
         <activity
+            android:name=".feedback"
+            android:exported="false" />
+        <activity
+            android:name=".profile"
+            android:exported="false" />
+        <activity
             android:name=".markets"
             android:exported="false" />
 
@@ -47,7 +53,7 @@
             android:configChanges="fontScale|screenSize|smallestScreenSize|screenLayout|orientation"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".load"
             android:configChanges="fontScale|screenSize|smallestScreenSize|screenLayout|orientation"
             android:exported="true">
             <intent-filter>

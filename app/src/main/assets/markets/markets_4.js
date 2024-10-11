@@ -143,7 +143,7 @@
         };
         gsap.from(_ie(_option,index_datas), {
             duration: 0.5, 
-            x: 50, 
+            y: 50, 
             opacity: 0,
             ease: "power3.out",
             delay: 0.3
@@ -180,8 +180,8 @@
 
         var option = {
             tooltip: {
-                backgroundColor : "#48484b",
-                borderColor: '#48484b',
+                backgroundColor : "#8e8e8e",
+                borderColor: '#8e8e8e',
                 textStyle: {
                     color: '#fff',
                     fontSize: 12,
@@ -190,7 +190,7 @@
                 axisPointer: {
                     type: 'cross',
                     label: {
-                        backgroundColor: '#48484b',
+                        backgroundColor: '#8e8e8e',
                     },
                     fontSize: 12,
                 },
@@ -212,6 +212,7 @@
             grid: {
                 top: '5%',
                 bottom: '15%',
+                left: '15%',
             },
             xAxis: {
                 type: 'category',
@@ -222,7 +223,7 @@
                 },
                 axisLine: {
                     lineStyle: {
-                        color: '#48484b'
+                        color: '#8e8e8e'
                     }
                 },
                 splitLine: {
@@ -246,7 +247,7 @@
                 },
                 axisLine: {
                     lineStyle: {
-                        color: '#48484b'
+                        color: '#8e8e8e'
                     }
                 },
                 splitLine: {
@@ -431,7 +432,7 @@
         };
         gsap.from(_ie(_option,market_datas), {
             duration: 0.5, 
-            x: 50, 
+            y: 50, 
             opacity: 0,
             ease: "power3.out",
             delay: 0.3
@@ -502,7 +503,7 @@
                 ]
             },type_index);
 
-            var color = (item.changeRate > 0) ? '#00AA41' : (item.changeRate < 0) ? '#DB2F63' : '#8e8e8e';
+            var color = (item.changeRate > 0) ? config.up_color : (item.changeRate < 0) ? config.down_color : '#8e8e8e';
 
             var option = {
                 grid: {
@@ -557,7 +558,7 @@
 
             gsap.from(e, {
                 duration: 0.5, 
-                x: 50, 
+                y: 50, 
                 opacity: 0,
                 ease: "power3.out",
                 delay: 0.3
@@ -629,7 +630,7 @@
                 ]
             },price_block);
 
-            var color = (change_rate > 0) ? '#00AA41' : (change_rate < 0) ? '#DB2F63' : '#8e8e8e';
+            var color = (change_rate > 0) ? config.up_color : (change_rate < 0) ? config.down_color : '#8e8e8e';
 
             var option = {
                 grid: {
@@ -684,7 +685,7 @@
 
             gsap.from(e, {
                 duration: 0.5, 
-                x: 50, 
+                y: 50, 
                 opacity: 0,
                 ease: "power3.out",
                 delay: 0.3
