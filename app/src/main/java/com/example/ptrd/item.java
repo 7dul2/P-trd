@@ -13,6 +13,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class item extends AppCompatActivity {
 
     private WebView webView;
@@ -57,6 +60,13 @@ public class item extends AppCompatActivity {
         webView.addJavascriptInterface(new DataBase(this), "DataBase");
         webView.addJavascriptInterface(new ClipboardHandler(this), "Clipboard");
 
+
+        try {
+            item_name = URLEncoder.encode(item_name, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            // 可以在这里处理异常，比如使用一个默认编码或报错提示
+        }
         webView.loadUrl("file:///android_asset/item/item.html?name=" + item_name);
         // 7dul2
     }
