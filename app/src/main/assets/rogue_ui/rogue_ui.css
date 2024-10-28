@@ -1,0 +1,32 @@
+:root {
+    --ru-background-color: #1d1d1f;          /* 深色背景，通常用于主背景颜色 (29, 29, 31) */
+    --ru-item-background-color: #27272a;     /* 项目背景颜色，稍浅一些的灰黑色背景 (39, 39, 42) */
+
+    --ru-item-background-color-glass: #27272ae0;     /* 项目背景颜色，稍浅一些的灰黑色背景 (39, 39, 42) */
+
+    --ru-shadow-color : rgba(255, 255, 255, 0.3);
+
+    --ru-text-color: #F5F5F7;                /* 白色文本颜色，用于正文 (245, 245, 247) */
+    --ru-sub-text-color: #898991;            /* 辅助文本颜色，通常用于次要文本 */
+    
+
+    --ru-alert-color: #b62324;               /* 红色警告颜色，用于错误提示或警告信息 (182, 35, 36) */
+    --ru-valid-color: #29903b;               /* 绿色有效颜色，用于成功或有效的提示 (41, 144, 59) */
+
+    --ru-font-size-large-title: 2.5rem;        /* 40px 大标题 */
+    --ru-font-size-small-title: 2rem;        /* 32px 小标题 */
+    --ru-font-size-body: 1rem;               /* 16px 正文 */
+    --ru-font-size-small-body: 0.875rem;     /* 14px 小正文 */
+    --ru-font-size-caption: 0.75rem;         /* 12px 标注 */
+
+    --ru-spacing-xs: 0.25rem;     /* 4px 极小间距 - 用于按钮内文本与边缘的距离、图标与文字的间隔 */
+    --ru-spacing-sm: 0.5rem;      /* 8px 小间距 - 用于列表项之间、卡片与标题之间的间距 */
+    --ru-spacing-md: 1rem;        /* 16px 中等间距 - 用于段落之间、表单元素之间的间隔 */
+    --ru-spacing-lg: 2rem;        /* 32px 大间距 - 用于大标题与正文之间的空间、分隔不同内容区块的距离 */
+    --ru-spacing-xl: 3rem;        /* 48px 超大间距 - 用于页面间隔、主要元素的显著分隔 */
+
+
+    --ru-border-radius-sm: 0.5rem;   /* 小圆角 - 用于按钮、输入框等元素的轻微圆角 */
+    --ru-border-radius-md: 1rem;    /* 中等圆角 - 用于卡片、模块等元素的适中圆角 */
+    --ru-border-radius-lg: 2rem;      /* 大圆角 - 用于对话框、模态框等元素的显著圆角 */
+}

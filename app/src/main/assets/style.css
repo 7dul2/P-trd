@@ -1,11 +1,13 @@
 :root {
-    --background-color: #1D1D1F;
-    --background-sub-color: #262629;
+    --background-color: #1d1d1f;
+    --background-color-glass: #1d1d1fA6;
+    --background-color-frosted-glass : #1d1d1fd8;
+    --background-sub-color: #27272a;
     --text-color: #F5F5F7;
-    --text-sub-color: #8e8e8e;
+    --text-sub-color: #9999a1;
     --up-color:#00AA41;
     --down-color:#DB2F63;
-    --stay-color:#8e8e8e;
+    --stay-color:#9999a1;
     --chart-color-1:#157efb;
     --chart-color-2:#53d769;
     --chart-color-3:#fdcb2e;
@@ -24,6 +26,7 @@
     --border-radius-2: 0.3rem;
 
     --margin_bottom_1: 3rem;
+    --margin_bottom_1_5: 2.25rem;
     --margin_bottom_2: 1.5rem;
     --margin_bottom_3: 1rem;
     --margin_bottom_4: 0.6rem;
@@ -124,4 +127,5 @@ input:checked + .slider:before {
     font-size : var(--heading-2-font-size);
     color :  var(--text-color);
 }
+
 

@@ -1,0 +1,53 @@
+.ru_message_list {
+    position: fixed;
+    top: var(--ru-spacing-md);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    z-index: 8888;
+}
+
+.ru_message_list ru_button{
+    margin-bottom: var(--ru-spacing-md);
+
+    box-shadow: 0 0 10px var(--ru-background-color);
+
+    animation: pop_in 0.3s ease-in;
+
+    background-color: var(--ru-item-background-color-glass);
+
+    backdrop-filter: blur(0.6rem);
+}
+
+@keyframes pop_in {
+    from {
+        opacity: 0;
+        scale: 0.8
+    }
+    to {
+        opacity: 1;
+        scale: 1
+    }
+}
+
+.ru_message_list ru_button[paused="true"]{
+    box-shadow: 0 0 10px var(--ru-shadow-color);
+}
+
+.ru_message_list ru_button[pop_out="true"]{
+    animation: pop_out 0.3s ease-out;
+    opacity: 0;
+    overflow: hidden;
+}
+
+@keyframes pop_out {
+    from {
+        opacity: 1;
+        scale: 1
+    }
+    to {
+        opacity: 0;
+        scale: 0.8;
+        height: 0;
+    }
+}

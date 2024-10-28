@@ -1,4 +1,4 @@
-var Version = "Alpha.1.0.8";
+var Version = "Alpha.1.1.0";
 function update_check(){
     var xhr = new XMLHttpRequest();
     xhr.open('GET', "http://p-trd.cn/api/version",true);
@@ -457,3 +457,16 @@ function load_trend_color_preference(){
     return status;
 }
 load_trend_color_preference();
+
+
+function prevent_scroll(e) {
+    e.preventDefault(); // 阻止默认滚动行为
+}
+function disable_scroll(e) {
+    e.addEventListener('wheel', prevent_scroll, { passive: false }); // 禁用鼠标滚动
+    e.addEventListener('touchmove', prevent_scroll, { passive: false }); // 禁用触摸滚动
+}
+function enable_scroll(e) {
+    e.removeEventListener('wheel', prevent_scroll); // 恢复鼠标滚动
+    e.removeEventListener('touchmove', prevent_scroll); // 恢复触摸滚动
+}

@@ -331,6 +331,83 @@ var time_ranges = {
     "近1年" : "YEAR",
 };
 
+var categories = {
+    "weapon_knife_survival_bowie": "鲍伊猎刀",
+    "weapon_knife_butterfly": "蝴蝶刀",
+    "weapon_knife_falchion": "弯刀",
+    "weapon_knife_flip": "折叠刀",
+    "weapon_knife_gut": "穿肠刀",
+    "weapon_knife_tactical": "猎杀者匕首",
+    "weapon_knife_m9_bayonet": "M9 刺刀",
+    "weapon_bayonet": "刺刀",
+    "weapon_knife_karambit": "爪子刀",
+    "weapon_knife_push": "暗影双匕",
+    "weapon_knife_stiletto": "短剑",
+    "weapon_knife_ursus": "熊刀",
+    "weapon_knife_gypsy_jackknife": "折刀",
+    "weapon_knife_widowmaker": "锯齿爪刀",
+    "weapon_knife_css": "海豹短刀",
+    "weapon_knife_cord": "系绳匕首",
+    "weapon_knife_canis": "求生匕首",
+    "weapon_knife_outdoor": "流浪者匕首",
+    "weapon_knife_skeleton": "骷髅匕首",
+    "weapon_knife_kukri": "廓尔喀刀",
+    "weapon_hkp2000": "P2000",
+    "weapon_usp_silencer": "USP 消音版",
+    "weapon_glock": "格洛克 18 型",
+    "weapon_p250": "P250",
+    "weapon_fiveseven": "FN57",
+    "weapon_cz75a": "CZ75 自动手枪",
+    "weapon_tec9": "Tec-9",
+    "weapon_revolver": "R8 左轮手枪",
+    "weapon_deagle": "沙漠之鹰",
+    "weapon_elite": "双持贝瑞塔",
+    "weapon_taser": "电击枪",
+    "weapon_galilar": "加利尔 AR",
+    "weapon_scar20": "SCAR-20",
+    "weapon_awp": "AWP",
+    "weapon_ak47": "AK-47",
+    "weapon_famas": "法玛斯",
+    "weapon_m4a1": "M4A4",
+    "weapon_m4a1_silencer": "M4A1 消音型",
+    "weapon_sg556": "SG 553",
+    "weapon_ssg08": "SSG 08",
+    "weapon_aug": "AUG",
+    "weapon_g3sg1": "G3SG1",
+    "weapon_p90": "P90",
+    "weapon_mac10": "MAC-10",
+    "weapon_ump45": "UMP-45",
+    "weapon_mp7": "MP7",
+    "weapon_bizon": "PP-野牛",
+    "weapon_mp9": "MP9",
+    "weapon_mp5sd": "MP5-SD",
+    "weapon_sawedoff": "截短霰弹枪",
+    "weapon_xm1014": "XM1014",
+    "weapon_nova": "新星",
+    "weapon_mag7": "MAG-7",
+    "weapon_m249": "M249",
+    "weapon_negev": "内格夫",
+    "weapon_bloodhound_gloves": "血猎手套",
+    "weapon_driver_gloves": "驾驶手套",
+    "weapon_hand_wraps": "裹手",
+    "weapon_moto_gloves": "摩托手套",
+    "weapon_specialist_gloves": "专业手套",
+    "weapon_sport_gloves": "运动手套",
+    "weapon_hydra_gloves": "九头蛇手套",
+    "weapon_brokenfang_gloves": "狂牙手套",
+    "sticker": "贴纸",
+    "csgo_type_weaponcase": "武器箱",
+    "type_customplayer": "探员",
+    "csgo_type_musickit": "音乐盒"
+}
+
+var flipped_categories = {};
+for (var key in categories) {
+    if (categories.hasOwnProperty(key)) {
+        flipped_categories[categories[key]] = key;
+    }
+}
+
 // 发送请求的参数
 var params;
 
@@ -423,7 +500,7 @@ function insert(datas){
                         attribute : {
                             viewBox: '64 64 896 896',
                         },
-                        id : "unfold_"+key,
+                        id : "fold_"+key,
                         children: [
                             {
                                 tag: 'path',
@@ -432,25 +509,7 @@ function insert(datas){
                                 }
                             }
                         ]
-                    },
-                    {
-                        tag: 'svg',
-                        attribute : {
-                            viewBox: '64 64 896 896',
-                        },
-                        id : "fold_"+key,
-                        children: [
-                            {
-                                tag: 'path',
-                                attribute : {
-                                    d: 'M890.5 755.3L537.9 269.2c-12.8-17.6-39-17.6-51.7 0L133.5 755.3A8 8 0 00140 768h75c5.1 0 9.9-2.5 12.9-6.6L512 369.8l284.1 391.6c3 4.1 7.8 6.6 12.9 6.6h75c6.5 0 10.3-7.4 6.5-12.7z'
-                                }
-                            }
-                        ],
-                        style : {
-                            display : "none"
-                        }
-                    },
+                    }
                 ]
             }
         ]
@@ -670,23 +729,23 @@ function insert(datas){
         ]
     },item_infos);
 
-
-    document.getElementById("unfold_"+key).addEventListener('click', function() {
-        document.getElementById("unfold_"+key).style.display = "none"
-        document.getElementById("fold_"+key).style.display = ""
+    const fold_tool = document.getElementById("fold_"+key);
+    let is_fold = false;// 是否折叠
+    fold_tool.addEventListener("click", function() {
+        // 切换旋转状态
+        if (!is_fold) {
+            fold_tool.style.transform = "rotate(180deg)";
+            is_fold = true;
+        } else {
+            fold_tool.style.transform = "rotate(0deg)";
+            is_fold = false;
+        }
 
         toggle_height(item_infos);
 
         if (document.getElementById("pop_up_index_chart_" + key).children.length === 0){
             load_infos(name,key);
         }
-    });
-
-    document.getElementById("unfold_"+key).addEventListener('click', function() {
-        document.getElementById("fold_"+key).style.display = "none"
-        document.getElementById("unfold_"+key).style.display = ""
-
-        toggle_height(item_infos);
     });
 } 
 
@@ -1037,6 +1096,16 @@ function toggle_height(container) {
     }
 }
 
+function toggle_width(container) {
+    if (container.style.right === '0px') {
+        container.style.right = "-100%";
+        // 收回
+    } else {
+        container.style.right = "0px"; 
+        // 展开
+    }
+}
+
 // 用于获取小数长度
 function get_decimal_places(num) {
     // 将数字转换为字符串
@@ -1071,3 +1140,5 @@ observe_element_visibility(loading_element, () => {
     console.log("see,next page");
     next_page();
 });
+
+var is_preset = false;

@@ -7,13 +7,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "p_trd.db";
-    private static final int DATABASE_VERSION = 3; // 版本号更新为3
+    private static final int DATABASE_VERSION = 4; // 版本号更新为4
 
     // 表名
     private static final String TABLE_STARS = "stars";
     private static final String TABLE_USER = "user";
     private static final String TABLE_ITEMS = "items";
     private static final String TABLE_CONFIG = "config"; // 新增 config 表
+    private static final String TABLE_RANK = "rank"; // 新增 rank 表
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,6 +37,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // 创建 config 表
         String CREATE_TABLE_CONFIG = "CREATE TABLE " + TABLE_CONFIG + " (name TEXT UNIQUE, value TEXT)";
         db.execSQL(CREATE_TABLE_CONFIG);
+
+        // 创建 rank 表
+        String CREATE_TABLE_RANK = "CREATE TABLE " + TABLE_RANK + " (name TEXT, params TEXT)";
+        db.execSQL(CREATE_TABLE_RANK);
     }
 
     @Override
@@ -54,6 +59,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // 创建 config 表
             String CREATE_TABLE_CONFIG = "CREATE TABLE " + TABLE_CONFIG + " (name TEXT UNIQUE, value TEXT)";
             db.execSQL(CREATE_TABLE_CONFIG);
+        }
+
+        if (oldVersion < 4) {
+            // 创建 rank 表
+            String CREATE_TABLE_RANK = "CREATE TABLE " + TABLE_RANK + " (name TEXT, params TEXT)";
+            db.execSQL(CREATE_TABLE_RANK);
         }
     }
 

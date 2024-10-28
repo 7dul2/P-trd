@@ -50,6 +50,8 @@ var sponsors = [
     "浪漫至死不渝",
     "下北泽大现充",
     "fgdgdf",
+    "周全zzzzz",
+    "小蘇菌"
 ];
 
 sponsors.forEach(function(sponsor) {

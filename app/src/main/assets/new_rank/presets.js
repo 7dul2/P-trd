@@ -1,7 +1,7 @@
 (function() {
     var presets = {
         "周涨幅榜" : {
-            "minPrice":0,
+            "minPrice":10,
             "minSellCount":300,
             "sellCountTimeRange":"DAY",
             "sellCountChange":72,
@@ -11,7 +11,7 @@
             "page":1
         },
         "周跌幅榜" : {
-            "minPrice":0,
+            "minPrice":10,
             "minSellCount":300,
             "sellCountTimeRange":"DAY",
             "sellCountChange":72,
@@ -64,6 +64,8 @@
                 nav.addEventListener('click', function() {
                     is_loading = true;
                     reset();
+
+                    is_preset = true;
 
                     // 所有导航项设置为未激活状态
                     var navs = document.querySelectorAll('.nav p');
