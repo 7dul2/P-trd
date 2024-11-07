@@ -11,9 +11,6 @@
 
         toggle_width(pop); // 弹出窗口
 
-        disable_scroll(document.getElementById("container"));
-        // 禁用滚动
-
         var nav = get_nav();
         document.getElementById("pop_name").innerHTML = nav.innerHTML;
         // 修改pop_name
@@ -21,10 +18,6 @@
 
     document.getElementById("pop_back").addEventListener('click', function() {
         toggle_width(pop);
-
-        reset();
-
-        enable_scroll(document.getElementById("container"));
         // 允许滚动
     });
 
@@ -273,14 +266,9 @@
         document.getElementById("selected_type").innerHTML = "排序类型"; // 初始化
         if (params.hasOwnProperty("type")) {
             var p = params.type.replace(/_DESC|_ASC|_BUFF|_YYYP|_IGXE|_C5/g, "");
-            for (var key in types) {
-                if (types.hasOwnProperty(key)) {
-                    var i = types[key];
-                    if (i === p){
-                        document.getElementById("selected_type").innerHTML = key;
-                        type = p;
-                    }
-                }
+            if (flipped_types[p]) {
+                document.getElementById("selected_type").innerHTML = flipped_types[p];
+                type = p;
             }
         }
 
@@ -428,7 +416,7 @@
         var y = true;
         document.querySelectorAll('[params-bind="sort"]').forEach(element => {
             if (element.style.display == "none"){
-                return false
+                y = false
             }
         });// 如果排序被隐藏无法选择
         if (y){
@@ -530,15 +518,56 @@
 
 
     document.getElementById("change_save").addEventListener('click', function() {
-        if (is_preset){
+        var rank_name = document.getElementById("pop_name").innerText;
+        var rank_names = {
+            "周涨幅榜" : true,
+            "周跌幅榜" : true,
+            "周热销榜" : true,
+            "周热租榜" : true,
+        }
+        if (rank_names[rank_name]) {
             ru_msg({
                 text : "预设排行榜无法修改！"
             });
+            return
         }
+
+        var p = get_params();
+
+        if (!p) {
+            ru_msg({
+                text : "必选项未填写！"
+            });
+            return
+        }
+
+        var param_string = escape(JSON.stringify(p));
+
+        DataBase.executeSQL("UPDATE rank SET params = ? WHERE name = ?", [param_string, rank_name]);
+
+        // 收回弹出窗口
+        toggle_width(pop); 
+
+        routes_update(rank_name,p);
     });
 
     document.getElementById("new_rank").addEventListener('click', function() {
+        var p = get_params();
+
+        if (!p) {
+            ru_msg({
+                text : "必选项未填写！"
+            });
+            return
+        }
+
         pop_up();
+
+        var fliter = "";
+
+        document.querySelectorAll('.customize_nav').forEach(element => {
+            fliter += element.textContent + "|"
+        });
 
         var e = _ie({
             tag : "div",
@@ -575,7 +604,7 @@
             tag : "ru_input",
             attribute : {
                 hint : "排行榜名称",
-                check : "^(?!(周涨幅榜|周跌幅榜|周热销榜|周热租榜)$).*"
+                check : "^(?!(" + fliter + "周涨幅榜|周跌幅榜|周热销榜|周热租榜)$).*"
             }
         },document.getElementById("p_c_1"));
 
@@ -600,15 +629,46 @@
                     });
                     return
                 }
-                params = get_params();
-                params.priceChangePercentTimeRange = "WEEK";
-                params.page = 1;
-        
-                var param_string = escape(JSON.stringify(params));
-                console.log(p_input.value(),param_string);
+                
+                p.priceChangePercentTimeRange = "WEEK";
+                p.page = 1;
+                var param_string = escape(JSON.stringify(p));
 
                 DataBase.executeSQL("INSERT OR IGNORE INTO rank (name,params) VALUES (?,?)",[p_input.value(),param_string]);
+
+                // 收回弹出窗口
+                toggle_width(pop); 
+
+                routes_new(p_input.value(), p);
+
+                routes_load(p_input.value());
+
+                // 收回弹出框
+                pop_up();
             })
-        },100)
+        },100);
+    });
+
+
+    document.getElementById("rank_delete").addEventListener('click', function() {
+        var rank_name = document.getElementById("pop_name").innerText;
+        var rank_names = {
+            "周涨幅榜" : true,
+            "周跌幅榜" : true,
+            "周热销榜" : true,
+            "周热租榜" : true,
+        }
+        if (rank_names[rank_name]) {
+            ru_msg({
+                text : "你不能删除预设排行榜!"
+            });
+            return
+        }
+
+        DataBase.executeSQL("DELETE FROM rank WHERE name = ?", [rank_name]);
+
+        routes_delete(rank_name);
+
+        toggle_width(pop); 
     });
 })();

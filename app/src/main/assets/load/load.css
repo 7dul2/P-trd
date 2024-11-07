@@ -6,7 +6,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #F5F5F7;
+    color: var(--text-color);
 }
 
 .load div {
@@ -29,7 +29,7 @@
 
 .right p {
     margin: .5rem 1.5rem;
-    color: #F5F5F7;
+    color: var(--text-color);
     font-weight: 600;
     font-size: 1.5rem;
 }

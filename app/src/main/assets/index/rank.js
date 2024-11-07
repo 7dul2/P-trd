@@ -1,21 +1,3 @@
-var all_resps = {};
-function receive(key,resp){
-    all_resps[key] = resp;
-}
-function wait4value(key) {
-    return new Promise((resolve, reject) => {
-        const checkValue = () => {
-            if (typeof all_resps[key] !== 'undefined') {
-                resolve(all_resps[key]);
-            } else {
-                setTimeout(checkValue, 100);
-            }
-        };
-        checkValue();
-    });
-}
-
-// 所有允许选择的类型
 var types = {
     "在售底价涨跌(数值)" : "PRICE_CHANGE",
     "在售底价涨跌(百分比)" : "PRICE_CHANGE_PERCENT",
@@ -40,8 +22,6 @@ var types = {
     "挂刀比" : "STEAM",
     "套现比" : "CASH",
 };
-
-// 所有的type对应的value属性
 var value_types = {
     "PRICE_CHANGE": "price_change",
     "PRICE_CHANGE_PERCENT": "float",
@@ -67,352 +47,139 @@ var value_types = {
     "CASH": "value"
 };
 
-// 所有允许分市场的类型
-var marketable_types = [
-    "PURCHASE_MAXPRICE","PURCHASE_COUNT","PURCHASE_DIFFPRICE_PERCENT",
-];
-// + BUFF/YYYP/IGXE/C5
-
-// 所有允许排序的类型
-var sortable_types = [
-    "PRICE_CHANGE","PRICE_CHANGE","PRICE_CHANGE_PERCENT","PRICE_CHANGE_PERCENT",
-    "MINPRICE","LEASEPRICE","LONGLEASEPRICE","SELLCOUNT","SELLCOUNT_SUM","LEASECOUNT","LEASECOUNT_SUM","PURCHASE_MAXPRICE",
-    "PURCHASE_DIFFPRICE_PERCENT","PURCHASE_COUNT","FLOAT_COUNT",
-];
-
-// + _DESC/_ASC
-var category = [{
-    name: "匕首",
-    key: "knives",
-    category: [{
-        name: "鲍伊猎刀",
-        key: "weapon_knife_survival_bowie",
-    }, {
-        name: "蝴蝶刀",
-        key: "weapon_knife_butterfly",
-    }, {
-        name: "弯刀",
-        key: "weapon_knife_falchion",
-    }, {
-        name: "折叠刀",
-        key: "weapon_knife_flip",
-    }, {
-        name: "穿肠刀",
-        key: "weapon_knife_gut",
-    }, {
-        name: "猎杀者匕首",
-        key: "weapon_knife_tactical",
-    }, {
-        name: "M9 刺刀",
-        key: "weapon_knife_m9_bayonet",
-    }, {
-        name: "刺刀",
-        key: "weapon_bayonet",
-    }, {
-        name: "爪子刀",
-        key: "weapon_knife_karambit",
-    }, {
-        name: "暗影双匕",
-        key: "weapon_knife_push",
-    }, {
-        name: "短剑",
-        key: "weapon_knife_stiletto",
-    }, {
-        name: "熊刀",
-        key: "weapon_knife_ursus",
-    }, {
-        name: "折刀",
-        key: "weapon_knife_gypsy_jackknife",
-    }, {
-        name: "锯齿爪刀",
-        key: "weapon_knife_widowmaker",
-    }, {
-        name: "海豹短刀",
-        key: "weapon_knife_css",
-    }, {
-        name: "系绳匕首",
-        key: "weapon_knife_cord",
-    }, {
-        name: "求生匕首",
-        key: "weapon_knife_canis",
-    }, {
-        name: "流浪者匕首",
-        key: "weapon_knife_outdoor",
-    }, {
-        name: "骷髅匕首",
-        key: "weapon_knife_skeleton",
-    }, {
-        name: "廓尔喀刀",
-        key: "weapon_knife_kukri",
-    }]
-}, {
-    name: "手枪",
-    key: "pistols",
-    category: [{
-        name: "P2000",
-        key: "weapon_hkp2000",
-    }, {
-        name: "USP 消音版",
-        key: "weapon_usp_silencer",
-    }, {
-        name: "格洛克 18 型",
-        key: "weapon_glock",
-    }, {
-        name: "P250",
-        key: "weapon_p250",
-    }, {
-        name: "FN57",
-        key: "weapon_fiveseven",
-    }, {
-        name: "CZ75 自动手枪",
-        key: "weapon_cz75a",
-    }, {
-        name: "Tec-9",
-        key: "weapon_tec9",
-    }, {
-        name: "R8 左轮手枪",
-        key: "weapon_revolver",
-    }, {
-        name: "沙漠之鹰",
-        key: "weapon_deagle",
-    }, {
-        name: "双持贝瑞塔",
-        key: "weapon_elite",
-    }, {
-        name: "电击枪",
-        key: "weapon_taser",
-    }]
-}, {
-    name: "步枪",
-    key: "rifles",
-    category: [{
-        name: "加利尔 AR",
-        key: "weapon_galilar",
-    }, {
-        name: "SCAR-20",
-        key: "weapon_scar20",
-    }, {
-        name: "AWP",
-        key: "weapon_awp",
-    }, {
-        name: "AK-47",
-        key: "weapon_ak47",
-    }, {
-        name: "法玛斯",
-        key: "weapon_famas",
-    }, {
-        name: "M4A4",
-        key: "weapon_m4a1",
-    }, {
-        name: "M4A1 消音型",
-        key: "weapon_m4a1_silencer",
-    }, {
-        name: "SG 553",
-        key: "weapon_sg556",
-    }, {
-        name: "SSG 08",
-        key: "weapon_ssg08",
-    }, {
-        name: "AUG",
-        key: "weapon_aug",
-    }, {
-        name: "G3SG1",
-        key: "weapon_g3sg1",
-    }]
-}, {
-    name: "冲锋枪",
-    key: "smgs",
-    category: [{
-        name: "P90",
-        key: "weapon_p90",
-    }, {
-        name: "MAC-10",
-        key: "weapon_mac10",
-    }, {
-        name: "UMP-45",
-        key: "weapon_ump45",
-    }, {
-        name: "MP7",
-        key: "weapon_mp7",
-    }, {
-        name: "PP-野牛",
-        key: "weapon_bizon",
-    }, {
-        name: "MP9",
-        key: "weapon_mp9",
-    }, {
-        name: "MP5-SD",
-        key: "weapon_mp5sd",
-    }]
-}, {
-    name: "霰弹枪",
-    key: "shotguns",
-    category: [{
-        name: "截短霰弹枪",
-        key: "weapon_sawedoff",
-    }, {
-        name: "XM1014",
-        key: "weapon_xm1014",
-    }, {
-        name: "新星",
-        key: "weapon_nova",
-    }, {
-        name: "MAG-7",
-        key: "weapon_mag7",
-    }]
-}, {
-    name: "机枪",
-    key: "machineguns",
-    category: [{
-        name: "M249",
-        key: "weapon_m249",
-    }, {
-        name: "内格夫",
-        key: "weapon_negev",
-    }]
-}, {
-    name: "手套",
-    key: "gloves",
-    category: [{
-        name: "血猎手套",
-        key: "weapon_bloodhound_gloves",
-    }, {
-        name: "驾驶手套",
-        key: "weapon_driver_gloves",
-    }, {
-        name: "裹手",
-        key: "weapon_hand_wraps",
-    }, {
-        name: "摩托手套",
-        key: "weapon_moto_gloves",
-    }, {
-        name: "专业手套",
-        key: "weapon_specialist_gloves",
-    }, {
-        name: "运动手套",
-        key: "weapon_sport_gloves",
-    }, {
-        name: "九头蛇手套",
-        key: "weapon_hydra_gloves",
-    }, {
-        name: "狂牙手套",
-        key: "weapon_brokenfang_gloves",
-    }]
-}, {
-    name: "贴纸",
-    key: "stickers",
-    category: [{
-        name: "贴纸",
-        key: "sticker",
-    }]
-}, {
-    name: "其他",
-    key: "others",
-    category: [{
-        name: "武器箱",
-        key: "csgo_type_weaponcase",
-    }, {
-        name: "探员",
-        key: "type_customplayer",
-    }, {
-        name: "音乐盒",
-        key: "csgo_type_musickit",
-    }]
-}];
-var exterior = ["崭新出厂", "略有磨损", "久经沙场", "破损不堪", "战痕累累", "无涂装"];
-var quality = ["普通", "★", "纪念品", "StatTrak™", "★ StatTrak™"];
-var rarity = ["违禁", "隐秘", "保密", "受限", "军规级", "工业级", "消费级", "大师", "非凡", "卓越", "奇异", "高级"];
-var time_ranges = {
-    "近1天" : "DAY",
-    "近1周" : "WEEK",
-    "近1个月" : "MONTH",
-    "近3个月" : "QUARTER",
-    "近6个月" : "HALF_YEAR",
-    "近1年" : "YEAR",
-};
-
-var categories = {
-    "weapon_knife_survival_bowie": "鲍伊猎刀",
-    "weapon_knife_butterfly": "蝴蝶刀",
-    "weapon_knife_falchion": "弯刀",
-    "weapon_knife_flip": "折叠刀",
-    "weapon_knife_gut": "穿肠刀",
-    "weapon_knife_tactical": "猎杀者匕首",
-    "weapon_knife_m9_bayonet": "M9 刺刀",
-    "weapon_bayonet": "刺刀",
-    "weapon_knife_karambit": "爪子刀",
-    "weapon_knife_push": "暗影双匕",
-    "weapon_knife_stiletto": "短剑",
-    "weapon_knife_ursus": "熊刀",
-    "weapon_knife_gypsy_jackknife": "折刀",
-    "weapon_knife_widowmaker": "锯齿爪刀",
-    "weapon_knife_css": "海豹短刀",
-    "weapon_knife_cord": "系绳匕首",
-    "weapon_knife_canis": "求生匕首",
-    "weapon_knife_outdoor": "流浪者匕首",
-    "weapon_knife_skeleton": "骷髅匕首",
-    "weapon_knife_kukri": "廓尔喀刀",
-    "weapon_hkp2000": "P2000",
-    "weapon_usp_silencer": "USP 消音版",
-    "weapon_glock": "格洛克 18 型",
-    "weapon_p250": "P250",
-    "weapon_fiveseven": "FN57",
-    "weapon_cz75a": "CZ75 自动手枪",
-    "weapon_tec9": "Tec-9",
-    "weapon_revolver": "R8 左轮手枪",
-    "weapon_deagle": "沙漠之鹰",
-    "weapon_elite": "双持贝瑞塔",
-    "weapon_taser": "电击枪",
-    "weapon_galilar": "加利尔 AR",
-    "weapon_scar20": "SCAR-20",
-    "weapon_awp": "AWP",
-    "weapon_ak47": "AK-47",
-    "weapon_famas": "法玛斯",
-    "weapon_m4a1": "M4A4",
-    "weapon_m4a1_silencer": "M4A1 消音型",
-    "weapon_sg556": "SG 553",
-    "weapon_ssg08": "SSG 08",
-    "weapon_aug": "AUG",
-    "weapon_g3sg1": "G3SG1",
-    "weapon_p90": "P90",
-    "weapon_mac10": "MAC-10",
-    "weapon_ump45": "UMP-45",
-    "weapon_mp7": "MP7",
-    "weapon_bizon": "PP-野牛",
-    "weapon_mp9": "MP9",
-    "weapon_mp5sd": "MP5-SD",
-    "weapon_sawedoff": "截短霰弹枪",
-    "weapon_xm1014": "XM1014",
-    "weapon_nova": "新星",
-    "weapon_mag7": "MAG-7",
-    "weapon_m249": "M249",
-    "weapon_negev": "内格夫",
-    "weapon_bloodhound_gloves": "血猎手套",
-    "weapon_driver_gloves": "驾驶手套",
-    "weapon_hand_wraps": "裹手",
-    "weapon_moto_gloves": "摩托手套",
-    "weapon_specialist_gloves": "专业手套",
-    "weapon_sport_gloves": "运动手套",
-    "weapon_hydra_gloves": "九头蛇手套",
-    "weapon_brokenfang_gloves": "狂牙手套",
-    "sticker": "贴纸",
-    "csgo_type_weaponcase": "武器箱",
-    "type_customplayer": "探员",
-    "csgo_type_musickit": "音乐盒"
-}
-
-var flipped_categories = {};
-for (var key in categories) {
-    if (categories.hasOwnProperty(key)) {
-        flipped_categories[categories[key]] = key;
-    }
-}
-
 var flipped_types = {};
 for (var key in types) {
     if (types.hasOwnProperty(key)) {
         flipped_types[types[key]] = key;
     }
+}
+
+function init_nav() {
+    var nav_items = document.querySelectorAll('.rank_navs p');
+    var selection_indicator = document.querySelector('.selection-indicator');
+
+    function move_indicator(element) {
+        var element_width = element.offsetWidth;
+        var element_left = element.offsetLeft;
+
+        selection_indicator.style.width = element_width + 'px';
+        selection_indicator.style.left = element_left + 'px';
+
+        selection_indicator.style.boxShadow = '2px 0 5px rgba(255, 255, 255, 0.5)'; // 初始模糊效果
+        setTimeout(() => {
+            selection_indicator.style.boxShadow = 'none'; // 移动后清除模糊
+        }, 300); // 等待过渡完成后清除模糊
+    }
+
+    // 初始化，移动指示标到默认激活的元素
+    var active_item = document.querySelector('.rank_navs p[data-active="true"]');
+
+    // 如果没有激活项，则默认激活第一个元素
+    if (!active_item && nav_items.length > 0) {
+        active_item = nav_items[0];
+        active_item.setAttribute("data-active", "true");
+    }
+
+    // 如果找到激活的项，则移动指示标
+    if (active_item) {
+        move_indicator(active_item);
+    }
+
+    // 添加点击事件，切换激活状态并移动指示标
+    nav_items.forEach(function(nav_item) {
+        nav_item.addEventListener('click', function() {
+            // 移除其他元素的激活状态
+            nav_items.forEach(function(item) {
+                item.setAttribute('data-active', 'false');
+            });
+
+            // 设置当前点击的元素为激活状态
+            nav_item.setAttribute('data-active', 'true');
+
+            // 移动指示标到当前元素
+            move_indicator(nav_item);
+        });
+    });
+}
+
+var routes = {};
+
+function routes_delete(_n){
+    delete routes[_n];
+
+    var navs = document.querySelectorAll('.nav p');
+    navs.forEach(function(item) {
+        item.setAttribute("data-active", "false");
+        if (item.textContent === _n){
+            item.remove();
+        }
+    });
+
+    routes_load("周涨幅榜");
+
+    init_nav();
+}
+
+function routes_new(_n,_p) {
+    // 如果没有value_name,就直接查询
+
+    if (_n !== "自选"){
+        if (!_p.value_name) {
+            _p.value_name = flipped_types[(_p.type).replace(/_DESC|_ASC|_BUFF|_YYYP|_IGXE|_C5/g,"")];
+        }
+    
+        _p.page = 1;
+        _p.priceChangePercentTimeRange = "WEEK";
+    }
+
+    routes[_n] = _p;
+
+    var nav = _ie({
+        tag: "p",
+        innerHTML: _n
+    }, document.getElementById("rank_navs"));
+
+    nav.addEventListener('click', function() {
+        routes_load(_n)
+    });
+}
+
+function routes_update(_n,_p) {
+    if (!_p.value_name) {
+        _p.value_name = flipped_types[(_p.type).replace(/_DESC|_ASC|_BUFF|_YYYP|_IGXE|_C5/g,"")];
+    }
+
+    _p.page = 1;
+    _p.priceChangePercentTimeRange = "WEEK";
+
+    routes[_n] = _p;
+    routes_load(_n)
+}
+
+function routes_load(_n) {
+    reset();
+
+    var navs = document.querySelectorAll('.nav p');
+    navs.forEach(function(item) {
+        item.setAttribute("data-active", "false");
+        if (item.textContent === _n){
+            item.setAttribute("data-active", "true");
+        }
+    });
+
+    if (_n == "自选") {
+        load_stared(routes[_n]);
+        document.getElementById('value_name').innerHTML = "周浮动";
+        document.getElementById("value_name_1").innerHTML = "价格(在售量)"
+    } else{
+        params = {...routes[_n]};
+        load();
+        document.getElementById('value_name').innerHTML = routes[_n]["value_name"];
+        document.getElementById("value_name_1").innerHTML = "价格(周浮动)"
+    }
+
+
+    init_nav();
 }
 
 // 发送请求的参数
@@ -424,8 +191,6 @@ function load(){
 
     var key = Math.random().toString(36).substr(2) + Date.now().toString(36);
 
-    console.log(params);
-
     Request.post(url,JSON.stringify(params),key, "receive");
 
     wait4value(key).then(value => {
@@ -434,14 +199,10 @@ function load(){
 
         var resp = JSON.parse(all_resps[key]).data;
 
-        console.log(resp);
-
         // 如果匹配结果为空
         if (resp === null){
-            document.getElementById("loading").style.display = "none";
-            document.getElementById("mark").innerText = "无结果";
+
             delete all_resps[key];
-            is_loading = false;
             return
         }
 
@@ -449,10 +210,8 @@ function load(){
         resp = resp.list;
 
         if (resp.length === 0){
-            document.getElementById("loading").style.display = "none";
-            document.getElementById("mark").innerText = "无结果";
+
             delete all_resps[key];
-            is_loading = false;
             return
         }
 
@@ -462,11 +221,32 @@ function load(){
         });
 
         delete all_resps[key];
-
-        is_loading = false;
-        // 加载结束了
     })
 
+}
+
+// 加载收藏
+function load_stared(items){
+    var sleep = 0;
+    items.forEach(item => {
+        setTimeout(function(){
+            var item_name = item[0];
+
+            var url = "https://api-csob.ok-skins.com/api/v2/goods/chart";
+            
+            var post_data = {"goodsId":item_names[item_name].id,"platform":0,"timeRange":"WEEK","data":["createTime","minPrice","sellCount"]}
+
+            var key = Math.random().toString(36).substr(2) + Date.now().toString(36);
+
+            Request.post(url,JSON.stringify(post_data),key, "receive");
+            wait4value(key).then(value => {
+                insert(JSON.parse(all_resps[key]).data.list,"star",item_name);
+            });
+        }, sleep);
+        sleep += 500;
+
+        // 避免同时发送大量请求形成阻塞
+    });
 }
 
 // 重置参数
@@ -477,21 +257,12 @@ function reset(){
         "page":1  
     } // 最基本的三个参数
 
-    document.getElementById("container").innerHTML = "";
-}
-
-// 下一页
-function next_page(){
-    is_loading = true;
-    console.log(params.page);
-    params.page += 1;
-    console.log(params.page);
-    load();
+    document.getElementById("rank_container").innerHTML = "";
 }
 
 // 往排行榜插入元素
-function insert(datas){
-    var parent = document.getElementById("container")
+function insert(datas,type="normal",name=""){
+    var parent = document.getElementById("rank_container")
     
     var num = parent.children.length + 1;// 商品排行
     var num_mark = null;
@@ -500,8 +271,15 @@ function insert(datas){
         // 如果前三名就标记
     }
 
-    var name = datas.goodsName; // 商品名称
+    if (type === "star") {
+        var name = name; // 商品名称
+    }
+    if (type === "normal") {
+        var name = datas.goodsName; // 商品名称
+    }
+
     var key = Math.random().toString(36).substr(2) + Date.now().toString(36);
+
 
     var item_header = {
         tag : "div",
@@ -548,25 +326,43 @@ function insert(datas){
         ]
     };
 
-    var price = (datas.price/100).toFixed(2); // 商品价格
-    var price_change_rate = (datas.minPriceChangePercent[7]*100).toFixed(2); // 七天浮动
 
     var price_html = ""; // 显示的html
-    if (price_change_rate >= 0){
-        price_html += "<up>+" + price_change_rate + "%</up>";
-    }else {
-        price_html += "<down>" + price_change_rate + "%</down>";
+    if (type === "star") {
+        var price = (datas[1][datas[1].length-1]/100).toFixed(2); // 商品价格
+        var sell_num = datas[2][datas[2].length-1];
+
+        price_html = sell_num;
+    }
+    if (type === "normal") {
+        var price = (datas.price/100).toFixed(2); // 商品价格
+        var price_change_rate = (datas.minPriceChangePercent[7]*100).toFixed(2); // 七天浮动
+
+        if (price_change_rate >= 0){
+            price_html += "<up>+" + price_change_rate + "%</up>";
+        }else {
+            price_html += "<down>" + price_change_rate + "%</down>";
+        }
     }
 
-    var value = datas.value; // 排行榜对应的数值
-    var value_tag = datas.value_type; // 展示value对应的html标签
-    var value_mark = "";
+    if (type === "star") {
+        var last_price = datas[1][0]/100;
+        var price_change_rate = (price - last_price) / last_price;
+        var value = price_change_rate; // 排行榜对应的数值
+        var value_tag = "float"; // 展示value对应的html标签
+    }
+
+    if (type === "normal") {
+        var value = datas.value; // 排行榜对应的数值
+        var value_tag = datas.value_type; // 展示value对应的html标签
+    }
 
     if (value_tag === "price"){
         value_tag = "value";
-        value = (value/100).toFixed(2)
+        value = (value/100).toFixed(2);
     }
 
+    var value_mark = "";
     if (value_tag === "float"){
         value = (value * 100).toFixed(2);
         if (value >= 0){
@@ -800,54 +596,6 @@ function insert(datas){
         if (document.getElementById("pop_up_index_chart_" + key).children.length === 0){
             load_infos(name,key);
         }
-    });
-} 
-
-function init_nav() {
-    var nav_items = document.querySelectorAll('.nav p');
-    var selection_indicator = document.querySelector('.selection-indicator');
-
-    function move_indicator(element) {
-        var element_width = element.offsetWidth;
-        var element_left = element.offsetLeft;
-
-        selection_indicator.style.width = element_width + 'px';
-        selection_indicator.style.left = element_left + 'px';
-
-        selection_indicator.style.boxShadow = '2px 0 5px rgba(255, 255, 255, 0.5)'; // 初始模糊效果
-        setTimeout(() => {
-            selection_indicator.style.boxShadow = 'none'; // 移动后清除模糊
-        }, 300); // 等待过渡完成后清除模糊
-    }
-
-    // 初始化，移动指示标到默认激活的元素
-    var active_item = document.querySelector('.nav p[data-active="true"]');
-
-    // 如果没有激活项，则默认激活第一个元素
-    if (!active_item && nav_items.length > 0) {
-        active_item = nav_items[0];
-        active_item.setAttribute("data-active", "true");
-    }
-
-    // 如果找到激活的项，则移动指示标
-    if (active_item) {
-        move_indicator(active_item);
-    }
-
-    // 添加点击事件，切换激活状态并移动指示标
-    nav_items.forEach(function(nav_item) {
-        nav_item.addEventListener('click', function() {
-            // 移除其他元素的激活状态
-            nav_items.forEach(function(item) {
-                item.setAttribute('data-active', 'false');
-            });
-
-            // 设置当前点击的元素为激活状态
-            nav_item.setAttribute('data-active', 'true');
-
-            // 移动指示标到当前元素
-            move_indicator(nav_item);
-        });
     });
 }
 
@@ -1104,15 +852,6 @@ function load_infos(name,key){
     })
 }
 
-lottie.loadAnimation({
-    container: document.getElementById('loading'),
-    renderer: 'svg',
-    loop: true,
-    autoplay: true,
-    animationData: anim_loading,
-    speed: 2,
-});
-
 function toggle_height(container) {
     if (container.style.height === '0px' || container.style.height === '') {
         container.style.height = "20rem";
@@ -1127,132 +866,98 @@ function toggle_height(container) {
     }
 }
 
-function toggle_width(container) {
-    if (container.style.right === '0px') {
-        container.style.right = "-100%";
-        enable_scroll(document.getElementById("container"));
-        // 收回
-    } else {
-        container.style.right = "0px"; 
-        disable_scroll(document.getElementById("container"));
-        // 禁用滚动
-        // 展开
-    }
+// 自选
+var stared = DataBase.query("SELECT item_name FROM stars",[]).trim()
+    .split('\n')
+    .map(item => item.split(","));
+if (stared.length !== 0){
+    routes_new("自选", stared);
 }
 
-// 用于获取小数长度
-function get_decimal_places(num) {
-    // 将数字转换为字符串
-    const num_str = num.toString();
+// 预设
+var presets = {
+    "周涨幅榜" : {
+        "minPrice":10,
+        "minSellCount":300,
+        "sellCountTimeRange":"DAY",
+        "sellCountChange":72,
+        "priceChangePercentTimeRange":"WEEK",
+        "type":"PRICE_CHANGE_PERCENT_DESC",
+        "timeRange":"WEEK",
+        "page":1,
+        "value_name" : "周涨幅"
+    },
+    "周跌幅榜" : {
+        "minPrice":10,
+        "minSellCount":300,
+        "sellCountTimeRange":"DAY",
+        "sellCountChange":72,
+        "priceChangePercentTimeRange":"WEEK",
+        "type":"PRICE_CHANGE_PERCENT_ASC",
+        "timeRange":"WEEK",
+        "page":1,
+        "value_name" : "周跌幅"
+    },
+    "周热销榜" : {
+        "minPrice":0,
+        "minSellCount":300,
+        "sellCountTimeRange":"WEEK",
+        "sellCountChange":72,
+        "priceChangePercentTimeRange":"WEEK",
+        "type":"VOL_COUNT",
+        "timeRange":"WEEK",
+        "volCountTimeRange":"WEEK",
+        "page":1,
+        "value_name" : "成交量"
+    },
+    "周热租榜" : {
+        "minPrice":0,
+        "minSellCount":300,
+        "sellCountTimeRange":"DAY",
+        "sellCountChange":72,
+        "priceChangePercentTimeRange":"WEEK",
+        "type":"VOL_LEASE_COUNT",
+        "timeRange":"WEEK",
+        "volLeaseCountTimeRange":"WEEK",
+        "page":1,
+        "value_name" : "成租量"
+    },
+};
 
-    // 检查是否包含小数点
-    if (num_str.includes('.')) {
-        // 返回小数点后的位数
-        return num_str.split('.')[1].length;
-    }
-
-    // 如果没有小数点，返回 0
-    return 0;
+for (var key in presets) {
+    routes_new(key, presets[key]);
 }
 
-var is_loading = true;
 
-function observe_element_visibility(element, callback_function) {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting && !is_loading) {
-                is_loading = true; // 触发时设置标志为 true
-                callback_function(); // 执行回调
-            }
-        });
-    });
-    observer.observe(element);
-}
-
-const loading_element = document.getElementById('loading');
-observe_element_visibility(loading_element, () => {
-    next_page();
-});
-
-var is_preset = false;
-
-document.getElementById("back").addEventListener('click', function() {
-    Jump.goBack();
-});
-
-var routes = {};
-
-function routes_delete(_n){
-    delete routes[_n];
-
-    var navs = document.querySelectorAll('.nav p');
-    navs.forEach(function(item) {
-        item.setAttribute("data-active", "false");
-        if (item.textContent === _n){
-            item.remove();
-        }
-    });
-
+if (stared.length == 0){
     routes_load("周涨幅榜");
-
-    init_nav();
+}else {
+    routes_load("自选");
 }
+document.getElementById("rank_page").addEventListener('click', function() {
+    Jump.jump("rank","")
+});
 
-function routes_new(_n,_p) {
-    // 如果没有value_name,就直接查询
-    if (!_p.value_name) {
-        _p.value_name = flipped_types[(_p.type).replace(/_DESC|_ASC|_BUFF|_YYYP|_IGXE|_C5/g,"")];
-    }
+// 自定义
+var result = DataBase.query("SELECT * FROM rank",[])
+    .trim()
+    .split('\n')
+    .map(item => item.split(","));
 
-    _p.page = 1;
-    _p.priceChangePercentTimeRange = "WEEK";
+var customizes = {};
 
-    routes[_n] = _p;
-
-    var nav = _ie({
-        tag: "p",
-        innerHTML: _n
-    }, document.getElementById("nav"));
-
-    nav.addEventListener('click', function() {
-        routes_load(_n)
+result.forEach(item => {
+    var encode_params = item[1].trim();
+    let fixed_params = encode_params.replace(/%u([0-9A-Fa-f]{4})/g, function(match, group) {
+        return "%" + group.toUpperCase();
     });
-}
+    var decoded_params = decodeURIComponent(fixed_params);
+    customizes[item[0]] = JSON.parse(decoded_params);
+});
 
-function routes_update(_n,_p) {
-    if (!_p.value_name) {
-        _p.value_name = flipped_types[(_p.type).replace(/_DESC|_ASC|_BUFF|_YYYP|_IGXE|_C5/g,"")];
+
+for (var key in customizes) {
+    if (customizes.hasOwnProperty(key)) {
+        routes_new(key, customizes[key]);
     }
-
-    _p.page = 1;
-    _p.priceChangePercentTimeRange = "WEEK";
-
-    routes[_n] = _p;
-    routes_load(_n)
 }
-
-function routes_load(_n) {
-    is_loading = true;
-
-    document.getElementById("loading").style.display = "";
-    document.getElementById("mark").innerText = "数据来源:cs-ob.com";
-
-    reset();
-
-    var navs = document.querySelectorAll('.nav p');
-    navs.forEach(function(item) {
-        item.setAttribute("data-active", "false");
-        if (item.textContent === _n){
-            item.setAttribute("data-active", "true");
-        }
-    });
-
-    params = {...routes[_n]};
-    load();
-
-    document.getElementById('value_name').innerHTML = routes[_n]["value_name"];
-
-    init_nav();
-}
-
-// 初始化

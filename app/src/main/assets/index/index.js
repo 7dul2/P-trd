@@ -262,14 +262,6 @@ function rank_update(type){
         return
     }
 
-    if (type == "steam"){
-        _ie({
-            tag : "script",
-            src : "index_rank_steam.js"
-        },document.body);
-        return 0
-    }
-
     button_more.children[0].children[0].innerText = "查看更多";
     button_more.onclick = function() {
         Jump.jump("rank",type);

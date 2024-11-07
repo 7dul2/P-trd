@@ -30,3 +30,17 @@
     --ru-border-radius-md: 1rem;    /* 中等圆角 - 用于卡片、模块等元素的适中圆角 */
     --ru-border-radius-lg: 2rem;      /* 大圆角 - 用于对话框、模态框等元素的显著圆角 */
 }
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --ru-background-color: #F5F5F7;
+        --ru-item-background-color: #ededed;
+    
+        --ru-item-background-color-glass: #ededede0;
+    
+        --ru-shadow-color : rgba(0, 0, 0, 0.3);
+    
+        --ru-text-color: #1d1d1f;
+        --ru-sub-text-color: #66665e;
+    }
+}

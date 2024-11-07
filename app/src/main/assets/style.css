@@ -3,8 +3,11 @@
     --background-color-glass: #1d1d1fA6;
     --background-color-frosted-glass : #1d1d1fd8;
     --background-sub-color: #27272a;
+
     --text-color: #F5F5F7;
     --text-sub-color: #9999a1;
+    --text-dark-color: #F5F5F7;
+
     --up-color:#00AA41;
     --down-color:#DB2F63;
     --stay-color:#9999a1;
@@ -31,6 +34,17 @@
     --margin_bottom_3: 1rem;
     --margin_bottom_4: 0.6rem;
     --margin_bottom_5: 0.3rem;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --background-color: #F5F5F7;
+        --background-color-glass: #F5F5F7A6;
+        --background-color-frosted-glass : #F5F5F7d8;
+        --background-sub-color: #ededed;
+        --text-color: #1d1d1f;
+        --text-sub-color: #66665e;
+    }
 }
 
 body {

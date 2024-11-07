@@ -11,13 +11,14 @@
 .hr {
     height : 0px;
     width : 100%;
-    border-top: 1px solid rgba(245,245,247, 0.12);
-    border-bottom: 1px solid rgba(245,245,247, 0.12);
+    border-top: 1px solid var(--text-sub-color);
+    border-bottom: 1px solid var(--text-sub-color);
 }
 
 .card {
     width : 100%;
     padding : 1.3rem 0;
+    margin-bottom: var(--margin_bottom_2);
 }
 
 .menu {
@@ -89,27 +90,27 @@
 .mmi_title p {
     font-size : 18px;
     margin : 0px;
-    color : #F5F5F7;
+    color : var(--text-color);
     font-weight : 600;
 }
 
 .mmi_title a {
     font-size : 10px;
     margin : 0px;
-    color : rgba(245,245,247, 0.45);
+    color : var(--text-color);
 }
 
 .mmi_index p {
     font-size : 33px;
     margin : 0px;
-    color : #F5F5F7;
+    color : var(--text-color);
     font-weight : 600;
 }
 
 .mmi_index a {
     font-size : 12px;
     margin : 0px;
-    color : #F5F5F7;
+    color : var(--text-color);
     font-weight : 600;
 }
 
@@ -142,53 +143,15 @@
     margin: 0;
     font-weight: 600;
     font-size: 15px;
-    color: rgba(245,245,247, 0.6);
+    color: var(--text-color);
     margin-right: 1.5rem;
     white-space: nowrap;
 }
 
-.item_data{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-.item_data p{
-    margin: 0px;
-    color: rgba(245,245,247);
-    font-size: 15px;
-    font-weight: 600;
-}
-.item_data a{
-    margin : 0px;
-    color : rgba(245,245,247, 0.45);
-    font-size : 12px
-}
-
-.item_infos {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: 1.2%;
-}
-
-.item_name p{
-    margin : 0px;
-    color : rgba(245,245,247);
-    font-size : 13px;
-    font-weight : 600;
-}
-
-.item_datas {
-    display: flex;
-    width: 50%;
-    justify-content: space-between;
-    margin-right: 5%;
-}
 
 .data_float p{
     margin: 4px auto;
-    color: #F5F5F7;
+    color: var(--text-color);
     font-size: 13px;
     font-weight: 600;
 }
@@ -207,24 +170,6 @@
     transition: max-height 0.3s ease-in-out;
 }
 
-.item {
-    margin : 1rem 0; 
-    user-select:none;
-}
-
-.items_more {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-bottom : 1rem;
-}
-
-.items_more p{
-    margin : 0px;
-    font-size : 17px;
-    color : rgba(245,245,247, 0.8);
-}
-
 .rk_tip {
     display: flex;
     justify-content: space-between;
@@ -235,13 +180,7 @@
 .rk_tip p{
     margin : 0px;
     font-size : 11px;
-    color : rgba(245,245,247, 0.5);
-}
-
-.item_charts {
-    width: 20%;
-    height: 2rem;
-    margin-right: 5%;
+    color : var(--text-color);
 }
 
 .m_m_counter {
@@ -263,13 +202,13 @@
 .c_bar p {
     font-size: 10px;
     margin: 0px;
-    color: rgba(245,245,247, 0.45);
+    color: var(--text-color);
 }
 
 .c_bar div {
     width: 0.8rem;
     height : 0.5rem;
-    background-color: rgba(245,245,247, 0.2);
+    background-color: var(--stay-color);
     transition: height 1s ease;
 }
 
@@ -305,7 +244,7 @@
 .counter_lines div{
     height: 0.3rem;
     width: 1%;
-    background-color: rgba(245,245,247, 0.2);
+    background-color: var(--stay-color);
     margin: 0 0.5%;
     transition: width 1s ease;
 }
@@ -354,7 +293,7 @@
 }
 .steam_rate p{
     margin: 0px;
-    color: #F5F5F7;
+    color: var(--text-color);
     font-size: 13px;
     font-weight: 600;
     margin-right: 0.1rem;
@@ -367,7 +306,7 @@
 }
 .steam_num p{
     margin: 0px;
-    color: #F5F5F7;
+    color: var(--text-color);
     font-size: var(--text-2-font-size);
     font-weight: 600;
     margin-left: 0.1rem;
@@ -416,7 +355,6 @@
     width: var(--text-1-font-size);
     fill: var(--text-sub-color);
     margin-left: 0.5rem;
-    margin-top: 0.1rem;
 }
 
 .index_datas {
@@ -515,11 +453,209 @@
 
 .selection-indicator {  
     position: absolute;
-    bottom: -5px;
+    bottom: 3px;
     height: 3px;
     background-color: var(--text-color);
     width: 0;
-    transition: width 0.3s ease, left 0.3s ease;
+    transition: width 0.3s ease-out, left 0.3s ease-out, filter 0.3s ease-out;
     z-index: 1;
     border-radius: var(--border-radius-2);
+    filter: blur(0);
+}
+
+.heading {
+    display: flex;
+    width: 90%;
+    margin-left: 5%;
+    justify-content: space-between;
+    margin-bottom: var(--margin_bottom_3);
+}
+
+.heading div{
+    display: flex;
+    align-items: center;
+}
+
+.heading p{
+    margin: 0;
+    color: var(--text-color);
+    font-size: var(--heading-2-font-size);
+    font-weight: 600;
+}
+
+.heading svg{
+    width: var(--text-1-font-size);
+    fill: var(--text-sub-color);
+    margin-left: 0.5rem;
+}
+
+.rank_navs {
+    position: relative;
+    width: 90%;
+    padding: 0 5%;
+    display: flex;
+    justify-content: space-around;
+    margin: 1rem 0px;
+    margin-bottom: 0rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    height: 1.8rem;
+}
+
+.rank_navs p {
+    position: relative;
+    color: var(--text-sub-color);
+    font-size: var(--text-1-font-size);
+    margin: 0;
+    transition: color 0.3s ease;
+    margin-right: var(--margin_bottom_3);
+}
+
+.rank_navs p[data-active="true"] {
+    color: var(--text-color) ;
+}
+
+.rank_navs p:last-child {
+    margin-right: 0;
+}
+
+.rank_tips {
+    width: 90%;
+    margin-left: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.rank_tips p{
+    color: var(--text-sub-color);
+    font-size: var(--text-2-font-size);
+    margin: 1;
+    margin-bottom: var(--margin_bottom_5);
+}
+
+.item {
+    width: 100%;
+    border-bottom: 2px solid var(--background-sub-color);
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+.item_header {
+    width: 90%;
+    margin-left: 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--margin_bottom_4);
+}
+
+.rank_name {
+    display: flex;
+    width: 93%;
+    align-items: center;
+}
+
+.item_header p{
+    color: var(--text-color);
+    font-size: var(--text-1_5-font-size);
+    margin: 0;
+    font-weight: 600;
+}
+
+.item_header a{
+    color: var(--text-sub-color);
+    font-size: var(--text-2-font-size);
+    font-weight: 600;
+    margin-right: var(--margin_bottom_3);
+}
+
+.item_header a[data-active="top"]{
+    color: var(--chart-color-3);
+}
+
+.item_header svg{
+    fill : var(--text-sub-color);
+    width: var(--text-1-font-size);
+    margin-top: 5%;
+    transition: transform 0.3s ease-out;
+}
+
+.item_datas {
+    width: 90%;
+    margin: var(--margin_bottom_4) 0;
+    margin-left: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.item_datas p{
+    font-size: var(--text-1-font-size);
+    color: var(--text-color);
+    margin: 0;
+    font-weight: 600;
+}
+
+.item_datas value{
+    font-size: var(--text-1-font-size);
+    color: var(--text-color);
+    margin: 0;
+    font-weight: 600;
+}
+
+.item_datas float{
+    font-size: var(--text-1_5-font-size);
+    background-color: var(--text-sub-color);
+    color: var(--text-dark-color);
+    margin: 0;
+    display: flex;
+    min-width: 3.5rem;
+    font-weight: 600;
+    padding: 1% 1.5%;
+    border-radius: var(--border-radius-2);
+    justify-content: center;
+}
+
+.item_datas float[data-active="up"]{
+    background-color: var(--up-color);
+}
+
+.item_datas float[data-active="down"]{
+    background-color: var(--down-color);
+}
+
+.item_datas up{
+    font-size: var(--text-3-font-size);
+    color: var(--up-color);
+}
+
+.item_datas down{
+    font-size: var(--text-3-font-size);
+    color: var(--down-color);
+}
+
+.item_datas a{
+    color: var(--text-sub-color);
+    font-size: var(--text-2-font-size);
+}
+
+.mark {
+    width: 100%;
+    display: flex;
+    color: var(--text-sub-color);
+    font-size: var(--text-3-font-size);
+    font-weight: 400;
+    justify-content: center;
+    margin-top: var(--margin_bottom_2);
+}
+
+.item_infos {
+    display: flex;
+    width: 90%;
+    margin-left: 5%;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease-out;
 }

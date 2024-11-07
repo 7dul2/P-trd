@@ -27,7 +27,6 @@
     color: var(--text-color);
     white-space: nowrap;
     overflow: auto;
-    text-overflow: ellipsis;
     margin: 0;
     margin-bottom: 1%;
     margin-left: 1rem;
@@ -208,7 +207,7 @@
 }
 
 .info b{
-    color: var(--text-color);
+    color: var(--text-dark-color);
     font-size: var(--text-3-font-size);
     font-weight: 400;
     background-color: var(--chart-color-1);
