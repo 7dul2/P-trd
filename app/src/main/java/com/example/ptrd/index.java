@@ -1,12 +1,17 @@
 package com.example.ptrd;
 
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -27,6 +32,7 @@ public class index extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -49,9 +55,7 @@ public class index extends AppCompatActivity {
         webView = findViewById(R.id.webview);
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-
         // 设置 WebViewClient，用于处理页面加载过程中的各种事件
-        webView.setWebViewClient(new WebViewClient());
         WebView.setWebContentsDebuggingEnabled(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setUseWideViewPort(true);
@@ -61,7 +65,7 @@ public class index extends AppCompatActivity {
         webView.addJavascriptInterface(new ClipboardHandler(this), "Clipboard");
 
         // 加载本地 HTML 文件
-        webView.loadUrl("file:///android_asset/index/index.html");
+        webView.loadUrl("https://ptrd.pen-net.cn/assets/index/index.html");
     }
 
     @Override

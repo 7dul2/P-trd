@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "p_trd.db";
-    private static final int DATABASE_VERSION = 4; // 版本号更新为4
+    private static final int DATABASE_VERSION = 5; // 版本号更新为5
 
     // 表名
     private static final String TABLE_STARS = "stars";
@@ -22,6 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         // 创建 stars 表
         String CREATE_TABLE_STARS = "CREATE TABLE " + TABLE_STARS + " (id INTEGER PRIMARY KEY AUTOINCREMENT, item_name TEXT UNIQUE)";
         db.execSQL(CREATE_TABLE_STARS);

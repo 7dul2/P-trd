@@ -51,7 +51,7 @@ public class search extends AppCompatActivity {
         webView.addJavascriptInterface(new jump(this), "Jump");
         webView.addJavascriptInterface(new DataBase(this), "DataBase");
 
-        webView.loadUrl("file:///android_asset/search/search.html");
+        webView.loadUrl("https://ptrd.pen-net.cn/assets/search/search.html");
         // 7dul2
     }
 }

@@ -50,6 +50,6 @@ public class markets extends AppCompatActivity {
         webView.addJavascriptInterface(new ClipboardHandler(this), "Clipboard");
 
         // 加载本地 HTML 文件
-        webView.loadUrl("file:///android_asset/markets/markets.html");
+        webView.loadUrl("https://ptrd.pen-net.cn/assets/markets/markets.html");
     }
 }

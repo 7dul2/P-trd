@@ -67,7 +67,7 @@ public class item extends AppCompatActivity {
             e.printStackTrace();
             // 可以在这里处理异常，比如使用一个默认编码或报错提示
         }
-        webView.loadUrl("file:///android_asset/item/item.html?name=" + item_name);
+        webView.loadUrl("https://ptrd.pen-net.cn/assets/item/item.html?name=" + item_name);
         // 7dul2
     }
 }

@@ -56,7 +56,7 @@ public class rank extends AppCompatActivity {
         webView.addJavascriptInterface(new jump(this), "Jump");
         webView.addJavascriptInterface(new DataBase(this), "DataBase");
 
-        webView.loadUrl("file:///android_asset/new_rank/rank.html?name=" + rank_name);
+        webView.loadUrl("https://ptrd.pen-net.cn/assets/new_rank/rank.html?name=" + rank_name);
         // 7dul2
     }
 }

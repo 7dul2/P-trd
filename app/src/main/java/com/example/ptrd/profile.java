@@ -44,6 +44,6 @@ public class profile extends AppCompatActivity {
         webView.addJavascriptInterface(new DataBase(this), "DataBase");
 
         // 加载本地 HTML 文件
-        webView.loadUrl("file:///android_asset/profile/profile.html");
+        webView.loadUrl("https://ptrd.pen-net.cn/assets/profile/profile.html");
     }
 }

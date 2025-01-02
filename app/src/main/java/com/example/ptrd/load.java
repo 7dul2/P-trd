@@ -31,6 +31,7 @@ public class load extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_load);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -77,7 +78,8 @@ public class load extends AppCompatActivity {
         webView.addJavascriptInterface(new request(webView), "Request");
         webView.addJavascriptInterface(new jump(this), "Jump");
         webView.addJavascriptInterface(new DataBase(this), "DataBase");
-        // 加载本地 HTML 文件
+
+        // 加载可写目录中的 HTML 文件
         webView.loadUrl("file:///android_asset/load/load.html");
     }
 }
