@@ -54,6 +54,15 @@ public class jump {
             case "profile":
                 intent = new Intent(mContext, profile.class);
                 break;
+            case "demo":
+                intent = new Intent(mContext, demo.class);
+                break;
+            case "community":
+                intent = new Intent(mContext, community.class);
+                break;
+            case "news":
+                intent = new Intent(mContext, news.class);
+                break;
             case "web":
                 openWebPage(data);
                 return; // 不记录跳转历史

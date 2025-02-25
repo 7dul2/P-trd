@@ -16,6 +16,15 @@
         android:theme="@style/Theme.Ptrd"
         tools:targetApi="31">
         <activity
+            android:name=".news"
+            android:exported="false" />
+        <activity
+            android:name=".community"
+            android:exported="false" />
+        <activity
+            android:name=".demo"
+            android:exported="false" />
+        <activity
             android:name=".upgrade"
             android:exported="false" />
         <activity

@@ -1,4 +1,4 @@
-var version = "Beta.0.0.0";
+var version = "Beta.0.0.2";
 
 (function() {
     function API_fetch(url) {
