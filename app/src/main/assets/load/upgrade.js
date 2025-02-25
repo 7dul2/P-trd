@@ -15,7 +15,8 @@ var version = "Beta.0.0.2";
 
     API_fetch("http://ptrd.pen-net.cn/api/version")
         .then(data => {
-            handle(data)
+            handle(data);
+            Jump.jump("index","");
         })
         .catch(error => {
             console.error("Error:", error.message);
@@ -49,7 +50,6 @@ var version = "Beta.0.0.2";
                 ON CONFLICT(name) DO UPDATE SET value = excluded.value
             `, ["new_version", update_info.version]);
 
-            console.log()
 
             // 新内容
             DataBase.executeSQL(`
@@ -66,7 +66,6 @@ var version = "Beta.0.0.2";
             `, ["bug_fixes", update_info.bug_fixes[0]]);
 
             // 完成后跳转至index
-            Jump.jump("index","");
         }
     }
     // 7dul2_ p-trd
