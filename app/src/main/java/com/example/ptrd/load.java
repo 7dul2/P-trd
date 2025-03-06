@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -66,7 +67,12 @@ public class load extends AppCompatActivity {
 
         webView = findViewById(R.id.webview);
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        WebSettings webSettings = webView.getSettings();
+
+        webView.getSettings().setDomStorageEnabled(true);  // 启用本地存储
+
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);  // 允许 Cookie
+        cookieManager.setAcceptThirdPartyCookies(webView, true); // 允许第三方 Cookie（跨域）
 
         // 设置 WebViewClient，用于处理页面加载过程中的各种事件
         webView.setWebViewClient(new WebViewClient());

@@ -1,19 +1,13 @@
 package com.example.ptrd;
 
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -21,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.webkit.CookieManager;
 
 public class index extends AppCompatActivity {
 
@@ -53,6 +48,12 @@ public class index extends AppCompatActivity {
 
 
         webView = findViewById(R.id.webview);
+        webView.getSettings().setDomStorageEnabled(true);  // 启用本地存储
+
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);  // 允许 Cookie
+        cookieManager.setAcceptThirdPartyCookies(webView, true); // 允许第三方 Cookie（跨域）
+
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
         // 设置 WebViewClient，用于处理页面加载过程中的各种事件

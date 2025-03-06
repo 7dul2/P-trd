@@ -3,6 +3,7 @@ package com.example.ptrd;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -31,6 +32,11 @@ public class community extends AppCompatActivity {
         getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
 
         webView = findViewById(R.id.webview);
+        webView.getSettings().setDomStorageEnabled(true);  // 启用本地存储
+
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);  // 允许 Cookie
+        cookieManager.setAcceptThirdPartyCookies(webView, true); // 允许第三方 Cookie（跨域）
 
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         // 禁用滚动引起的形变动画

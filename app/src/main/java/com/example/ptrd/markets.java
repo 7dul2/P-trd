@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -36,6 +37,12 @@ public class markets extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         WebView webView = findViewById(R.id.webview);
+        webView.getSettings().setDomStorageEnabled(true);  // 启用本地存储
+
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);  // 允许 Cookie
+        cookieManager.setAcceptThirdPartyCookies(webView, true); // 允许第三方 Cookie（跨域）
+
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
 
