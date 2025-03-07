@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -23,9 +25,6 @@
             android:exported="false" />
         <activity
             android:name=".demo"
-            android:exported="false" />
-        <activity
-            android:name=".upgrade"
             android:exported="false" />
         <activity
             android:name=".profile"
